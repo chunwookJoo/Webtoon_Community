@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { Collapse } from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { Collapse, Button } from "reactstrap";
 import { PlatformLinkOptions } from "./PlatformLinkOptions";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Logo = () => {
 	return (
@@ -26,12 +28,15 @@ const PlatformLink = (props) => {
 	);
 };
 
-const PlatformList = () => {
+const PlatformList = (props) => {
+	const { SelectedIcon, PlatformLinkOptions } = props;
 	const [isPlatformOpen, setIsPlatformOpen] = useState(false);
-	console.log(isPlatformOpen);
+
 	return (
 		<div>
-			<button onClick={() => setIsPlatformOpen(!isPlatformOpen)}>플랫폼</button>
+			<Button onClick={() => setIsPlatformOpen(!isPlatformOpen)}>
+				{SelectedIcon} 플랫폼
+			</Button>
 			<Collapse isOpen={isPlatformOpen} className="platform-collapse">
 				<ul className="platform-list">
 					<PlatformLink option={PlatformLinkOptions.all} />
@@ -44,26 +49,63 @@ const PlatformList = () => {
 	);
 };
 
+const SearchIcon = () => {
+	return (
+		<div>
+			<FontAwesomeIcon icon={faMagnifyingGlass} />
+		</div>
+	);
+};
+
 const Nav = () => {
+	const { pathname, search } = useLocation();
+	const platform = Object.hasOwn(PlatformLinkOptions, pathname.split("/")[1]);
+	const SelectedIcon = !platform
+		? PlatformLinkOptions.all.icon
+		: PlatformLinkOptions[pathname.split("/")[1]].icon;
+
 	const week = ["월", "화", "수", "목", "금", "토", "일"];
+	const todayNum = new Date().getDay();
+	const weekDayLinkOptions = week.map((day, weekNum) => ({
+		name: day,
+		src: `?week=${weekNum}`,
+	}));
+	weekDayLinkOptions.unshift({
+		name: "신작",
+		src: "?week=new",
+	});
+	weekDayLinkOptions.push({
+		name: "완결",
+		src: "?week=fin",
+	});
+
+	const today = week[todayNum - 1];
+
+	const WeekList = weekDayLinkOptions.map((weekItem, index) => {
+		let active = "";
+		!search
+			? weekItem.name === today && (active = "active")
+			: search === weekItem.src && (active = "active");
+		return (
+			<li key={index}>
+				<Link to={weekItem.src} className={active}>
+					{weekItem.name}
+				</Link>
+			</li>
+		);
+	});
 
 	return (
 		<section>
 			<div>
 				<Logo />
-				<PlatformList />
+				<PlatformList
+					SelectedIcon={SelectedIcon}
+					PlatformLinkOptions={PlatformLinkOptions}
+				/>
+				<SearchIcon />
 			</div>
-			<div>
-				{week.map((item, index) => {
-					return (
-						<div key={index}>
-							<ul>
-								<li>{item}</li>
-							</ul>
-						</div>
-					);
-				})}
-			</div>
+			<ul>{WeekList}</ul>
 		</section>
 	);
 };

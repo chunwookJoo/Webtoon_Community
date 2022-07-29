@@ -1,3 +1,7 @@
+import { ReactComponent as Naver } from "../assets/img/naver.svg";
+import { ReactComponent as Kakao } from "../assets/img/kakao.svg";
+import { ReactComponent as KakaoPage } from "../assets/img/kakaopage.svg";
+
 export const PlatformLinkOptions = {
 	all: {
 		icon: "All",
@@ -6,20 +10,20 @@ export const PlatformLinkOptions = {
 	},
 
 	naver: {
-		icon: "Naver",
+		icon: <Naver />,
 		name: "네이버",
 		src: "/naver",
 	},
 
 	kakao: {
-		icon: "Kakao",
+		icon: <Kakao />,
 		name: "카카오",
 		src: "/kakao",
 	},
 
 	kakaoPage: {
-		icon: "KakaoPage",
+		icon: <KakaoPage />,
 		name: "카카오페이지",
-		src: "/kakaopage",
+		src: "/kakaoPage",
 	},
 };
