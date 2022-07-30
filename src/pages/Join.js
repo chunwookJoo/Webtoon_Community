@@ -1,6 +1,6 @@
 import React from "react";
 
-const join = () => {
+const Join = () => {
 	return (
 		<div>
 			<h2>회원가입 페이지</h2>
@@ -8,4 +8,4 @@ const join = () => {
 	);
 };
 
-export default join;
+export default Join;

@@ -1,10 +1,11 @@
 import { ReactComponent as Naver } from "../assets/img/naver.svg";
 import { ReactComponent as Kakao } from "../assets/img/kakao.svg";
 import { ReactComponent as KakaoPage } from "../assets/img/kakaopage.svg";
+import { ReactComponent as All } from "../assets/img/all.svg";
 
 export const PlatformLinkOptions = {
 	all: {
-		icon: "All",
+		icon: <All />,
 		name: "전체",
 		src: "/all",
 	},

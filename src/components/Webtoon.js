@@ -3,6 +3,7 @@ import { ReactComponent as Naver } from "../assets/img/naver.svg";
 import { ReactComponent as Kakao } from "../assets/img/kakao.svg";
 import { ReactComponent as KakaoPage } from "../assets/img/kakaopage.svg";
 import { Link } from "react-router-dom";
+import "../assets/scss/components/webtoon.scss";
 
 const PlatformLogo = (props) => {
 	const { platform } = props;
@@ -22,7 +23,6 @@ const Badge = (txt, className) => (
 );
 
 const BadgeList = (props) => {
-	console.log(props);
 	let badges = [];
 	const { additional } = props;
 	additional.new && badges.push(Badge("신규", "new"));
@@ -33,11 +33,23 @@ const BadgeList = (props) => {
 };
 
 const Webtoon = (props) => {
-	console.log(props);
 	const { webtoonData } = props;
+
+	const handleWebtoonClick = (event, item) => {
+		console.log(event.target);
+		console.log(item);
+	};
 	return (
-		<li>
-			<Link>
+		<li
+			className="webtoon-link-wrap"
+			id={webtoonData._id}
+			onClick={(event) => handleWebtoonClick(event, webtoonData)}
+		>
+			<Link
+				className="webtoon-link"
+				to={webtoonData._id}
+				state={{ webtoonDetailData: webtoonData }}
+			>
 				<PlatformLogo platform={webtoonData.service} />
 				<BadgeList additional={webtoonData.additional} />
 				<div className="thumbnail-wrap">

@@ -4,11 +4,15 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { Collapse, Button } from "reactstrap";
 import { PlatformLinkOptions } from "./PlatformLinkOptions";
 import { Link, useLocation } from "react-router-dom";
+import { ReactComponent as Logo } from "../assets/img/logo.svg";
+import "../assets/scss/components/nav.scss";
 
-const Logo = () => {
+const LogoComponent = () => {
 	return (
 		<div>
-			<Link to="/">이거봤어?</Link>
+			<Link to="/">
+				<Logo />
+			</Link>
 		</div>
 	);
 };
@@ -28,15 +32,15 @@ const PlatformLink = (props) => {
 	);
 };
 
-const PlatformList = (props) => {
+const PlatformSelect = (props) => {
 	const { SelectedIcon, PlatformLinkOptions } = props;
 	const [isPlatformOpen, setIsPlatformOpen] = useState(false);
 
 	return (
 		<div>
-			<Button onClick={() => setIsPlatformOpen(!isPlatformOpen)}>
+			<span onClick={() => setIsPlatformOpen(!isPlatformOpen)}>
 				{SelectedIcon} 플랫폼
-			</Button>
+			</span>
 			<Collapse isOpen={isPlatformOpen} className="platform-collapse">
 				<ul className="platform-list">
 					<PlatformLink option={PlatformLinkOptions.all} />
@@ -49,10 +53,20 @@ const PlatformList = (props) => {
 	);
 };
 
-const SearchIcon = () => {
+const SearchLogin = () => {
 	return (
 		<div>
-			<FontAwesomeIcon icon={faMagnifyingGlass} />
+			<div>
+				<FontAwesomeIcon icon={faMagnifyingGlass} />
+			</div>
+			<div>
+				<Link to="/login">
+					<span>로그인</span>
+				</Link>
+				<Link to="/join">
+					<span>회원가입</span>
+				</Link>
+			</div>
 		</div>
 	);
 };
@@ -96,14 +110,14 @@ const Nav = () => {
 	});
 
 	return (
-		<section>
-			<div>
-				<Logo />
-				<PlatformList
+		<section className="nav-section">
+			<div className="nav-container">
+				<LogoComponent />
+				<PlatformSelect
 					SelectedIcon={SelectedIcon}
 					PlatformLinkOptions={PlatformLinkOptions}
 				/>
-				<SearchIcon />
+				<SearchLogin />
 			</div>
 			<ul>{WeekList}</ul>
 		</section>

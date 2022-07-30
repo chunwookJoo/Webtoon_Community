@@ -11,7 +11,7 @@ function App() {
 				<Route exact path="/" element={<WebtoonPage />} />
 				<Route exact path="/login" element={<Login />} />
 				<Route exact path="/join" element={<Join />} />
-				<Route exact path="/detail" element={<WebtoonDetail />} />
+				<Route exact path="/:id" element={<WebtoonDetail />} />
 
 				{/* 플랫폼 선택 */}
 				<Route exact path="/all" element={<WebtoonPage />} />
