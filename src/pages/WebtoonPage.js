@@ -13,6 +13,8 @@ import "../assets/scss/pages/webtoonPage.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import Tooltips from "../utils/Tooltips";
+import Search from "../components/Search";
 
 const WEBTOON_API_URL = "https://korea-webtoon-api.herokuapp.com";
 const todayNum = new Date().getDay();
@@ -75,7 +77,7 @@ const WeekLink = () => {
 	return <ul className="week-list-wrap">{WeekList}</ul>;
 };
 
-const WeekPlatformSelect = (props) => {
+const WeekPlatformSelectSearch = (props) => {
 	let { search, pathname } = useLocation();
 	let selected = "";
 	switch (pathname.split("/")[1]) {
@@ -100,6 +102,14 @@ const WeekPlatformSelect = (props) => {
 		setPlatformNameSelected(name);
 		setIsPlatformOpen(false);
 	};
+
+	// 검색 Tooltip
+	const [tooltipOpen, setTooltipOpen] = useState(false);
+	const tooltipToggle = () => setTooltipOpen(!tooltipOpen);
+
+	// 검색 Modal
+	const [modal, setModal] = useState(false);
+	const modalHandler = () => setModal(!modal);
 
 	return (
 		<>
@@ -135,10 +145,17 @@ const WeekPlatformSelect = (props) => {
 					</Collapse>
 				</div>
 				<div className="search">
-					<span>
+					<span id="searchTooltip" onClick={modalHandler}>
 						<FontAwesomeIcon icon={faMagnifyingGlass} />
 					</span>
+					<Tooltips
+						isOpen={tooltipOpen}
+						toggle={tooltipToggle}
+						target="searchTooltip"
+						text="웹툰 검색"
+					/>
 				</div>
+				<Search isOpen={modal} toggle={modalHandler} />
 			</div>
 			<div>
 				<WeekLink />
@@ -172,7 +189,6 @@ const WebtoonPage = () => {
 			const { data } = await axios.get(
 				WEBTOON_API_URL + PLATFORM_URL + WEEK_URL,
 			);
-			console.log(data);
 			const WebtoonList = data.map((webtoon) => (
 				<Webtoon webtoonData={webtoon} />
 			));
@@ -199,7 +215,7 @@ const WebtoonPage = () => {
 		<main>
 			<section className="contents-container"></section>
 			<section className="contents-container">
-				<WeekPlatformSelect
+				<WeekPlatformSelectSearch
 					SelectedIcon={SelectedIcon}
 					PlatformLinkOptions={PlatformLinkOptions}
 				/>
