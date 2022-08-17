@@ -35,6 +35,24 @@ main {
 		}
 	}
 
+	@include if-small-device {
+		.platform-select {
+			width: 30%;
+			padding: 0;
+			justify-content: space-evenly;
+
+			span {
+				image {
+					width: 180px;
+				}
+			}
+
+			.platform-name {
+				display: none;
+			}
+		}
+	}
+
 	.platform-select:hover {
 		cursor: pointer;
 		border: 1px solid $color-middle-grey;
@@ -70,6 +88,12 @@ main {
 					flex: 1;
 				}
 			}
+
+			@include if-small-device {
+				a {
+					justify-content: center;
+				}
+			}
 		}
 
 		li:hover {
@@ -83,7 +107,7 @@ main {
 	.search {
 		span {
 			color: $color-black;
-			font-size: 2rem;
+			font-size: 1.2rem;
 			margin-right: 1rem;
 		}
 

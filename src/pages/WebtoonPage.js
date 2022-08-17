@@ -3,6 +3,8 @@ import { Link, useLocation } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
 import { Collapse, Button } from "reactstrap";
 import { PlatformLinkOptions } from "../components/PlatformLinkOptions";
+import { searchModalState } from "../utils/atom";
+import { useRecoilState } from "recoil";
 
 import Loading from "../components/Loading";
 import Webtoon from "../components/Webtoon";
@@ -16,7 +18,8 @@ import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import Tooltips from "../utils/Tooltips";
 import Search from "../components/Search";
 
-const WEBTOON_API_URL = "https://korea-webtoon-api.herokuapp.com";
+// const WEBTOON_API_URL = "https://korea-webtoon-api.herokuapp.com";
+const WEBTOON_API_URL = "http://localhost:3000";
 const todayNum = new Date().getDay();
 const week = ["0", "1", "2", "3", "4", "5", "6"];
 const EMPTY = <></>;
@@ -30,7 +33,7 @@ const PlatformLink = (props) => {
 		<li onClick={() => props.getData(name)}>
 			<Link to={src}>
 				<span>{icon}</span>
-				<p>{name}</p>
+				<p className="platform-name">{name}</p>
 			</Link>
 		</li>
 	);
@@ -108,8 +111,8 @@ const WeekPlatformSelectSearch = (props) => {
 	const tooltipToggle = () => setTooltipOpen(!tooltipOpen);
 
 	// 검색 Modal
-	const [modal, setModal] = useState(false);
-	const modalHandler = () => setModal(!modal);
+	const [modalOpen, setModalOpen] = useRecoilState(searchModalState);
+	const modalHandler = () => setModalOpen(!modalOpen);
 
 	return (
 		<>
@@ -119,7 +122,7 @@ const WeekPlatformSelectSearch = (props) => {
 					onClick={() => setIsPlatformOpen(!isPlatformOpen)}
 				>
 					<span>{SelectedIcon}</span>
-					<span>{platformNameSelected}</span>
+					<span className="platform-name">{platformNameSelected}</span>
 					<span>
 						<FontAwesomeIcon icon={faCaretDown} />
 					</span>
@@ -145,17 +148,12 @@ const WeekPlatformSelectSearch = (props) => {
 					</Collapse>
 				</div>
 				<div className="search">
-					<span id="searchTooltip" onClick={modalHandler}>
+					<span onClick={modalHandler}>
+						웹툰검색 &nbsp;
 						<FontAwesomeIcon icon={faMagnifyingGlass} />
 					</span>
-					<Tooltips
-						isOpen={tooltipOpen}
-						toggle={tooltipToggle}
-						target="searchTooltip"
-						text="웹툰 검색"
-					/>
 				</div>
-				<Search isOpen={modal} toggle={modalHandler} />
+				<Search isOpen={modalOpen} toggle={modalHandler} />
 			</div>
 			<div>
 				<WeekLink />
@@ -189,6 +187,7 @@ const WebtoonPage = () => {
 			const { data } = await axios.get(
 				WEBTOON_API_URL + PLATFORM_URL + WEEK_URL,
 			);
+
 			const WebtoonList = data.map((webtoon) => (
 				<Webtoon webtoonData={webtoon} />
 			));

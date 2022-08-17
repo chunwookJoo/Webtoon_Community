@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
+// import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
+import { Modal, Button, Group } from "@mantine/core";
 import axios from "axios";
 import Webtoon from "./Webtoon";
 import Loading from "./Loading";
@@ -36,7 +37,8 @@ const Search = (props) => {
 					};
 
 					const { data } = await axios.get(
-						`https://korea-webtoon-api.herokuapp.com/search?keyword=${searchValue}`,
+						// `https://korea-webtoon-api.herokuapp.com/search?keyword=${searchValue}`,
+						`http://localhost:3000/search?keyword=${searchValue}`,
 					);
 					if (Array.isArray(data)) {
 						setMatchingKeywordList(
@@ -89,8 +91,14 @@ const Search = (props) => {
 	VisibleMatchingWebtoonList.push(More);
 
 	return (
-		<Modal isOpen={modal} toggle={toggle} className="search-modal-container">
-			<ModalHeader toggle={toggle}>Modal title</ModalHeader>
+		<Modal
+			title="웹툰 검색"
+			size="60%"
+			centered
+			opened={modal}
+			onClose={toggle}
+			className="search-modal-container"
+		>
 			<article className="search-wrap">
 				<header className="search-header">
 					<input

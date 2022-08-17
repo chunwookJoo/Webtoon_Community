@@ -4,8 +4,9 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 1rem;
+	padding: 0 1rem;
 }
+
 .nav-container {
 	width: 100%;
 	max-width: $base-width;
@@ -14,8 +15,36 @@
 	align-items: center;
 	margin-top: 1rem;
 
+	@include if-small-device {
+		.logo {
+			svg {
+				width: 100px;
+			}
+		}
+	}
+
 	.login-container {
 		display: flex;
+
+		span {
+			cursor: pointer;
+			color: $color-primary;
+			background-color: $color-more-light-grey;
+			padding: 8px 1rem;
+			border-radius: $base-border-radius;
+			transition: 0.2s;
+		}
+
+		span:hover {
+			background-color: $color-light-grey;
+			transition: 0.2s;
+		}
+
+		@include if-small-device {
+			span {
+				font-size: 0.9rem;
+			}
+		}
 
 		.nickname-btn {
 			background-color: $color-primary;
