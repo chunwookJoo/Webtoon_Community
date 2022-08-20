@@ -18,92 +18,6 @@ main {
 	justify-content: space-between;
 	align-items: center;
 
-	.platform-select {
-		display: flex;
-		justify-content: space-around;
-		align-items: center;
-		position: relative;
-		width: 30%;
-		padding: 8px;
-		border-radius: $base-border-radius;
-		border: 1px solid $color-light-grey;
-
-		span {
-			.fa-caret-down {
-				font-size: 2rem;
-			}
-		}
-	}
-
-	@include if-small-device {
-		.platform-select {
-			width: 30%;
-			padding: 0;
-			justify-content: space-evenly;
-
-			span {
-				image {
-					width: 180px;
-				}
-			}
-
-			.platform-name {
-				display: none;
-			}
-		}
-	}
-
-	.platform-select:hover {
-		cursor: pointer;
-		border: 1px solid $color-middle-grey;
-	}
-
-	.platform-collapse {
-		position: absolute;
-		width: 100%;
-		z-index: 4;
-		top: 105%;
-		left: 0;
-		background-color: $color-white;
-		padding: 8px;
-		border-radius: $base-border-radius;
-		border: 1px solid $color-light-grey;
-
-		li {
-			padding: 2px 1rem;
-			transition: 0.1s;
-
-			a {
-				display: flex;
-				align-items: center;
-				gap: 1rem;
-
-				svg {
-					width: 40px;
-				}
-
-				p {
-					margin: 0;
-					text-align: center;
-					flex: 1;
-				}
-			}
-
-			@include if-small-device {
-				a {
-					justify-content: center;
-				}
-			}
-		}
-
-		li:hover {
-			cursor: pointer;
-			background-color: $color-light-grey;
-			border-radius: $base-border-radius;
-			transition: 0.2s;
-		}
-	}
-
 	.search {
 		span {
 			color: $color-black;
@@ -122,8 +36,7 @@ main {
 .week-list-wrap {
 	display: flex;
 	justify-content: space-around;
-	padding: 1em;
-
+	padding: 8px;
 	li {
 		flex: 1;
 		text-align: center;
@@ -131,7 +44,7 @@ main {
 		a {
 			font-size: 1.2rem;
 			font-weight: 400;
-			padding-bottom: 14px;
+			padding: 10px 0;
 			display: block;
 		}
 

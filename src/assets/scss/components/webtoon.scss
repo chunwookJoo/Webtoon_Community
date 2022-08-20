@@ -2,7 +2,7 @@
 
 .webtoon-link-wrap {
 	padding: 0.6em;
-	width: 25%;
+	width: 33.3%;
 	border: 0.5px solid $color-light-grey;
 	@include if-small-device {
 		width: 50%;
@@ -37,7 +37,20 @@
 	margin: 0;
 	font-size: 0.8em;
 	padding: 0.5em;
-	background-color: $color-dark-grey;
+	text-align: center;
+}
+
+.naver {
+	background-color: $color-naver;
+}
+
+.kakao {
+	background-color: $color-kakao;
+}
+
+.kakao-page {
+	background-color: $color-kakaopage;
+	color: $color-black;
 }
 
 .thumbnail-wrap {

@@ -1,2 +1,9 @@
 @import "./mixins.scss";
 @import "./vars.scss";
+
+.loading {
+	margin: 2em 0;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}

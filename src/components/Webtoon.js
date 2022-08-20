@@ -55,7 +55,7 @@ const Webtoon = (props) => {
 				<div className="thumbnail-wrap">
 					<img src={webtoonData.img} className="thumbnail" />
 				</div>
-				<p className="title">{webtoonData.title}</p>
+				<p className={`title ${webtoonData.service}`}>{webtoonData.title}</p>
 			</Link>
 		</li>
 	);

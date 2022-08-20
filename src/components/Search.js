@@ -6,6 +6,7 @@ import Webtoon from "./Webtoon";
 import Loading from "./Loading";
 import { useInView } from "react-intersection-observer";
 import "../assets/scss/components/search.scss";
+import { API_URL } from "../config";
 
 const display = (value) => (value ? {} : { display: "none" });
 const EMPTY = <></>;
@@ -38,12 +39,12 @@ const Search = (props) => {
 
 					const { data } = await axios.get(
 						// `https://korea-webtoon-api.herokuapp.com/search?keyword=${searchValue}`,
-						`http://localhost:3000/search?keyword=${searchValue}`,
+						`${API_URL}/search?keyword=${searchValue}`,
 					);
 					if (Array.isArray(data)) {
 						setMatchingKeywordList(
-							data.map((webtoon) => (
-								<li className="searched-item-wrap">
+							data.map((webtoon, index) => (
+								<li key={index} className="searched-item-wrap">
 									<article className="searched-item">
 										<a
 											className="searched-title"
