@@ -141,15 +141,6 @@ const WebtoonPage = () => {
 			<section className="contents-container"></section>
 			<section className="contents-container">
 				<WebtoonSearch />
-				{/* {webtoonList.length === 0 ? (
-					<ul className="webtoon-list">
-						<li ref={moreRef} className="loading">
-							<Loading />
-						</li>
-					</ul>
-				) : (
-					<ul className="webtoon-list">{VisibleWebtoonList}</ul>
-					)} */}
 				<ul className="webtoon-list">{VisibleWebtoonList}</ul>
 			</section>
 		</main>

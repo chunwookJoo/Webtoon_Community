@@ -3,6 +3,7 @@ import axios from "axios";
 import { API_URL } from "../../config";
 import { KAKAO_REST_API_KEY } from "./LoginApiData";
 import { Navigate, useNavigate } from "react-router-dom";
+import Loading from "../Loading";
 
 // 인가코드 서버에 전송
 const Redirecting = () => {
@@ -26,22 +27,27 @@ const Redirecting = () => {
 	}, [code]);
 
 	useEffect(() => {
-		console.log(loginData);
 		if (loginData === null) {
 			return;
 		} else {
-			navigate(
-				{
-					pathname: "/regist",
-					search: `?token=${loginData?.access_token}`,
-				},
-				{ replace: true },
-				{ state: loginData },
-			);
+			navigate(`/regist?token=${loginData?.access_token}`, {
+				state: loginData,
+				replace: true,
+			});
 		}
 	}, [loginData]);
 
-	return <div>잠시만 기다려주세요.</div>;
+	return (
+		<div
+			style={{
+				textAlign: "center",
+				marginTop: "10rem",
+			}}
+		>
+			<h3>잠시만 기다려주세요.</h3>
+			<Loading />
+		</div>
+	);
 };
 
 export default Redirecting;

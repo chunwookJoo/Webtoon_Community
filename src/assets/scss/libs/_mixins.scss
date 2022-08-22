@@ -48,3 +48,22 @@
 		@content;
 	}
 }
+
+@mixin button-style($background-color, $hover-color) {
+	border: 1px solid $color-base-border;
+	border-radius: $base-border-radius;
+	font-size: 14px;
+	padding: 8px 1rem;
+
+	@if ($background-color != $color-white) {
+		color: $color-white;
+		background-color: $background-color;
+		border: none;
+	} @else {
+		background-color: $color-white;
+	}
+
+	&:hover {
+		background-color: $hover-color;
+	}
+}

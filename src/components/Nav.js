@@ -114,8 +114,8 @@ const SignIn = () => {
 				centered
 				opened={modalOpen}
 				onClose={modalHandler}
-				title="로그인 회원가입"
-				className="search-modal-container"
+				title="로그인"
+				className="login-modal-container"
 			>
 				<KakaoLogin />
 				{/* <KakaoLogin

@@ -1,0 +1,56 @@
+@import "../libs";
+
+.regist-container {
+	position: relative;
+	height: 100vh;
+
+	.regist-form-group {
+		width: 400px;
+		position: absolute;
+		transform: translate(-50%, -50%);
+		top: 50%;
+		left: 50%;
+		border: 1px solid $color-base-border;
+		border-radius: $base-border-radius;
+		padding: 1rem 2rem 2rem 2rem;
+
+		.regist-title {
+			margin-bottom: 1rem;
+
+			svg {
+				width: 80px;
+			}
+		}
+
+		.regist-input {
+			margin-bottom: 10px;
+
+			.nickname-check {
+				text-align: right;
+				margin-top: 0.5rem;
+
+				button {
+					@include button-style($color-white, $color-base-btn-hover);
+				}
+			}
+
+			label {
+				font-size: 12px;
+				font-weight: 600;
+			}
+		}
+
+		@include if-mobile {
+			width: 90%;
+			margin-top: 2rem;
+		}
+
+		.regist-btn {
+			text-align: right;
+			margin-top: 2rem;
+			button {
+				@include button-style($color-primary, $color-primary-btn-hover);
+			}
+		}
+	}
+}

@@ -1,41 +1,57 @@
-body {
-	cursor: default;
-	padding: 0;
-	margin: 0;
+html {
 	height: 100%;
-	font-family: "Noto Sans KR", Sans-serif;
 
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6 {
+	body {
+		cursor: default;
 		padding: 0;
 		margin: 0;
-	}
+		height: 100%;
+		font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
+			Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo",
+			"Noto Sans KR", "Malgun Gothic", sans-serif;
 
-	a {
-		color: inherit;
-		text-decoration: none;
-	}
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
+			padding: 0;
+			margin: 0;
+			font-weight: 600;
+		}
 
-	a:hover {
-		color: inherit;
-	}
+		a {
+			color: inherit;
+			text-decoration: none;
+		}
 
-	ul {
-		list-style: none;
-		padding: 0;
-		margin: 0;
-	}
+		a:hover {
+			color: inherit;
+		}
 
-	table {
-		border-collapse: collapse;
-		border-spacing: 0;
-	}
+		ul {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+		}
 
-	* {
-		box-sizing: border-box;
+		table {
+			border-collapse: collapse;
+			border-spacing: 0;
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		.mantine-Modal-root {
+			.mantine-Modal-header {
+				.mantine-Modal-title {
+					font-weight: bold;
+					font-size: 1.2rem;
+				}
+			}
+		}
 	}
 }
