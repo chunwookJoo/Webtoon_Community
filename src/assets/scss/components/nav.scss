@@ -127,7 +127,7 @@
 		flex: 1;
 		justify-content: end;
 
-		span {
+		.login-btn {
 			cursor: pointer;
 			color: $color-primary;
 			background-color: $color-more-light-grey;
@@ -136,13 +136,34 @@
 			transition: 0.2s;
 		}
 
-		span:hover {
+		.login-btn:hover {
 			background-color: $color-light-grey;
 			transition: 0.2s;
 		}
 
+		.user-avatar {
+			cursor: pointer;
+
+			.user-info-container {
+				display: flex;
+				align-items: center;
+				gap: 1rem;
+
+				.user-info {
+					h5 {
+						font-size: 14px;
+					}
+
+					p {
+						font-size: 12px;
+						margin: 0;
+					}
+				}
+			}
+		}
+
 		@include if-small-device {
-			span {
+			.login-btn {
 				font-size: 0.9rem;
 			}
 		}

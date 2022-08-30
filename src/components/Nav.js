@@ -3,16 +3,19 @@ import { Link, useLocation } from "react-router-dom";
 import { ReactComponent as Logo } from "../assets/img/logo.svg";
 
 // import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
-import { Modal } from "@mantine/core";
-import { loginModalState } from "../utils/atom";
+import { Modal, Avatar, Menu } from "@mantine/core";
+import { jwtTokenState, loginModalState, userInfoState } from "../utils/atom";
 import { useRecoilState } from "recoil";
 import { PlatformLinkOptions } from "./PlatformLinkOptions";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { Collapse, Button } from "reactstrap";
 import "../assets/scss/components/nav.scss";
 import KakaoLogin from "./login/KakaoLogin";
+import { useEffect } from "react";
+import { IconEdit, IconLogout } from "@tabler/icons";
+import axios from "axios";
+import { API_URL, KAKAO_ADMIN_KEY } from "../config";
 
 const LogoComponent = () => {
 	return (
@@ -107,7 +110,9 @@ const SignIn = () => {
 	return (
 		<>
 			<div className="login-container">
-				<span onClick={modalHandler}>로그인</span>
+				<span className="login-btn" onClick={modalHandler}>
+					로그인
+				</span>
 			</div>
 			<Modal
 				size="sm"
@@ -118,26 +123,85 @@ const SignIn = () => {
 				className="login-modal-container"
 			>
 				<KakaoLogin />
-				{/* <KakaoLogin
-					jsKey={KAKAO_JS_KEY}
-					onSuccess={handleKakaoSuccess}
-					onFail={handleKakaoFail}
-					className="KakaoLogin"
-				>
-					<img src="/images/kakao_login_medium_wide.png" />
-				</KakaoLogin> */}
 			</Modal>
 		</>
 	);
 };
 
+const UserInfo = (props) => {
+	const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+
+	useEffect(() => {
+		axios.get(API_URL + `/auth/userinfo/${props.jwtToken}`).then((response) => {
+			setUserInfo(response.data);
+		});
+	}, []);
+
+	const accessToken = userInfo?.kakaoToken;
+
+	const body = {
+		access_token: accessToken,
+		admin_key: KAKAO_ADMIN_KEY,
+	};
+
+	const logout = () => {
+		// axios.post(API_URL + "/auth/user/unlink", body).then((response) => {
+		// 	console.log(response);
+		// });
+		localStorage.removeItem("Authentication");
+		window.location.reload();
+	};
+
+	return (
+		<div className="login-container">
+			<span className="user-avatar">
+				<Menu shadow="lg" width={220} position="bottom-end">
+					<Menu.Target>
+						<Avatar src={userInfo?.profileImage} radius="xl" />
+					</Menu.Target>
+					<Menu.Dropdown>
+						<Menu.Item>
+							<div className="user-info-container">
+								<Avatar src={userInfo?.profileImage} radius="md" />
+								<div className="user-info">
+									<h5>{userInfo?.nickname}</h5>
+									<p>
+										<span>{userInfo?.age?.split("~")[0]}대</span>/
+										<span>{userInfo?.gender === "male" ? "남자" : "여자"}</span>
+									</p>
+								</div>
+							</div>
+						</Menu.Item>
+						<Menu.Item icon={<IconEdit size={16} />}>
+							<div>프로필 수정</div>
+						</Menu.Item>
+						<Menu.Item
+							className="logout"
+							icon={<IconLogout size={16} />}
+							onClick={logout}
+						>
+							로그아웃
+						</Menu.Item>
+					</Menu.Dropdown>
+				</Menu>
+			</span>
+		</div>
+	);
+};
+
 const Nav = () => {
+	const [jwtToken, setJwtToken] = useRecoilState(jwtTokenState);
+
+	useEffect(() => {
+		setJwtToken(localStorage.getItem("Authentication"));
+	}, [jwtToken]);
+
 	return (
 		<section className="nav-section">
 			<div className="nav-container">
 				<LogoComponent />
 				<PlatformSelect />
-				<SignIn />
+				{jwtToken !== null ? <UserInfo jwtToken={jwtToken} /> : <SignIn />}
 			</div>
 		</section>
 	);

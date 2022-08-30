@@ -26,8 +26,22 @@
 			margin-bottom: 10px;
 
 			.nickname-check {
-				text-align: right;
+				display: flex;
+				justify-content: space-between;
 				margin-top: 0.5rem;
+
+				span {
+					font-size: 12px;
+					font-weight: bold;
+				}
+
+				.available {
+					color: $color-available;
+				}
+
+				.unavailable {
+					color: $color-unavailable;
+				}
 
 				button {
 					@include button-style($color-white, $color-base-btn-hover);
