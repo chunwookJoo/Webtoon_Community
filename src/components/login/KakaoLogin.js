@@ -1,6 +1,7 @@
 import React from "react";
 import { ReactComponent as Logo } from "../../assets/img/logo.svg";
 import { KAKAO_REDIRECT_URL, KAKAO_REST_API_KEY } from "./LoginApiData";
+// import { KAKAO_REDIRECT_URL, KAKAO_REST_API_KEY } from "../../config";
 import "../../assets/scss/components/login.scss";
 
 const loginWithKakao = () => {
@@ -9,6 +10,8 @@ const loginWithKakao = () => {
 };
 
 const KakaoLogin = () => {
+	console.log(KAKAO_REDIRECT_URL);
+	console.log(KAKAO_REST_API_KEY);
 	return (
 		<div className="login-modal">
 			<div className="logo">
