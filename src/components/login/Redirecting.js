@@ -7,6 +7,7 @@ import { ReactComponent as Logo } from "../../assets/img/logo.svg";
 import Loading from "../Loading";
 import { useRecoilState } from "recoil";
 import { jwtTokenState, userInfoState } from "../../utils/atom";
+import { showNotification } from "@mantine/notifications";
 
 /**
  * 발급받은 인가코드 서버로 전송
@@ -34,11 +35,13 @@ const Redirecting = () => {
 				setJwtToken(response.data.user.jwtToken);
 				setUserInfo(response.data.user);
 				localStorage.setItem("Authentication", response.data.user.jwtToken);
-				// navigate("/", {
-				// 	state: response.data.user,
-				// 	replace: true,
-				// });
 				navigate("/");
+				showNotification({
+					message: `${response.data.user.user_data.nickname}님, 환영합니다.`,
+					autoClose: 2000,
+					radius: "md",
+					color: "green",
+				});
 				return;
 			} else if (response.data.RESULT === 401) {
 				navigate(`/regist?token=${response.data.user.access_token}`, {

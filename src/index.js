@@ -6,13 +6,19 @@ import App from "./App";
 
 import "./index.scss";
 import { RecoilRoot } from "recoil";
+import { MantineProvider } from "@mantine/core";
+import { NotificationsProvider } from "@mantine/notifications";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
 	<RecoilRoot>
 		<BrowserRouter>
-			<App />
+			<MantineProvider>
+				<NotificationsProvider position="top-center">
+					<App />
+				</NotificationsProvider>
+			</MantineProvider>
 		</BrowserRouter>
 	</RecoilRoot>,
 );

@@ -22,6 +22,7 @@ const KakaoLogin = () => {
 				{/* <a id="custom-login-btn" onClick={loginWithKakao}>
 					<img src="/images/kakao_login_medium_wide.png" />
 				</a> */}
+				<div id="naverIdLogin"></div>
 			</div>
 		</div>
 	);

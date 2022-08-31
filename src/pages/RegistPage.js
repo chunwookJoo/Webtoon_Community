@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Input, Select } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
@@ -28,9 +28,10 @@ const GENDER = [
 const RegistPage = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
+	const nicknameInput = useRef();
 	const userData = location.state.user_data;
 	const kakaoAccount = userData.kakao_account;
-	const [nicknameChecked, setNicknameChecked] = useState(null);
+	const [nicknameChecked, setNicknameChecked] = useState("empty");
 	const [jwtToken, setJwtToken] = useRecoilState(jwtTokenState);
 	const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
@@ -42,7 +43,7 @@ const RegistPage = () => {
 	const kakaoId = userData.id;
 	const email = kakaoAccount.email;
 	const profileImage = kakaoAccount.profile.thumbnail_image_url;
-	const [nickName, setNickName] = useState();
+	const [nickName, setNickName] = useState("");
 	const [ageRange, setAgeRange] = useState(kakaoAccount.age_range);
 	const [gender, setGender] = useState(kakaoAccount.gender);
 
@@ -57,15 +58,22 @@ const RegistPage = () => {
 	};
 
 	const onClickNicknameCheck = () => {
-		axios
-			.post(API_URL + "/auth/nickname/check", nicknameBody)
-			.then((response) => {
-				if (response.data.RESULT === 200) {
-					setNicknameChecked(true);
-				} else if (response.data.RESULT === 403) {
-					return;
-				}
-			});
+		if (nickName === "") {
+			setNicknameChecked("empty");
+			return;
+		} else {
+			axios
+				.post(API_URL + "/auth/nickname/check", nicknameBody)
+				.then((response) => {
+					if (response.data.RESULT === 200) {
+						setNicknameChecked("available");
+						return;
+					} else if (response.data.RESULT === 403) {
+						setNicknameChecked("unavailable");
+						return;
+					}
+				});
+		}
 	};
 
 	const body = {
@@ -79,28 +87,32 @@ const RegistPage = () => {
 	};
 
 	const onClickSignup = (e, domain) => {
-		if (nicknameChecked) {
+		if (nicknameChecked === "available") {
 			if (domain === "kakao") {
 				axios.post(API_URL + "/auth/kakaoSignUp", body).then((response) => {
 					if (response.data.RESULT === 200) {
 						setJwtToken(response.data.jwtToken);
 						setUserInfo(response.data.user_data);
 						localStorage.setItem("Authentication", response.data.jwtToken);
-						// navigate("/", {
-						// 	state: response.data.user_data,
-						// 	replace: true,
-						// });
 						navigate("/");
 						showNotification({
-							title: "성공",
 							message: "정상적으로 회원가입되었습니다.",
+							autoClose: 2000,
+							radius: "md",
+							color: "green",
 						});
 						return;
 					}
 				});
 			}
 		} else {
-			console.log("닉네임 적으셈");
+			nicknameInput.current.focus();
+			showNotification({
+				message: "닉네임 중복체크를 해주세요.",
+				autoClose: 2000,
+				radius: "md",
+				color: "red",
+			});
 		}
 	};
 
@@ -119,16 +131,20 @@ const RegistPage = () => {
 					</div>
 					<div className="regist-input">
 						<Input.Wrapper label="닉네임" required>
+							&nbsp;
+							<span style={{ fontSize: "12px" }}>({nickName.length}/8자)</span>
 							<Input
+								maxLength={8}
 								placeholder="닉네임을 입력하세요."
 								onChange={(e) => onChangeHandler(e, "nickname")}
 								defaultValue={nickName}
+								ref={nicknameInput}
 							/>
 						</Input.Wrapper>
 						<div className="nickname-check">
-							{nicknameChecked === null ? (
-								<span></span>
-							) : nicknameChecked ? (
+							{nicknameChecked === "empty" ? (
+								<span className="unavailable">닉네임을 입력해주세요.</span>
+							) : nicknameChecked === "available" ? (
 								<span className="available">사용할 수 있는 닉네임입니다.</span>
 							) : (
 								<span className="unavailable">이미 사용중인 닉네임입니다.</span>
