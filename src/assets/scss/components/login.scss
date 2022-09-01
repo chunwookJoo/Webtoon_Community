@@ -13,11 +13,41 @@
 		gap: 1rem;
 
 		a:hover {
+			opacity: 0.8;
 			cursor: pointer;
+		}
+
+		.naver-btn,
+		.kakao-btn {
+			width: 300px;
+			height: 45px;
+			border-radius: 5px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 5px;
+		}
+
+		.naver-btn {
+			background-color: $color-naver-btn;
+			padding-right: 22px;
+			font-size: 15px;
 
 			img {
-				opacity: 0.8;
+				width: 40px;
+			}
+
+			.naver-btn-text {
+				color: $color-white;
 			}
 		}
+
+		.kakao-btn {
+			background-color: $color-kakao-btn;
+		}
+	}
+
+	#naverIdLogin {
+		display: none;
 	}
 }

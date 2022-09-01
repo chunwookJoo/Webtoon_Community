@@ -4,14 +4,19 @@ import { ReactComponent as Logo } from "../assets/img/logo.svg";
 
 // import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
 import { Modal, Avatar, Menu } from "@mantine/core";
-import { jwtTokenState, loginModalState, userInfoState } from "../utils/atom";
+import {
+	jwtTokenState,
+	loginModalState,
+	userIdState,
+	userInfoState,
+} from "../utils/atom";
 import { useRecoilState } from "recoil";
 import { PlatformLinkOptions } from "./PlatformLinkOptions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { Collapse, Button } from "reactstrap";
 import "../assets/scss/components/nav.scss";
-import KakaoLogin from "./login/KakaoLogin";
+import OauthLogin from "./login/OauthLogin";
 import { useEffect } from "react";
 import { IconEdit, IconLogout } from "@tabler/icons";
 import axios from "axios";
@@ -122,33 +127,25 @@ const SignIn = () => {
 				title="로그인"
 				className="login-modal-container"
 			>
-				<KakaoLogin />
+				<OauthLogin />
 			</Modal>
 		</>
 	);
 };
 
-const UserInfo = (props) => {
+const UserInfo = ({ userId }) => {
 	const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
 	useEffect(() => {
-		axios.get(API_URL + `/auth/userinfo/${props.jwtToken}`).then((response) => {
+		axios.get(API_URL + `/auth/userinfo/${userId}`).then((response) => {
+			console.log(response);
 			setUserInfo(response.data);
 		});
-	}, []);
-
-	const accessToken = userInfo?.kakaoToken;
-
-	const body = {
-		access_token: accessToken,
-		admin_key: KAKAO_ADMIN_KEY,
-	};
+	}, [userId]);
 
 	const logout = () => {
-		// axios.post(API_URL + "/auth/user/unlink", body).then((response) => {
-		// 	console.log(response);
-		// });
 		localStorage.removeItem("Authentication");
+		localStorage.removeItem("userId");
 		window.location.reload();
 	};
 
@@ -190,18 +187,21 @@ const UserInfo = (props) => {
 };
 
 const Nav = () => {
+	const location = useLocation();
+	const [userId, setUserId] = useState();
 	const [jwtToken, setJwtToken] = useRecoilState(jwtTokenState);
 
 	useEffect(() => {
+		setUserId(localStorage.getItem("userId"));
 		setJwtToken(localStorage.getItem("Authentication"));
-	}, [jwtToken]);
+	}, [location]);
 
 	return (
 		<section className="nav-section">
 			<div className="nav-container">
 				<LogoComponent />
 				<PlatformSelect />
-				{jwtToken !== null ? <UserInfo jwtToken={jwtToken} /> : <SignIn />}
+				{jwtToken !== null ? <UserInfo userId={userId} /> : <SignIn />}
 			</div>
 		</section>
 	);

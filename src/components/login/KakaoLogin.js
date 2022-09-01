@@ -1,8 +1,5 @@
 import React from "react";
-import { ReactComponent as Logo } from "../../assets/img/logo.svg";
 import { KAKAO_REDIRECT_URL, KAKAO_REST_API_KEY } from "./LoginApiData";
-// import { KAKAO_REDIRECT_URL, KAKAO_REST_API_KEY } from "../../config";
-import "../../assets/scss/components/login.scss";
 
 const loginWithKakao = () => {
 	const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_REST_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URL}&response_type=code`;
@@ -10,24 +7,13 @@ const loginWithKakao = () => {
 };
 
 const KakaoLogin = () => {
-	console.log(KAKAO_REDIRECT_URL);
-	console.log(KAKAO_REST_API_KEY);
 	return (
-		<div className="login-modal">
-			<div className="logo">
-				<Logo />
-				<p>간편하게 로그인하세요!</p>
+		<a id="custom-login-btn" className="kakao-btn" onClick={loginWithKakao}>
+			<div>
+				<img src="/images/kakao_login_medium_narrow.png" />
+				{/* <span>카카오로 시작하기</span> */}
 			</div>
-			<div className="oauth-login-btns">
-				<a id="custom-login-btn" className="kakao-btn" onClick={loginWithKakao}>
-					<img src="/images/kakao_login_medium_wide.png" />
-				</a>
-				{/* <a id="custom-login-btn" onClick={loginWithKakao}>
-					<img src="/images/kakao_login_medium_wide.png" />
-				</a> */}
-				<div id="naverIdLogin"></div>
-			</div>
-		</div>
+		</a>
 	);
 };
 

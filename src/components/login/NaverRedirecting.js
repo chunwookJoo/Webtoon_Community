@@ -1,40 +1,43 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../../config";
-import { KAKAO_REST_API_KEY } from "./LoginApiData";
-import { Navigate, useNavigate } from "react-router-dom";
+import {
+	NAVER_CLIENT_ID,
+	NAVER_CLIENT_SECRET,
+	NAVER_REDIRECT_URL,
+} from "./LoginApiData";
+
 import { ReactComponent as Logo } from "../../assets/img/logo.svg";
 import Loading from "../Loading";
 import { useRecoilState } from "recoil";
 import { jwtTokenState, userInfoState } from "../../utils/atom";
 import { showNotification } from "@mantine/notifications";
 
-/**
- * 발급받은 인가코드 서버로 전송
- */
-const Redirecting = () => {
+const NaverRedirecting = () => {
 	const navigate = useNavigate();
 	const [jwtToken, setJwtToken] = useRecoilState(jwtTokenState);
 	const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
-	// 인가코드
-	let code = new URL(window.location.href).searchParams.get("code");
+	// 네이버 access_token 얻기
+	const location = useLocation().hash.substr(1);
+	const body = location.split("&").reduce((res, item) => {
+		let parts = item.split("=");
+		res[parts[0]] = parts[1];
+		return res;
+	}, {});
+	body.naver_client_id = NAVER_CLIENT_ID;
+	body.naver_client_secret = NAVER_CLIENT_SECRET;
+	body.naver_redirect_url = NAVER_REDIRECT_URL;
 
-	const body = {
-		rest_api_key: KAKAO_REST_API_KEY,
-		auth_code: code,
-		domain: window.location.origin,
-	};
-
-	/**
-	 * 서버에 인가코드 보내고 액세스 토큰 받아옴
-	 */
 	useEffect(() => {
-		axios.post(API_URL + "/auth/kakaoLogin", body).then((response) => {
+		axios.post(API_URL + "/auth/naverLogin", body).then((response) => {
 			if (response.data.RESULT === 200) {
+				console.log(response);
 				setJwtToken(response.data.user.jwtToken);
 				setUserInfo(response.data.user);
 				localStorage.setItem("Authentication", response.data.user.jwtToken);
+				localStorage.setItem("userId", response.data.user.user.id);
 				navigate("/");
 				showNotification({
 					message: `${response.data.user.user_data.nickname}님, 환영합니다.`,
@@ -44,8 +47,11 @@ const Redirecting = () => {
 				});
 				return;
 			} else if (response.data.RESULT === 401) {
-				navigate(`/regist?token=${response.data.user.access_token}`, {
-					state: response.data.user,
+				navigate(`/regist/naver?token=${response.data.user.access_token}`, {
+					state: {
+						data: response.data.user,
+						platform: "naver",
+					},
 					replace: true,
 				});
 			}
@@ -73,4 +79,4 @@ const Redirecting = () => {
 	);
 };
 
-export default Redirecting;
+export default NaverRedirecting;

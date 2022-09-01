@@ -1,9 +1,14 @@
-import React, { Suspense, useEffect } from "react";
-import { Routes, Navigate, Route, useLocation } from "react-router-dom";
-import Redirecting from "./components/login/Redirecting";
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import KakaoRedirecting from "./components/login/KakaoRedirecting";
+import NaverRedirecting from "./components/login/NaverRedirecting";
 import Nav from "./components/Nav";
-import { WebtoonPage, WebtoonDetail } from "./pages/PagesIndex";
-import RegistPage from "./pages/RegistPage";
+import {
+	WebtoonPage,
+	WebtoonDetail,
+	KakaoRegist,
+	NaverRegist,
+} from "./pages/PagesIndex";
 
 function App() {
 	return (
@@ -20,10 +25,20 @@ function App() {
 				<Route exact path="/kakaoPage" element={<WebtoonPage />} />
 
 				{/* 회원가입 */}
-				<Route exact path="/regist" element={<RegistPage />} />
+				<Route exact path="/regist/kakao" element={<KakaoRegist />} />
+				<Route exact path="/regist/naver" element={<NaverRegist />} />
 
 				{/* 리다이랙트 */}
-				<Route exact path="/kakaoLogin/callback" element={<Redirecting />} />
+				<Route
+					exact
+					path="/kakaoLogin/callback"
+					element={<KakaoRedirecting />}
+				/>
+				<Route
+					exact
+					path="/naverLogin/callback"
+					element={<NaverRedirecting />}
+				/>
 			</Routes>
 		</>
 	);
