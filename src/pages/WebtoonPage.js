@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
-import { searchModalState } from "../utils/atom";
-import { useRecoilState } from "recoil";
 
 import Loading from "../components/Loading";
 import Webtoon from "../components/Webtoon";
@@ -11,9 +9,7 @@ import qs from "qs";
 
 import "../assets/scss/pages/webtoonPage.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import Search from "../components/Search";
 import { API_URL } from "../config";
 
 // const WEBTOON_API_URL = "https://korea-webtoon-api.herokuapp.com";
@@ -23,69 +19,46 @@ const EMPTY = <></>;
 const todayWeek = week[todayNum === 0 ? 6 : todayNum - 1];
 let part = 2;
 
-const WeekLink = () => {
-	let { search, pathname } = useLocation();
-	const week = ["월", "화", "수", "목", "금", "토", "일"];
-	const todayNum = new Date().getDay();
+// const WeekLink = () => {
+// 	let { search, pathname } = useLocation();
+// 	const week = ["월", "화", "수", "목", "금", "토", "일"];
+// 	const todayNum = new Date().getDay();
 
-	const weekDayLinkOptions = week.map((day, weekNum) => ({
-		name: day,
-		src: `?week=${weekNum}`,
-	}));
+// 	const weekDayLinkOptions = week.map((day, weekNum) => ({
+// 		name: day,
+// 		src: `?week=${weekNum}`,
+// 	}));
 
-	weekDayLinkOptions.unshift({
-		name: "신작",
-		src: "?week=new",
-	});
+// 	weekDayLinkOptions.unshift({
+// 		name: "신작",
+// 		src: "?week=new",
+// 	});
 
-	weekDayLinkOptions.push({
-		name: "완결",
-		src: "?week=fin",
-	});
+// 	weekDayLinkOptions.push({
+// 		name: "완결",
+// 		src: "?week=fin",
+// 	});
 
-	const today = week[todayNum === 0 ? 6 : todayNum - 1];
+// 	const today = week[todayNum === 0 ? 6 : todayNum - 1];
 
-	// 요일 nav
-	const WeekList = weekDayLinkOptions.map((weekItem, index) => {
-		let active = "";
-		!search
-			? weekItem.name === today && (active = "active")
-			: search === weekItem.src && (active = "active");
+// 	// 요일 nav
+// 	const WeekList = weekDayLinkOptions.map((weekItem, index) => {
+// 		let active = "";
+// 		!search
+// 			? weekItem.name === today && (active = "active")
+// 			: search === weekItem.src && (active = "active");
 
-		return (
-			<li key={index}>
-				<Link to={weekItem.src} className={active}>
-					{weekItem.name}
-				</Link>
-			</li>
-		);
-	});
+// 		return (
+// 			<li key={index}>
+// 				<Link to={weekItem.src} className={active}>
+// 					{weekItem.name}
+// 				</Link>
+// 			</li>
+// 		);
+// 	});
 
-	return <ul className="week-list-wrap">{WeekList}</ul>;
-};
-
-const WebtoonSearch = (props) => {
-	// 검색 Modal
-	const [modalOpen, setModalOpen] = useRecoilState(searchModalState);
-	const modalHandler = () => setModalOpen(!modalOpen);
-
-	return (
-		<>
-			<div className="platform-select-container">
-				<div className="search">
-					<span onClick={modalHandler}>
-						웹툰검색 &nbsp;
-						<FontAwesomeIcon icon={faMagnifyingGlass} />
-					</span>
-				</div>
-				<Search isOpen={modalOpen} toggle={modalHandler} />
-			</div>
-			<div>
-				<WeekLink />
-			</div>
-		</>
-	);
-};
+// 	return <ul className="week-list-wrap">{WeekList}</ul>;
+// };
 
 const WebtoonPage = () => {
 	let { search, pathname } = useLocation();
@@ -140,7 +113,9 @@ const WebtoonPage = () => {
 		<main>
 			<section className="contents-container"></section>
 			<section className="contents-container">
-				<WebtoonSearch />
+				{/* <div>
+					<WeekLink />
+				</div> */}
 				<ul className="webtoon-list">{VisibleWebtoonList}</ul>
 			</section>
 		</main>

@@ -1,26 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { ReactComponent as Logo } from "../assets/img/logo.svg";
+import axios from "axios";
+import { API_URL } from "../config";
+import "../assets/scss/components/nav.scss";
 
-// import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
+// design library (mantine, reactstrap)
+import { Collapse } from "reactstrap";
 import { Modal, Avatar, Menu } from "@mantine/core";
+
+// recoil
 import {
 	jwtTokenState,
 	loginModalState,
 	userIdState,
 	userInfoState,
+	searchModalState,
 } from "../utils/atom";
 import { useRecoilState } from "recoil";
-import { PlatformLinkOptions } from "./PlatformLinkOptions";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
-import { Collapse, Button } from "reactstrap";
-import "../assets/scss/components/nav.scss";
+
+// components
+import Search from "../components/Search";
 import OauthLogin from "./login/OauthLogin";
-import { useEffect } from "react";
+import { PlatformLinkOptions } from "./PlatformLinkOptions";
+import { ReactComponent as Logo } from "../assets/img/logo.svg";
+
+// icon
+import {
+	faCaretDown,
+	faMagnifyingGlass,
+} from "@fortawesome/free-solid-svg-icons";
 import { IconEdit, IconLogout } from "@tabler/icons";
-import axios from "axios";
-import { API_URL, KAKAO_ADMIN_KEY } from "../config";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const LogoComponent = () => {
 	return (
@@ -109,12 +119,29 @@ const PlatformSelect = () => {
 	);
 };
 
+const WebtoonSearch = () => {
+	// 검색 Modal
+	const [modalOpen, setModalOpen] = useRecoilState(searchModalState);
+	const modalHandler = () => setModalOpen(!modalOpen);
+
+	return (
+		<>
+			<span className="search" onClick={modalHandler}>
+				검색 &nbsp;
+				<FontAwesomeIcon icon={faMagnifyingGlass} />
+			</span>
+			<Search isOpen={modalOpen} toggle={modalHandler} />
+		</>
+	);
+};
+
 const SignIn = () => {
 	const [modalOpen, setModalOpen] = useRecoilState(loginModalState);
 	const modalHandler = () => setModalOpen(!modalOpen);
 	return (
 		<>
 			<div className="login-container">
+				<WebtoonSearch />
 				<span className="login-btn" onClick={modalHandler}>
 					로그인
 				</span>
@@ -138,7 +165,6 @@ const UserInfo = ({ userId }) => {
 
 	useEffect(() => {
 		axios.get(API_URL + `/auth/userinfo/${userId}`).then((response) => {
-			console.log(response);
 			setUserInfo(response.data);
 		});
 	}, [userId]);
@@ -186,6 +212,47 @@ const UserInfo = ({ userId }) => {
 	);
 };
 
+const WeekLink = () => {
+	let { search, pathname } = useLocation();
+	const week = ["월", "화", "수", "목", "금", "토", "일"];
+	const todayNum = new Date().getDay();
+
+	const weekDayLinkOptions = week.map((day, weekNum) => ({
+		name: day,
+		src: `?week=${weekNum}`,
+	}));
+
+	weekDayLinkOptions.unshift({
+		name: "신작",
+		src: "?week=new",
+	});
+
+	weekDayLinkOptions.push({
+		name: "완결",
+		src: "?week=fin",
+	});
+
+	const today = week[todayNum === 0 ? 6 : todayNum - 1];
+
+	// 요일 nav
+	const WeekList = weekDayLinkOptions.map((weekItem, index) => {
+		let active = "";
+		!search
+			? weekItem.name === today && (active = "active")
+			: search === weekItem.src && (active = "active");
+
+		return (
+			<li key={index}>
+				<Link to={weekItem.src} className={active}>
+					{weekItem.name}
+				</Link>
+			</li>
+		);
+	});
+
+	return <ul className="week-list-wrap">{WeekList}</ul>;
+};
+
 const Nav = () => {
 	const location = useLocation();
 	const [userId, setUserId] = useState();
@@ -203,6 +270,10 @@ const Nav = () => {
 				<PlatformSelect />
 				{jwtToken !== null ? <UserInfo userId={userId} /> : <SignIn />}
 			</div>
+			<div className="mobile-platform-select">
+				<PlatformSelect />
+			</div>
+			<WeekLink />
 		</section>
 	);
 };

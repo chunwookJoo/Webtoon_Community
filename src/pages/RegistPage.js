@@ -39,7 +39,7 @@ const RegistPage = (props) => {
 		platform === "kakao" ? account.age_range : account.age.replace("-", "~"),
 	);
 	const [gender, setGender] = useState(
-		account.gender === "M" ? "male" : "female",
+		account.gender === "M" || account.gender === "male" ? "male" : "female",
 	);
 
 	/**
@@ -109,6 +109,7 @@ const RegistPage = (props) => {
 							setJwtToken(response.data.jwtToken);
 							setUserInfo(response.data.user_data);
 							localStorage.setItem("Authentication", response.data.jwtToken);
+							localStorage.setItem("userId", response.data.user_data.id);
 							navigate("/");
 							showNotification({
 								message: "정상적으로 회원가입되었습니다.",
@@ -123,11 +124,11 @@ const RegistPage = (props) => {
 				axios
 					.post(API_URL + "/auth/naverSignUp", naverBody)
 					.then((response) => {
-						console.log(response);
 						if (response.data.RESULT === 200) {
 							setJwtToken(response.data.jwtToken);
 							setUserInfo(response.data.user_data);
 							localStorage.setItem("Authentication", response.data.jwtToken);
+							localStorage.setItem("userId", response.data.user_data.id);
 							navigate("/");
 							showNotification({
 								message: "정상적으로 회원가입되었습니다.",

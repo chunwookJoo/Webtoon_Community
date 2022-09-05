@@ -5,62 +5,18 @@ main {
 	flex-direction: column;
 	padding: 1em;
 	align-items: center;
-	margin-top: 90px;
+	margin-top: 150px;
+}
+
+@include if-small-device {
+	main {
+		margin-top: 200px;
+	}
 }
 
 .contents-container {
 	width: 100%;
 	max-width: $base-width;
-}
-
-// 플랫폼 선택 컨테이터
-.platform-select-container {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-
-	.search {
-		span {
-			color: $color-black;
-			font-size: 1.2rem;
-			margin-right: 1rem;
-		}
-
-		span:hover {
-			cursor: pointer;
-			color: $color-dark-grey;
-		}
-	}
-}
-
-// 요일 nav
-.week-list-wrap {
-	display: flex;
-	justify-content: space-around;
-	padding: 8px;
-	li {
-		flex: 1;
-		text-align: center;
-
-		a {
-			font-size: 1.2rem;
-			font-weight: 400;
-			padding: 10px 0;
-			display: block;
-		}
-
-		a:hover {
-			color: $color-primary;
-			transition: 0.1s;
-			border-bottom: 4px solid $color-primary;
-		}
-
-		.active {
-			font-weight: bold;
-			color: $color-primary;
-			border-bottom: 4px solid $color-primary;
-		}
-	}
 }
 
 .webtoon-list {

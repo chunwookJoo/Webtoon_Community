@@ -94,35 +94,36 @@ const Search = (props) => {
 	return (
 		<Modal
 			title="웹툰 검색"
-			size="60%"
+			size="50%"
 			centered
+			// overflow="inside"
 			opened={modal}
 			onClose={toggle}
 			className="search-modal-container"
 		>
+			<header className="search-header">
+				<input
+					className="search-input"
+					placeholder="작품, 작가를 입력하세요"
+					value={inputValue}
+					onChange={(e) => {
+						setMatchingKeywordShow(true);
+						setInputValue(e.target.value);
+						const tempKeyword = e.target.value;
+						setTimeout(() => {
+							const keyword = e.target.value;
+							keyword === tempKeyword && setSearchValue(keyword);
+						}, 500);
+					}}
+					onKeyPress={(e) => {
+						if (e.key === "Enter" && !!inputValue) {
+							setSearchValue(inputValue);
+							setMatchingKeywordShow(false);
+						}
+					}}
+				/>
+			</header>
 			<article className="search-wrap">
-				<header className="search-header">
-					<input
-						className="search-input"
-						placeholder="작품, 작가를 입력하세요"
-						value={inputValue}
-						onChange={(e) => {
-							setMatchingKeywordShow(true);
-							setInputValue(e.target.value);
-							const tempKeyword = e.target.value;
-							setTimeout(() => {
-								const keyword = e.target.value;
-								keyword === tempKeyword && setSearchValue(keyword);
-							}, 500);
-						}}
-						onKeyPress={(e) => {
-							if (e.key === "Enter" && !!inputValue) {
-								setSearchValue(inputValue);
-								setMatchingKeywordShow(false);
-							}
-						}}
-					/>
-				</header>
 				<section className="search-contents">
 					<ul
 						className="matching-keyword-list"

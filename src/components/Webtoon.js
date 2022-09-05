@@ -36,7 +36,6 @@ const Webtoon = (props) => {
 	const { webtoonData } = props;
 
 	const handleWebtoonClick = (event, item) => {
-		console.log(event.target);
 		console.log(item);
 	};
 	return (

@@ -1,7 +1,6 @@
 @import "../libs";
 
 .nav-section {
-	display: flex;
 	justify-content: center;
 	position: fixed;
 	width: 100%;
@@ -9,168 +8,268 @@
 	left: 0px;
 	background-color: $color-white;
 	z-index: 5;
-}
 
-.nav-container {
-	width: 100%;
-	max-width: $base-width;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 1rem;
-	gap: 2rem;
+	.nav-container {
+		width: 100%;
+		max-width: $base-width;
+		margin: 0 auto;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 1rem;
+		gap: 2rem;
 
-	.logo {
-		flex: 1;
-	}
-
-	@include if-small-device {
 		.logo {
 			flex: 1;
-
-			svg {
-				width: 100px;
-			}
 		}
-	}
 
-	// 플랫폼 선택
-	.platform-select {
-		display: flex;
-		flex: 1;
-		justify-content: space-around;
-		align-items: center;
-		position: relative;
-		width: 30%;
-		padding: 8px;
-		border-radius: $base-border-radius;
-		border: 1px solid $color-light-grey;
-
-		span {
-			.fa-caret-down {
-				font-size: 1.5rem;
-			}
-		}
-	}
-
-	@include if-small-device {
+		// 플랫폼 선택
 		.platform-select {
+			display: flex;
+			flex: 1;
+			justify-content: space-around;
+			align-items: center;
+			position: relative;
 			width: 30%;
-			padding: 0;
-			justify-content: space-evenly;
+			padding: 8px;
+			border-radius: $base-border-radius;
+			border: 1px solid $color-light-grey;
 
 			span {
-				image {
-					width: 160px;
+				.fa-caret-down {
+					font-size: 1.5rem;
+				}
+			}
+		}
+
+		.platform-select:hover {
+			cursor: pointer;
+			border: 1px solid $color-middle-grey;
+		}
+
+		.platform-collapse {
+			position: absolute;
+			width: 100%;
+			z-index: 4;
+			top: 105%;
+			left: 0;
+			background-color: $color-white;
+			padding: 8px;
+			border-radius: $base-border-radius;
+			border: 1px solid $color-light-grey;
+
+			li {
+				padding: 6px 1rem;
+				transition: 0.1s;
+
+				a {
+					display: flex;
+					align-items: center;
+					gap: 1rem;
+
+					svg {
+						width: 40px;
+					}
+
+					p {
+						margin: 0;
+						text-align: center;
+						flex: 1;
+					}
 				}
 			}
 
-			.platform-name {
+			li:hover {
+				cursor: pointer;
+				background-color: $color-light-grey;
+				border-radius: $base-border-radius;
+				transition: 0.2s;
+			}
+		}
+
+		.login-container {
+			display: flex;
+			align-items: center;
+			gap: 1rem;
+			flex: 1;
+			justify-content: end;
+
+			// 웹툰 검색, 로그인 버튼
+			.login-btn,
+			.search {
+				color: $color-primary;
+				background-color: $color-more-light-grey;
+				padding: 8px 1rem;
+				border-radius: $base-border-radius;
+				transition: 0.2s;
+			}
+
+			.login-btn:hover,
+			.search:hover {
+				cursor: pointer;
+				background-color: $color-light-grey;
+				transition: 0.2s;
+			}
+
+			.user-avatar {
+				cursor: pointer;
+
+				.user-info-container {
+					display: flex;
+					align-items: center;
+					gap: 1rem;
+
+					.user-info {
+						h5 {
+							font-size: 14px;
+						}
+
+						p {
+							font-size: 12px;
+							margin: 0;
+						}
+					}
+				}
+			}
+			@include if-small-device {
+				flex: none;
+
+				.search {
+					font-size: 14px;
+				}
+
+				.login-btn {
+					font-size: 14px;
+				}
+			}
+		}
+
+		// 모바일 화면 크기
+		@include if-small-device {
+			// 로고
+			.logo {
+				flex: 1;
+
+				svg {
+					width: 100px;
+				}
+			}
+
+			.platform-select {
 				display: none;
 			}
 		}
 	}
 
-	.platform-select:hover {
-		cursor: pointer;
-		border: 1px solid $color-middle-grey;
-	}
-
-	.platform-collapse {
-		position: absolute;
+	// 요일 nav
+	.week-list-wrap {
 		width: 100%;
-		z-index: 4;
-		top: 105%;
-		left: 0;
-		background-color: $color-white;
+		max-width: $base-width;
+		margin: 0 auto;
+		display: flex;
+		justify-content: space-around;
 		padding: 8px;
-		border-radius: $base-border-radius;
-		border: 1px solid $color-light-grey;
 
 		li {
-			padding: 2px 1rem;
-			transition: 0.1s;
+			flex: 1;
+			text-align: center;
 
 			a {
-				display: flex;
-				align-items: center;
-				gap: 1rem;
-
-				svg {
-					width: 40px;
-				}
-
-				p {
-					margin: 0;
-					text-align: center;
-					flex: 1;
+				font-size: 1.2rem;
+				font-weight: 400;
+				padding: 10px 0;
+				display: block;
+				@include if-small-device {
+					font-size: 1rem;
 				}
 			}
 
-			@include if-small-device {
-				a {
-					justify-content: center;
-				}
+			a:hover {
+				color: $color-primary;
+				transition: 0.1s;
+				border-bottom: 4px solid $color-primary;
+			}
+
+			.active {
+				font-weight: bold;
+				color: $color-primary;
+				border-bottom: 4px solid $color-primary;
 			}
 		}
-
-		li:hover {
-			cursor: pointer;
-			background-color: $color-light-grey;
-			border-radius: $base-border-radius;
-			transition: 0.2s;
+		@include if-small-device {
+			padding: 8px 1rem;
 		}
 	}
 
-	.login-container {
-		display: flex;
-		flex: 1;
-		justify-content: end;
+	.mobile-platform-select {
+		display: none;
 
-		.login-btn {
-			cursor: pointer;
-			color: $color-primary;
-			background-color: $color-more-light-grey;
-			padding: 8px 1rem;
-			border-radius: $base-border-radius;
-			transition: 0.2s;
-		}
+		@include if-small-device {
+			display: block;
+			padding: 0 1rem;
 
-		.login-btn:hover {
-			background-color: $color-light-grey;
-			transition: 0.2s;
-		}
-
-		.user-avatar {
-			cursor: pointer;
-
-			.user-info-container {
+			.platform-select {
 				display: flex;
+				justify-content: center;
 				align-items: center;
-				gap: 1rem;
+				gap: 2rem;
+				width: 100%;
+				padding: 8px;
+				position: relative;
+				border-radius: $base-border-radius;
+				border: 1px solid $color-light-grey;
 
-				.user-info {
-					h5 {
-						font-size: 14px;
-					}
-
-					p {
-						font-size: 12px;
-						margin: 0;
+				span {
+					.fa-caret-down {
+						font-size: 1.5rem;
 					}
 				}
 			}
-		}
 
-		@include if-small-device {
-			.login-btn {
-				font-size: 0.9rem;
+			.platform-select:hover {
+				cursor: pointer;
+				border: 1px solid $color-middle-grey;
 			}
-		}
 
-		.nickname-btn {
-			background-color: $color-primary;
-			border: 0;
+			.platform-collapse {
+				position: absolute;
+				width: 100%;
+				z-index: 4;
+				top: 105%;
+				left: 0;
+				background-color: $color-white;
+				padding: 8px;
+				border-radius: $base-border-radius;
+				border: 1px solid $color-light-grey;
+
+				li {
+					padding: 6px 1rem;
+					transition: 0.1s;
+
+					a {
+						display: flex;
+						align-items: center;
+						gap: 1rem;
+
+						svg {
+							width: 40px;
+						}
+
+						p {
+							margin: 0;
+							text-align: center;
+							flex: 1;
+						}
+					}
+				}
+
+				li:hover {
+					cursor: pointer;
+					background-color: $color-light-grey;
+					border-radius: $base-border-radius;
+					transition: 0.2s;
+				}
+			}
 		}
 	}
 }
