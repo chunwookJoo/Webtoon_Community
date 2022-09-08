@@ -3,13 +3,8 @@
 <img src="https://img.shields.io/badge/React-61DAFB?style=flat&logo=React&logoColor=000000"/>  <img src="https://img.shields.io/badge/Node.js-339933?style=flat&logo=Node.js&logoColor=ffffff"/> <img src="https://img.shields.io/badge/NestJS-646464?style=flat&logo=NestJS&logoColor=db3636"/> <img src="https://img.shields.io/badge/MongoDB-47A248?style=flat&logo=MongoDB&logoColor=ffffff"/>
 
 ## 기술 스택
-**Front**
 - ReactJS
 - Sass
-
-**Back**
-- NestJS
-- MongoDB
 
 ## 프로젝트 기능 설명
 // 개발 완료
@@ -27,7 +22,6 @@
 아직 배포를 안한 상태입니다. 배포되는대로 올리겠습니다.
 
 ## 참고
-**https://github.com/HyeokjaeLee/korea-webtoon-api**<br/>
 **https://github.com/HyeokjaeLee/webtoon-hub**
 ```
 위 사이트를 많이 참고했습니다.
