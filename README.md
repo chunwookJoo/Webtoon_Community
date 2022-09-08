@@ -27,7 +27,7 @@
 아직 배포를 안한 상태입니다. 배포되는대로 올리겠습니다.
 
 ## 참고
-**https://github.com/HyeokjaeLee/korea-webtoon-api**
+**https://github.com/HyeokjaeLee/korea-webtoon-api**<br/>
 **https://github.com/HyeokjaeLee/webtoon-hub**
 ```
 위 사이트를 많이 참고했습니다.
