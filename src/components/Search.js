@@ -94,9 +94,9 @@ const Search = (props) => {
 	return (
 		<Modal
 			title="웹툰 검색"
-			size="50%"
+			size="100%"
+			overflow="inside"
 			centered
-			// overflow="inside"
 			opened={modal}
 			onClose={toggle}
 			className="search-modal-container"
@@ -104,7 +104,7 @@ const Search = (props) => {
 			<header className="search-header">
 				<input
 					className="search-input"
-					placeholder="작품, 작가를 입력하세요"
+					placeholder="작품 또는 작가를 입력하세요"
 					value={inputValue}
 					onChange={(e) => {
 						setMatchingKeywordShow(true);
