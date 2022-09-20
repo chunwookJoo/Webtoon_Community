@@ -12,7 +12,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { API_URL } from "../config";
 
-// const WEBTOON_API_URL = "https://korea-webtoon-api.herokuapp.com";
 const todayNum = new Date().getDay();
 const week = ["0", "1", "2", "3", "4", "5", "6"];
 const EMPTY = <></>;
