@@ -1,7 +1,6 @@
 # 한국 웹툰 커뮤니티 서비스 "이거 봤어?"
 
 <img src="https://img.shields.io/badge/React-61DAFB?style=flat&logo=React&logoColor=000000"/>  <img src="https://img.shields.io/badge/Node.js-339933?style=flat&logo=Node.js&logoColor=ffffff"/> <img src="https://img.shields.io/badge/NestJS-646464?style=flat&logo=NestJS&logoColor=db3636"/> <img src="https://img.shields.io/badge/MongoDB-47A248?style=flat&logo=MongoDB&logoColor=ffffff"/>
-[![Netlify Status](https://api.netlify.com/api/v1/badges/06b3e379-54f2-491d-8a06-88a8e067cc1d/deploy-status)](https://app.netlify.com/sites/webtoon-review/deploys)
 
 ## 기술 스택
 - ReactJS
@@ -20,7 +19,7 @@
 5. 웹툰 보러가기 클릭 시 해당 플랫폼으로 이동
 
 ## Demo
-https://webtoon-review.netlify.app/
+https://webtoon-review.netlify.app/ 
 
 ## 참고
 **https://github.com/HyeokjaeLee/webtoon-hub**
