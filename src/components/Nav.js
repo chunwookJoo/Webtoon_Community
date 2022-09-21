@@ -32,7 +32,7 @@ import {
 import { IconEdit, IconLogout } from "@tabler/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const LogoComponent = () => {
+export const LogoComponent = () => {
 	return (
 		<div className="logo">
 			<Link to="/" onClick={() => (window.location.href = "/")}>
@@ -135,7 +135,7 @@ const WebtoonSearch = () => {
 	);
 };
 
-const SignIn = () => {
+export const SignIn = () => {
 	const [modalOpen, setModalOpen] = useRecoilState(loginModalState);
 	const modalHandler = () => setModalOpen(!modalOpen);
 	return (
@@ -160,7 +160,8 @@ const SignIn = () => {
 	);
 };
 
-const UserInfo = ({ userId }) => {
+export const UserInfo = ({ userId }) => {
+	const { pathname } = useLocation();
 	const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
 	useEffect(() => {
@@ -177,6 +178,7 @@ const UserInfo = ({ userId }) => {
 
 	return (
 		<div className="login-container">
+			{pathname === "/" ? <WebtoonSearch /> : ""}
 			<span className="user-avatar">
 				<Menu shadow="lg" width={220} position="bottom-end">
 					<Menu.Target>

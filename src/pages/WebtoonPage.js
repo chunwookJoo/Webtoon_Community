@@ -83,9 +83,6 @@ const WebtoonPage = () => {
 					? "/new"
 					: "/week?day=" + query.week;
 			const { data } = await axios.get(API_URL + PLATFORM_URL + WEEK_URL);
-			console.log(API_URL);
-			console.log(PLATFORM_URL);
-			console.log(data);
 			const WebtoonList = await data.map((webtoon) => (
 				<Webtoon webtoonData={webtoon} />
 			));

@@ -1,0 +1,15 @@
+@import "../libs";
+
+.back-btn {
+	display: none;
+}
+
+@include if-small-device {
+	.webtoon-detail-logo {
+		display: none;
+	}
+
+	.back-btn {
+		display: block;
+	}
+}

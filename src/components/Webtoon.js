@@ -35,18 +35,11 @@ const BadgeList = (props) => {
 const Webtoon = (props) => {
 	const { webtoonData } = props;
 
-	const handleWebtoonClick = (event, item) => {
-		console.log(item);
-	};
 	return (
-		<li
-			className="webtoon-link-wrap"
-			id={webtoonData._id}
-			onClick={(event) => handleWebtoonClick(event, webtoonData)}
-		>
+		<li className="webtoon-link-wrap" id={webtoonData._id}>
 			<Link
 				className="webtoon-link"
-				to={webtoonData._id}
+				to="/webtoon"
 				state={{ webtoonDetailData: webtoonData }}
 			>
 				<PlatformLogo platform={webtoonData.service} />

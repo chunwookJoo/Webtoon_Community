@@ -1,8 +1,9 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import KakaoRedirecting from "./components/login/KakaoRedirecting";
 import NaverRedirecting from "./components/login/NaverRedirecting";
 import Nav from "./components/Nav";
+import NavBack from "./components/NavBack";
 import {
 	WebtoonPage,
 	WebtoonDetail,
@@ -11,12 +12,15 @@ import {
 } from "./pages/PagesIndex";
 
 function App() {
+	const { pathname } = useLocation();
+	console.log(decodeURI(pathname));
 	return (
 		<>
-			<Nav />
+			{pathname === "/webtoon" ? <NavBack /> : <Nav />}
+
 			<Routes>
 				<Route exact path="/" element={<WebtoonPage />} />
-				<Route exact path="/:id" element={<WebtoonDetail />} />
+				<Route exact path="/webtoon" element={<WebtoonDetail />} />
 
 				{/* 플랫폼 선택 */}
 				<Route exact path="/all" element={<WebtoonPage />} />
