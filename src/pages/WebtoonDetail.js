@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ReactComponent as Naver } from "../assets/img/naver.svg";
 import { ReactComponent as Kakao } from "../assets/img/kakao.svg";
 import { ReactComponent as KakaoPage } from "../assets/img/kakaopage.svg";
@@ -27,6 +27,7 @@ const WebtoonDetail = () => {
 		"완결",
 		"신작",
 	];
+
 	return (
 		<div>
 			<section className="webtoon-detail-container">
@@ -48,15 +49,19 @@ const WebtoonDetail = () => {
 				</div>
 				<div className="webtoon-detail-btns">
 					<button className="mywebtoon-save-btn">마이웹툰에 저장</button>
-					<button className={webtoonData.service}>
-						{webtoonData.service === "naver" ? (
-							<Naver />
-						) : webtoonData.service === "kakao" ? (
-							<Kakao />
-						) : (
-							<KakaoPage />
-						)}{" "}
-						&nbsp; 웹툰 보러가기
+					<button className={`${webtoonData.service}`}>
+						<a href={webtoonData.url} target="_blank">
+							<span className="logo">
+								{webtoonData.service === "naver" ? (
+									<Naver />
+								) : webtoonData.service === "kakao" ? (
+									<Kakao />
+								) : (
+									<KakaoPage />
+								)}
+							</span>
+							&nbsp; 웹툰 보러가기
+						</a>
 					</button>
 				</div>
 			</section>

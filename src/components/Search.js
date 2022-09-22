@@ -10,7 +10,9 @@ import { API_URL } from "../config";
 
 const display = (value) => (value ? {} : { display: "none" });
 const EMPTY = <></>;
-const NO_WEBTOON_FOUND = [<li>검색 결과가 없습니다.</li>];
+const NO_WEBTOON_FOUND = [
+	<li className="no-search-result">검색 결과가 없습니다.</li>,
+];
 let part = 2;
 
 const Search = (props) => {

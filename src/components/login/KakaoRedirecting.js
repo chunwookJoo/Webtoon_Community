@@ -75,7 +75,7 @@ const KakaoRedirecting = () => {
 				<div
 					style={{
 						textAlign: "center",
-						marginTop: "7rem",
+						marginTop: "10rem",
 					}}
 				>
 					<h3>잠시만 기다려주세요.</h3>

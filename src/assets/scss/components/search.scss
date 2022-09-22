@@ -2,6 +2,8 @@
 
 .search-modal-container {
 	max-height: $search-modal-max-height;
+	max-width: $search-modal-max-width;
+	margin: 0 auto;
 
 	.search-header {
 		position: relative;
@@ -45,7 +47,7 @@
 			.matching-keyword-list {
 				display: flex;
 				flex-direction: column;
-				padding: 0;
+				padding: 3rem 0 2rem 0;
 				margin: 0;
 				gap: 0.5em;
 
@@ -93,6 +95,11 @@
 							}
 						}
 					}
+				}
+
+				.no-search-result {
+					text-align: center;
+					padding: 3rem 0 2rem 0;
 				}
 			}
 

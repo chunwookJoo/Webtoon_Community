@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../config";
 import "../assets/scss/components/nav.scss";
@@ -29,7 +29,7 @@ import {
 	faCaretDown,
 	faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
-import { IconEdit, IconLogout } from "@tabler/icons";
+import { IconBook2, IconEdit, IconLogout } from "@tabler/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const LogoComponent = () => {
@@ -136,12 +136,13 @@ const WebtoonSearch = () => {
 };
 
 export const SignIn = () => {
+	const { pathname } = useLocation();
 	const [modalOpen, setModalOpen] = useRecoilState(loginModalState);
 	const modalHandler = () => setModalOpen(!modalOpen);
 	return (
 		<>
 			<div className="login-container">
-				<WebtoonSearch />
+				{pathname === "/webtoon" ? "" : <WebtoonSearch />}
 				<span className="login-btn" onClick={modalHandler}>
 					로그인
 				</span>
@@ -160,15 +161,10 @@ export const SignIn = () => {
 	);
 };
 
-export const UserInfo = ({ userId }) => {
+export const UserInfo = () => {
+	const navigate = useNavigate();
 	const { pathname } = useLocation();
 	const [userInfo, setUserInfo] = useRecoilState(userInfoState);
-
-	useEffect(() => {
-		axios.get(API_URL + `/auth/userinfo/${userId}`).then((response) => {
-			setUserInfo(response.data);
-		});
-	}, [userId]);
 
 	const logout = () => {
 		localStorage.removeItem("Authentication");
@@ -176,16 +172,26 @@ export const UserInfo = ({ userId }) => {
 		window.location.reload();
 	};
 
+	const navigateHandler = (url) => {
+		navigate(url, { state: userInfo });
+	};
+
 	return (
 		<div className="login-container">
-			{pathname === "/" ? <WebtoonSearch /> : ""}
+			{pathname === "/webtoon" ||
+			pathname === "/mywebtoon" ||
+			pathname === "/userinfo" ? (
+				""
+			) : (
+				<WebtoonSearch />
+			)}
 			<span className="user-avatar">
 				<Menu shadow="lg" width={220} position="bottom-end">
 					<Menu.Target>
 						<Avatar src={userInfo?.profileImage} radius="xl" />
 					</Menu.Target>
 					<Menu.Dropdown>
-						<Menu.Item>
+						<Menu.Item onClick={() => navigateHandler("/userinfo")}>
 							<div className="user-info-container">
 								<Avatar src={userInfo?.profileImage} radius="md" />
 								<div className="user-info">
@@ -197,7 +203,16 @@ export const UserInfo = ({ userId }) => {
 								</div>
 							</div>
 						</Menu.Item>
-						<Menu.Item icon={<IconEdit size={16} />}>
+						<Menu.Item
+							icon={<IconBook2 size={16} />}
+							onClick={() => navigateHandler("/mywebtoon")}
+						>
+							<div>마이 웹툰</div>
+						</Menu.Item>
+						<Menu.Item
+							icon={<IconEdit size={16} />}
+							onClick={() => navigateHandler("/userinfo")}
+						>
 							<div>프로필 수정</div>
 						</Menu.Item>
 						<Menu.Item
@@ -221,17 +236,17 @@ const WeekLink = () => {
 
 	const weekDayLinkOptions = week.map((day, weekNum) => ({
 		name: day,
-		src: `?week=${weekNum}`,
+		src: `/?week=${weekNum}`,
 	}));
 
 	weekDayLinkOptions.unshift({
 		name: "신작",
-		src: "?week=new",
+		src: "/?week=new",
 	});
 
 	weekDayLinkOptions.push({
 		name: "완결",
-		src: "?week=fin",
+		src: "/?week=fin",
 	});
 
 	const today = week[todayNum === 0 ? 6 : todayNum - 1];
@@ -257,12 +272,17 @@ const WeekLink = () => {
 
 const Nav = () => {
 	const location = useLocation();
-	const [userId, setUserId] = useState();
+	const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 	const [jwtToken, setJwtToken] = useRecoilState(jwtTokenState);
 
 	useEffect(() => {
-		setUserId(localStorage.getItem("userId"));
 		setJwtToken(localStorage.getItem("Authentication"));
+
+		axios
+			.get(API_URL + `/auth/userinfo/${localStorage.getItem("userId")}`)
+			.then((response) => {
+				setUserInfo(response.data);
+			});
 	}, [location]);
 
 	return (
@@ -270,7 +290,7 @@ const Nav = () => {
 			<div className="nav-container">
 				<LogoComponent />
 				<PlatformSelect />
-				{jwtToken !== null ? <UserInfo userId={userId} /> : <SignIn />}
+				{jwtToken !== null ? <UserInfo /> : <SignIn />}
 			</div>
 			<div className="mobile-platform-select">
 				<PlatformSelect />

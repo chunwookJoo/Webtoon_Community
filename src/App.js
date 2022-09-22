@@ -7,6 +7,8 @@ import NavBack from "./components/NavBack";
 import {
 	WebtoonPage,
 	WebtoonDetail,
+	MyWebtoon,
+	UserInfo,
 	KakaoRegist,
 	NaverRegist,
 } from "./pages/PagesIndex";
@@ -16,11 +18,23 @@ function App() {
 	console.log(decodeURI(pathname));
 	return (
 		<>
-			{pathname === "/webtoon" ? <NavBack /> : <Nav />}
+			{pathname === "/webtoon" ||
+			pathname === "/mywebtoon" ||
+			pathname === "/userinfo" ? (
+				<NavBack />
+			) : (
+				<Nav />
+			)}
 
 			<Routes>
 				<Route exact path="/" element={<WebtoonPage />} />
 				<Route exact path="/webtoon" element={<WebtoonDetail />} />
+
+				{/* 내 정보 */}
+				<Route exact path="/userinfo" element={<UserInfo />} />
+
+				{/* 마이 웹툰 */}
+				<Route exact path="/mywebtoon" element={<MyWebtoon />} />
 
 				{/* 플랫폼 선택 */}
 				<Route exact path="/all" element={<WebtoonPage />} />

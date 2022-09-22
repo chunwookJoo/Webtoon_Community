@@ -3,20 +3,27 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { jwtTokenState } from "../utils/atom";
+import { jwtTokenState, userInfoState } from "../utils/atom";
 import { LogoComponent, SignIn, UserInfo } from "./Nav";
 import { IconChevronLeft } from "@tabler/icons";
 import "../assets/scss/components/navback.scss";
+import axios from "axios";
+import { API_URL } from "../config";
 
 const NavBack = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
-	const [userId, setUserId] = useState();
+	const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 	const [jwtToken, setJwtToken] = useRecoilState(jwtTokenState);
 
 	useEffect(() => {
-		setUserId(localStorage.getItem("userId"));
 		setJwtToken(localStorage.getItem("Authentication"));
+
+		axios
+			.get(API_URL + `/auth/userinfo/${localStorage.getItem("userId")}`)
+			.then((response) => {
+				setUserInfo(response.data);
+			});
 	}, [location]);
 
 	const onClickBackPage = () => {
@@ -32,7 +39,7 @@ const NavBack = () => {
 				<span onClick={onClickBackPage} className="back-btn">
 					<IconChevronLeft size={24} />
 				</span>
-				{jwtToken !== null ? <UserInfo userId={userId} /> : <SignIn />}
+				{jwtToken !== null ? <UserInfo /> : <SignIn />}
 			</div>
 		</section>
 	);

@@ -4,6 +4,8 @@ import { ReactComponent as Kakao } from "../assets/img/kakao.svg";
 import { ReactComponent as KakaoPage } from "../assets/img/kakaopage.svg";
 import { Link } from "react-router-dom";
 import "../assets/scss/components/webtoon.scss";
+import { useRecoilState } from "recoil";
+import { searchModalState } from "../utils/atom";
 
 const PlatformLogo = (props) => {
 	const { platform } = props;
@@ -34,6 +36,7 @@ const BadgeList = (props) => {
 
 const Webtoon = (props) => {
 	const { webtoonData } = props;
+	const [modalOpen, setModalOpen] = useRecoilState(searchModalState);
 
 	return (
 		<li className="webtoon-link-wrap" id={webtoonData._id}>
@@ -41,6 +44,7 @@ const Webtoon = (props) => {
 				className="webtoon-link"
 				to="/webtoon"
 				state={{ webtoonDetailData: webtoonData }}
+				onClick={() => setModalOpen(false)}
 			>
 				<PlatformLogo platform={webtoonData.service} />
 				<BadgeList additional={webtoonData.additional} />
