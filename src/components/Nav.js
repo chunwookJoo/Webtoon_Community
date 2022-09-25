@@ -256,7 +256,7 @@ const WeekLink = () => {
 		let active = "";
 		!search
 			? weekItem.name === today && (active = "active")
-			: search === weekItem.src && (active = "active");
+			: weekItem.src.includes(search) && (active = "active");
 
 		return (
 			<li key={index}>

@@ -15,7 +15,6 @@ import {
 
 function App() {
 	const { pathname } = useLocation();
-	console.log(decodeURI(pathname));
 	return (
 		<>
 			{pathname === "/webtoon" ||
