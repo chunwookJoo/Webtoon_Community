@@ -169,7 +169,8 @@ export const UserInfo = () => {
 	const logout = () => {
 		localStorage.removeItem("Authentication");
 		localStorage.removeItem("userId");
-		window.location.reload();
+		navigate("/");
+		// window.location.reload();
 	};
 
 	const navigateHandler = (url) => {
@@ -283,7 +284,7 @@ const Nav = () => {
 			.then((response) => {
 				setUserInfo(response.data);
 			});
-	}, [location]);
+	}, [location, userInfo]);
 
 	return (
 		<section className="nav-section">

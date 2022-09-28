@@ -1,0 +1,61 @@
+@import "../libs";
+
+.userinfo-container {
+	max-width: 40em;
+	margin: 0 auto;
+	padding: 10rem 1rem;
+
+	.profile-img-container {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		text-align: center;
+		margin-bottom: 2rem;
+
+		.profile-img {
+			margin: 0 auto;
+		}
+
+		.profile-img-edit {
+			button {
+				@include button-style($color-primary, $color-primary-btn-hover);
+			}
+		}
+	}
+
+	.profile-input {
+		margin-bottom: 1rem;
+		.nickname-check {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-top: 0.5rem;
+
+			span {
+				font-size: 12px;
+				font-weight: bold;
+			}
+
+			.available {
+				color: $color-available;
+			}
+
+			.unavailable {
+				color: $color-unavailable;
+			}
+
+			button {
+				@include button-style($color-white, $color-base-btn-hover);
+			}
+		}
+	}
+
+	.profile-btn {
+		margin-top: 2rem;
+
+		button {
+			width: 100%;
+			@include button-style($color-primary, $color-primary-btn-hover);
+		}
+	}
+}
