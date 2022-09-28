@@ -8,6 +8,7 @@
 - Scss
 
 ## 프로젝트 기능 설명
+https://github.com/chunwookJoo/Korea_Webtoon_API 의 api를 사용합니다.
 
 // 개발 완료
 
