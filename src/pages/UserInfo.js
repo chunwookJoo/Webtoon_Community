@@ -1,6 +1,6 @@
 import { Avatar, Input, Select } from "@mantine/core";
 import React, { useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userInfoState } from "../utils/atom";
 import "../assets/scss/pages/userinfo.scss";
@@ -10,6 +10,7 @@ import { showNotification } from "@mantine/notifications";
 
 const UserInfo = () => {
 	const { state } = useLocation();
+	const navigate = useNavigate();
 	const user = state;
 	const nicknameInput = useRef();
 	const profileImgInput = useRef();
@@ -33,7 +34,6 @@ const UserInfo = () => {
 		user.profileImage,
 	);
 
-	const [profileImgData, setProfileImgData] = useState();
 	const [nickName, setNickName] = useState(user.nickname);
 	const [nicknameChecked, setNicknameChecked] = useState("empty");
 	const [ageRange, setAgeRange] = useState(user.age);
@@ -49,7 +49,18 @@ const UserInfo = () => {
 		const formData = new FormData();
 		encodeFileToBase64(e.target.files[0]);
 		formData.append("images", e.target.files[0]);
-		setProfileImgData(formData);
+
+		axios({
+			baseURL: API_URL,
+			url: `/auth/userinfo/profileimg/upload/${user.id}`,
+			method: "POST",
+			data: formData,
+			headers: {
+				"Content-Type": "multipart/form-data",
+			},
+		}).then((response) => {
+			console.log(response);
+		});
 	};
 
 	// 프로필 사진 미리보기 인코딩
@@ -96,13 +107,10 @@ const UserInfo = () => {
 
 	// 회원정보 수정 데이터
 	const updateBody = {
-		profileImage: profileImgData,
 		nickname: nickName,
 		age: ageRange,
 		gender,
 	};
-
-	console.log(updateBody);
 
 	// 회원정보 수정하기 버튼
 	const onClickUserInfoUpdate = () => {
@@ -118,6 +126,9 @@ const UserInfo = () => {
 							radius: "md",
 							color: "green",
 						});
+						setTimeout(() => {
+							navigate("/");
+						}, 1000);
 					}
 				});
 		} else {
@@ -170,7 +181,7 @@ const UserInfo = () => {
 				<div className="nickname-check">
 					<button onClick={(e) => onClickNicknameCheck(e)}>중복체크</button>
 					{nicknameChecked === "empty" ? (
-						<span className="unavailable">닉네임을 입력해주세요.</span>
+						<span className="unavailable">닉네임 중복체크를 해주세요.</span>
 					) : nicknameChecked === "available" ? (
 						<span className="available">사용할 수 있는 닉네임입니다.</span>
 					) : (

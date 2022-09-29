@@ -237,17 +237,17 @@ const WeekLink = () => {
 
 	const weekDayLinkOptions = week.map((day, weekNum) => ({
 		name: day,
-		src: `/?week=${weekNum}`,
+		src: `?week=${weekNum}`,
 	}));
 
 	weekDayLinkOptions.unshift({
 		name: "신작",
-		src: "/?week=new",
+		src: "?week=new",
 	});
 
 	weekDayLinkOptions.push({
 		name: "완결",
-		src: "/?week=fin",
+		src: "?week=fin",
 	});
 
 	const today = week[todayNum === 0 ? 6 : todayNum - 1];

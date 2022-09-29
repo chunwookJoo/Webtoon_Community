@@ -4,6 +4,9 @@ import { ReactComponent as Naver } from "../assets/img/naver.svg";
 import { ReactComponent as Kakao } from "../assets/img/kakao.svg";
 import { ReactComponent as KakaoPage } from "../assets/img/kakaopage.svg";
 import "../assets/scss/pages/webtoonDetail.scss";
+import axios from "axios";
+import { API_URL } from "../config";
+import { showNotification } from "@mantine/notifications";
 
 const WebtoonDetail = () => {
 	const { state } = useLocation();
@@ -28,6 +31,35 @@ const WebtoonDetail = () => {
 		"신작",
 	];
 
+	const myWebtoonInsertBody = {
+		id: webtoonData._id,
+	};
+
+	const onClickMyWebtoonInsert = () => {
+		axios
+			.post(
+				API_URL + `/auth/insert/mywebtoon/${localStorage.getItem("userId")}`,
+				myWebtoonInsertBody,
+			)
+			.then((response) => {
+				if (response.data.RESULT === 200) {
+					showNotification({
+						message: "마이웹툰에 저장했습니다.",
+						autoClose: 2000,
+						radius: "md",
+						color: "green",
+					});
+				} else {
+					showNotification({
+						message: "마이웹툰 저장에 실패했습니다.",
+						autoClose: 2000,
+						radius: "md",
+						color: "red",
+					});
+				}
+			});
+	};
+
 	return (
 		<div>
 			<section className="webtoon-detail-container">
@@ -48,7 +80,12 @@ const WebtoonDetail = () => {
 					</ul>
 				</div>
 				<div className="webtoon-detail-btns">
-					<button className="mywebtoon-save-btn">마이웹툰에 저장</button>
+					<button
+						className="mywebtoon-save-btn"
+						onClick={onClickMyWebtoonInsert}
+					>
+						마이웹툰에 저장
+					</button>
 					<button className={`${webtoonData.service}`}>
 						<a href={webtoonData.url} target="_blank">
 							<span className="logo">
