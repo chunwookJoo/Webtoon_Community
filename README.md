@@ -8,6 +8,7 @@
 - Scss
 
 ## 프로젝트 기능 설명
+https://github.com/chunwookJoo/Korea_Webtoon_API 의 api를 사용합니다.
 
 // 개발 완료
 
@@ -28,44 +29,44 @@
 
 ### 웹
 
-- **홈 화면**
+- **홈 화면**<br/>
   <img width="540" height="540" src="https://user-images.githubusercontent.com/64945491/192675497-93bf6c4c-6074-4bec-aad2-add4bd5add30.png">
 
-- **웹툰 디테일 (댓글)**
+- **웹툰 디테일 (댓글)**<br/>
   <img width="540" height="540" src="https://user-images.githubusercontent.com/64945491/192676912-dfe55625-06e3-4cf0-98cd-bac85d4fc5ab.png">
 
-- **검색 창**
+- **검색 창**<br/>
   <img width="540" height="540" src="https://user-images.githubusercontent.com/64945491/192676817-1653728d-812c-4e98-a83e-6af089309e25.gif">
 
-- **카카오 / 네이버 로그인**
+- **카카오 / 네이버 로그인**<br/>
   <img width="540" height="540" src="https://user-images.githubusercontent.com/64945491/192677110-40ec53fc-85e4-4f19-b85b-b0326656bfcf.gif">
 
-- **사용자 정보 변경**
+- **사용자 정보 변경**<br/>
   <img width="540" height="540" src="https://user-images.githubusercontent.com/64945491/192677219-fd9051a8-17a8-4cef-b498-9defdfbfc381.gif">
 
-- **회원가입**
+- **회원가입**<br/>
   <img width="540" height="540" src="https://user-images.githubusercontent.com/64945491/192677307-67ebf826-5ae6-46a4-86a0-80ff7872d221.gif">
 
 <br/>
 
 ### 모바일
 
-- **홈 화면**
+- **홈 화면**<br/>
   <img src="https://user-images.githubusercontent.com/64945491/192677525-0326bd37-8a4f-4115-b5a4-b016c72f7f05.png">
 
-- **웹툰 디테일 (댓글)**
+- **웹툰 디테일 (댓글)**<br/>
   <img src="https://user-images.githubusercontent.com/64945491/192677572-ea43cf39-d2f2-4faf-9908-0bff7dda86dd.png">
 
-- **검색 창**
+- **검색 창**<br/>
   <img src="https://user-images.githubusercontent.com/64945491/192677627-30af4067-74ea-4c93-a6f8-1eedf5c286e8.gif">
 
-- **카카오 / 네이버 로그인**
+- **카카오 / 네이버 로그인**<br/>
   <img src="https://user-images.githubusercontent.com/64945491/192677672-6a3db3b6-9fdc-4d35-8ed2-42ac87af6701.gif">
 
-- **사용자 정보 변경**
+- **사용자 정보 변경**<br/>
   <img src="https://user-images.githubusercontent.com/64945491/192677720-54c89f53-29c9-4bd5-bdfe-93a741696b72.gif">
 
-- **회원가입**
+- **회원가입**<br/>
   <img src="https://user-images.githubusercontent.com/64945491/192677754-3a10a4de-5440-4cc4-ba1f-59cea85b8f2c.gif">
 
 ## 참고
