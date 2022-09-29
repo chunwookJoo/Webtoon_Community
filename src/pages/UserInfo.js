@@ -29,8 +29,11 @@ const UserInfo = () => {
 	];
 
 	const [userInfo, setUserInfo] = useRecoilState(userInfoState);
-	const [profileImage, setProfileImage] = useState(user.profileImage);
+	const [profileImagePreview, setProfileImagePreview] = useState(
+		user.profileImage,
+	);
 
+	const [profileImgData, setProfileImgData] = useState();
 	const [nickName, setNickName] = useState(user.nickname);
 	const [nicknameChecked, setNicknameChecked] = useState("empty");
 	const [ageRange, setAgeRange] = useState(user.age);
@@ -45,7 +48,8 @@ const UserInfo = () => {
 	const onImgChange = async (e) => {
 		const formData = new FormData();
 		encodeFileToBase64(e.target.files[0]);
-		formData.append("file", e.target.files[0]);
+		formData.append("images", e.target.files[0]);
+		setProfileImgData(formData);
 	};
 
 	// 프로필 사진 미리보기 인코딩
@@ -54,7 +58,7 @@ const UserInfo = () => {
 		reader.readAsDataURL(fileBlob);
 		return new Promise((resolve) => {
 			reader.onload = () => {
-				setProfileImage(reader.result);
+				setProfileImagePreview(reader.result);
 				resolve();
 			};
 		});
@@ -92,7 +96,7 @@ const UserInfo = () => {
 
 	// 회원정보 수정 데이터
 	const updateBody = {
-		profileImage,
+		profileImage: profileImgData,
 		nickname: nickName,
 		age: ageRange,
 		gender,
@@ -132,7 +136,7 @@ const UserInfo = () => {
 			<div className="profile-img-container">
 				<Avatar
 					size={120}
-					src={profileImage}
+					src={profileImagePreview}
 					radius="xl"
 					className="profile-img"
 				/>
