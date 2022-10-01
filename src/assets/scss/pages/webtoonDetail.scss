@@ -61,7 +61,8 @@
 		display: flex;
 		gap: 1rem;
 
-		button {
+		.mywebtoon-save-btn,
+		.webtoon-show-btn {
 			flex: 1;
 			border: 0;
 			border-radius: 8px;
@@ -70,6 +71,15 @@
 
 		.mywebtoon-save-btn {
 			background-color: $color-primary;
+		}
+
+		.webtoon-show-btn {
+			button {
+				width: 100%;
+				border: 0;
+				border-radius: 8px;
+				color: $color-white;
+			}
 		}
 
 		.logo {

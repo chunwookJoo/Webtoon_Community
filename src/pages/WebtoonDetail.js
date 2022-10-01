@@ -11,7 +11,6 @@ import { showNotification } from "@mantine/notifications";
 const WebtoonDetail = () => {
 	const { state } = useLocation();
 	const webtoonData = state.webtoonDetailData;
-	console.log(webtoonData);
 	const platform =
 		webtoonData.service === "naver"
 			? "네이버 웹툰"
@@ -32,7 +31,7 @@ const WebtoonDetail = () => {
 	];
 
 	const myWebtoonInsertBody = {
-		id: webtoonData._id,
+		_id: webtoonData._id,
 	};
 
 	const onClickMyWebtoonInsert = () => {
@@ -48,6 +47,13 @@ const WebtoonDetail = () => {
 						autoClose: 2000,
 						radius: "md",
 						color: "green",
+					});
+				} else if (response.data.RESULT === 403) {
+					showNotification({
+						message: "마이웹툰에 이미 존재합니다.",
+						autoClose: 2000,
+						radius: "md",
+						color: "yellow",
 					});
 				} else {
 					showNotification({
@@ -86,8 +92,12 @@ const WebtoonDetail = () => {
 					>
 						마이웹툰에 저장
 					</button>
-					<button className={`${webtoonData.service}`}>
-						<a href={webtoonData.url} target="_blank">
+					<a
+						href={webtoonData.url}
+						target="_blank"
+						className="webtoon-show-btn"
+					>
+						<button className={`${webtoonData.service}`}>
 							<span className="logo">
 								{webtoonData.service === "naver" ? (
 									<Naver />
@@ -98,8 +108,8 @@ const WebtoonDetail = () => {
 								)}
 							</span>
 							&nbsp; 웹툰 보러가기
-						</a>
-					</button>
+						</button>
+					</a>
 				</div>
 			</section>
 			<section className="webtoon-review">
