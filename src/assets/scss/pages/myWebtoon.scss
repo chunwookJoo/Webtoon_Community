@@ -15,11 +15,17 @@
 		}
 
 		.webtoon-card {
+			display: flex;
+			flex-direction: column;
 			width: 45%;
 			transition: 0.2s;
 			@include if-small-device {
 				width: 80%;
 				transition: 0.2s;
+			}
+
+			.mantine-Card-cardSection {
+				flex: 1;
 			}
 		}
 

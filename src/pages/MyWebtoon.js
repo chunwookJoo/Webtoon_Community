@@ -55,11 +55,11 @@ const MyWebtoon = () => {
 	};
 
 	/**
-	 *
+	 * 웹툰 데이터 가져오기
 	 * @param {*} id webtoonId
 	 * @returns webtoonData
 	 */
-	const getWebtoonList = (id) => {
+	const getWebtoonData = (id) => {
 		return new Promise((resolve, reject) => {
 			axios
 				.get(API_URL + `/search/webtoon/${id}`)
@@ -77,7 +77,7 @@ const MyWebtoon = () => {
 		const sequentialRequest = async () => {
 			for (let i = 0; i < userInfo.myWebtoon.length; i++) {
 				try {
-					await getWebtoonList(userInfo.myWebtoon[i]);
+					await getWebtoonData(userInfo.myWebtoon[i]);
 				} catch (error) {
 					console.log(error);
 				}

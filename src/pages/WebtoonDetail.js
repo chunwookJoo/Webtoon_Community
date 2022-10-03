@@ -7,6 +7,54 @@ import "../assets/scss/pages/webtoonDetail.scss";
 import axios from "axios";
 import { API_URL } from "../config";
 import { showNotification } from "@mantine/notifications";
+import { Avatar, Input } from "@mantine/core";
+import { useRecoilState } from "recoil";
+import { userInfoState } from "../utils/atom";
+import { IconAt } from "@tabler/icons";
+
+const Comments = () => {
+	// 임시
+	const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+	return (
+		<div className="comment-lists">
+			<div className="comment-user">
+				<span className="comment-img">
+					<img src={userInfo.profileImage} width={24} height={24} />
+				</span>
+				<div className="nickname">
+					<h5>닉네임</h5>
+					<span>2022.10.01</span>
+				</div>
+			</div>
+			<div className="comment-des">이 웹툰 정말 재밌다!</div>
+		</div>
+	);
+};
+const WebtoonComment = () => {
+	const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+	console.log(userInfo);
+	return (
+		<section className="webtoon-review">
+			<div>
+				<hr />
+			</div>
+			<Comments />
+			<div className="comment-container">
+				<span className="comment-img">
+					<img src={userInfo.profileImage} width={28} height={28} />
+				</span>
+				<Input
+					className="comment-input"
+					placeholder="댓글을 남겨주세요."
+					radius="lg"
+				/>
+				<span className="comment-btn">
+					<button>등록</button>
+				</span>
+			</div>
+		</section>
+	);
+};
 
 const WebtoonDetail = () => {
 	const { state } = useLocation();
@@ -112,9 +160,7 @@ const WebtoonDetail = () => {
 					</a>
 				</div>
 			</section>
-			<section className="webtoon-review">
-				<div>댓글</div>
-			</section>
+			<WebtoonComment />
 		</div>
 	);
 };
