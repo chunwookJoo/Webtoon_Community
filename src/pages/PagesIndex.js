@@ -1,7 +1,12 @@
 import React from "react";
 
+// 웹툰 페이지
 export const WebtoonPage = React.lazy(() => import("./WebtoonPage"));
 export const WebtoonDetail = React.lazy(() => import("./WebtoonDetail"));
+
+// 독자 페이지
+export const BoardPage = React.lazy(() => import("./board/BoardPage"));
+export const BoardDetail = React.lazy(() => import("./board/BoardDetail"));
 
 // 마이웹툰
 export const MyWebtoon = React.lazy(() => import("./MyWebtoon"));

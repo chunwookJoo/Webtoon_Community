@@ -7,6 +7,8 @@ import NavBack from "./components/NavBack";
 import {
 	WebtoonPage,
 	WebtoonDetail,
+	BoardPage,
+	BoardDetail,
 	MyWebtoon,
 	UserInfo,
 	KakaoRegist,
@@ -26,8 +28,13 @@ function App() {
 			)}
 
 			<Routes>
+				{/* 웹툰 페이지 */}
 				<Route exact path="/" element={<WebtoonPage />} />
 				<Route exact path="/webtoon" element={<WebtoonDetail />} />
+
+				{/* 독자 페이지 */}
+				<Route exact path="/board" element={<BoardPage />} />
+				<Route exact path="/board/detail" element={<BoardDetail />} />
 
 				{/* 내 정보 */}
 				<Route exact path="/userinfo" element={<UserInfo />} />

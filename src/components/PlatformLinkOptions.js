@@ -24,7 +24,7 @@ export const PlatformLinkOptions = {
 
 	kakaoPage: {
 		icon: <KakaoPage />,
-		name: "카카오페이지",
+		name: "페이지",
 		src: "/kakaoPage",
 	},
 };

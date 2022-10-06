@@ -24,70 +24,27 @@
 			flex: 1;
 		}
 
-		// 플랫폼 선택
-		.platform-select {
-			display: flex;
-			flex: 1;
-			justify-content: space-around;
-			align-items: center;
+		// 페이지 선택
+		.page-select {
 			position: relative;
+			text-align: center;
 			width: 30%;
 			padding: 8px;
-			border-radius: $base-border-radius;
+			border-radius: 10px;
 			border: 1px solid $color-light-grey;
 
-			span {
-				.fa-caret-down {
-					font-size: 1.5rem;
-				}
+			.arrow {
+				position: absolute;
+				right: 10px;
 			}
 		}
 
-		.platform-select:hover {
+		.page-select:hover {
 			cursor: pointer;
 			border: 1px solid $color-middle-grey;
 		}
 
-		.platform-collapse {
-			position: absolute;
-			width: 100%;
-			z-index: 4;
-			top: 105%;
-			left: 0;
-			background-color: $color-white;
-			padding: 8px;
-			border-radius: $base-border-radius;
-			border: 1px solid $color-light-grey;
-
-			li {
-				padding: 6px 1rem;
-				transition: 0.1s;
-
-				a {
-					display: flex;
-					align-items: center;
-					gap: 1rem;
-
-					svg {
-						width: 40px;
-					}
-
-					p {
-						margin: 0;
-						text-align: center;
-						flex: 1;
-					}
-				}
-			}
-
-			li:hover {
-				cursor: pointer;
-				background-color: $color-light-grey;
-				border-radius: $base-border-radius;
-				transition: 0.2s;
-			}
-		}
-
+		// 웹툰 검색, 로그인 버튼
 		.login-container {
 			display: flex;
 			align-items: center;
@@ -95,7 +52,6 @@
 			flex: 1;
 			justify-content: end;
 
-			// 웹툰 검색, 로그인 버튼
 			.login-btn,
 			.search {
 				color: $color-primary;
@@ -156,8 +112,70 @@
 				}
 			}
 
-			.platform-select {
+			.page-select {
 				display: none;
+			}
+		}
+	}
+
+	@include if-small-device {
+		.nav-container {
+			height: 70px;
+			padding: 0 1rem;
+		}
+	}
+
+	// 플랫폼 선택
+	.platform-container {
+		width: 100%;
+		max-width: $base-width;
+		margin: 0 auto;
+
+		.platform-list {
+			display: flex;
+			justify-content: space-around;
+
+			li {
+				a {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					gap: 6px;
+					opacity: 0.7;
+
+					.platform-name {
+						font-size: 14px;
+					}
+				}
+
+				.active {
+					opacity: 1;
+					svg {
+						outline: 2px solid $color-primary;
+						border-radius: 30%;
+					}
+
+					.platform-name {
+						font-weight: bold;
+						color: $color-primary;
+					}
+				}
+			}
+
+			li:hover {
+				cursor: pointer;
+				a {
+					opacity: 1;
+					svg {
+						outline: 2px solid $color-primary;
+						border-radius: 30%;
+					}
+				}
+
+				.platform-name {
+					font-weight: bold;
+					color: $color-primary;
+				}
 			}
 		}
 	}
@@ -198,79 +216,76 @@
 			}
 		}
 		@include if-small-device {
-			padding: 8px 1rem;
+			padding: 0 1rem;
 		}
 	}
 
-	.mobile-platform-select {
+	.mobile-page-select {
 		display: none;
 
 		@include if-small-device {
-			display: block;
-			padding: 0 1rem;
+			display: flex;
+			padding: 0 1rem 1rem 1rem;
 
-			.platform-select {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				gap: 2rem;
+			// 페이지 선택
+			.page-select {
+				position: relative;
+				text-align: center;
 				width: 100%;
 				padding: 8px;
-				position: relative;
-				border-radius: $base-border-radius;
+				border-radius: 10px;
 				border: 1px solid $color-light-grey;
 
-				span {
-					.fa-caret-down {
-						font-size: 1.5rem;
-					}
+				.arrow {
+					position: absolute;
+					right: 10px;
 				}
 			}
 
-			.platform-select:hover {
+			.page-select:hover {
 				cursor: pointer;
 				border: 1px solid $color-middle-grey;
 			}
 
-			.platform-collapse {
-				position: absolute;
-				width: 100%;
-				z-index: 4;
-				top: 105%;
-				left: 0;
-				background-color: $color-white;
-				padding: 8px;
-				border-radius: $base-border-radius;
-				border: 1px solid $color-light-grey;
+			// .platform-collapse {
+			// 	position: absolute;
+			// 	width: 100%;
+			// 	z-index: 4;
+			// 	top: 105%;
+			// 	left: 0;
+			// 	background-color: $color-white;
+			// 	padding: 8px;
+			// 	border-radius: $base-border-radius;
+			// 	border: 1px solid $color-light-grey;
 
-				li {
-					padding: 6px 1rem;
-					transition: 0.1s;
+			// 	li {
+			// 		padding: 6px 1rem;
+			// 		transition: 0.1s;
 
-					a {
-						display: flex;
-						align-items: center;
-						gap: 1rem;
+			// 		a {
+			// 			display: flex;
+			// 			align-items: center;
+			// 			gap: 1rem;
 
-						svg {
-							width: 40px;
-						}
+			// 			svg {
+			// 				width: 40px;
+			// 			}
 
-						p {
-							margin: 0;
-							text-align: center;
-							flex: 1;
-						}
-					}
-				}
+			// 			p {
+			// 				margin: 0;
+			// 				text-align: center;
+			// 				flex: 1;
+			// 			}
+			// 		}
+			// 	}
 
-				li:hover {
-					cursor: pointer;
-					background-color: $color-light-grey;
-					border-radius: $base-border-radius;
-					transition: 0.2s;
-				}
-			}
+			// 	li:hover {
+			// 		cursor: pointer;
+			// 		background-color: $color-light-grey;
+			// 		border-radius: $base-border-radius;
+			// 		transition: 0.2s;
+			// 	}
+			// }
 		}
 	}
 }

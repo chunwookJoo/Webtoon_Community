@@ -5,12 +5,12 @@ main {
 	flex-direction: column;
 	padding: 1em;
 	align-items: center;
-	margin-top: 150px;
+	margin-top: 210px;
 }
 
 @include if-small-device {
 	main {
-		margin-top: 200px;
+		margin-top: 234px;
 	}
 }
 

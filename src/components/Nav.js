@@ -29,7 +29,14 @@ import {
 	faCaretDown,
 	faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
-import { IconBook2, IconEdit, IconLogout } from "@tabler/icons";
+import {
+	IconBook2,
+	IconChevronRight,
+	IconEdit,
+	IconLayoutDashboard,
+	IconLogout,
+	IconMessageCircle,
+} from "@tabler/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const LogoComponent = () => {
@@ -42,14 +49,28 @@ export const LogoComponent = () => {
 	);
 };
 
+const TransformPage = (props) => {
+	const { url, text, icon } = props;
+	return (
+		<Link to={url} className="page-select">
+			<span>
+				{icon} {text}
+			</span>
+			<span className="arrow">
+				<IconChevronRight />
+			</span>
+		</Link>
+	);
+};
+
 const PlatformLink = (props) => {
-	const option = props.option;
+	const { option, active } = props;
 	const { icon, name, src } = option;
 	return (
 		<li onClick={() => props.getData(name)}>
-			<Link to={src}>
+			<Link to={src} className={active === name ? "active" : ""}>
 				<span>{icon}</span>
-				<p className="platform-name">{name}</p>
+				<span className="platform-name">{name}</span>
 			</Link>
 		</li>
 	);
@@ -57,10 +78,10 @@ const PlatformLink = (props) => {
 
 const PlatformSelect = () => {
 	let { search, pathname } = useLocation();
-	const platform = Object.hasOwn(PlatformLinkOptions, pathname.split("/")[1]);
-	const SelectedIcon = !platform
-		? PlatformLinkOptions.all.icon
-		: PlatformLinkOptions[pathname.split("/")[1]].icon;
+	// const platform = Object.hasOwn(PlatformLinkOptions, pathname.split("/")[1]);
+	// const SelectedIcon = !platform
+	// 	? PlatformLinkOptions.all.icon
+	// 	: PlatformLinkOptions[pathname.split("/")[1]].icon;
 
 	let selected = "";
 	switch (pathname.split("/")[1]) {
@@ -71,50 +92,42 @@ const PlatformSelect = () => {
 			selected = "카카오";
 			break;
 		case "kakaoPage":
-			selected = "카카오페이지";
+			selected = "페이지";
 			break;
 		default:
 			selected = "전체";
 			break;
 	}
-	const [isPlatformOpen, setIsPlatformOpen] = useState(false);
 	const [platformNameSelected, setPlatformNameSelected] = useState(selected);
 
 	const getPlatformName = (name) => {
 		setPlatformNameSelected(name);
-		setIsPlatformOpen(false);
 	};
 
 	return (
-		<div
-			className="platform-select"
-			onClick={() => setIsPlatformOpen(!isPlatformOpen)}
-		>
-			<span>{SelectedIcon}</span>
-			<span className="platform-name">{platformNameSelected}</span>
-			<span>
-				<FontAwesomeIcon icon={faCaretDown} />
-			</span>
-			<Collapse isOpen={isPlatformOpen} className="platform-collapse">
-				<ul className="platform-list">
-					<PlatformLink
-						option={PlatformLinkOptions.all}
-						getData={getPlatformName}
-					/>
-					<PlatformLink
-						option={PlatformLinkOptions.naver}
-						getData={getPlatformName}
-					/>
-					<PlatformLink
-						option={PlatformLinkOptions.kakao}
-						getData={getPlatformName}
-					/>
-					<PlatformLink
-						option={PlatformLinkOptions.kakaoPage}
-						getData={getPlatformName}
-					/>
-				</ul>
-			</Collapse>
+		<div className="platform-container">
+			<ul className="platform-list">
+				<PlatformLink
+					active={platformNameSelected}
+					option={PlatformLinkOptions.all}
+					getData={getPlatformName}
+				/>
+				<PlatformLink
+					active={platformNameSelected}
+					option={PlatformLinkOptions.naver}
+					getData={getPlatformName}
+				/>
+				<PlatformLink
+					active={platformNameSelected}
+					option={PlatformLinkOptions.kakao}
+					getData={getPlatformName}
+				/>
+				<PlatformLink
+					active={platformNameSelected}
+					option={PlatformLinkOptions.kakaoPage}
+					getData={getPlatformName}
+				/>
+			</ul>
 		</div>
 	);
 };
@@ -290,12 +303,42 @@ const Nav = () => {
 		<section className="nav-section">
 			<div className="nav-container">
 				<LogoComponent />
-				<PlatformSelect />
+				{/* <PlatformSelect/> */}
+				<TransformPage
+					url={location.pathname.includes("board") ? "/" : "/board"}
+					text={
+						location.pathname.includes("board")
+							? "플랫폼별 웹툰 모음"
+							: "독자 후기 모음"
+					}
+					icon={
+						location.pathname.includes("board") ? (
+							<IconLayoutDashboard />
+						) : (
+							<IconMessageCircle />
+						)
+					}
+				/>
 				{jwtToken !== null ? <UserInfo /> : <SignIn />}
 			</div>
-			<div className="mobile-platform-select">
-				<PlatformSelect />
+			<div className="mobile-page-select">
+				<TransformPage
+					url={location.pathname.includes("board") ? "/" : "/board"}
+					text={
+						location.pathname.includes("board")
+							? "플랫폼별 웹툰 모음"
+							: "독자 후기 모음"
+					}
+					icon={
+						location.pathname.includes("board") ? (
+							<IconLayoutDashboard />
+						) : (
+							<IconMessageCircle />
+						)
+					}
+				/>
 			</div>
+			<PlatformSelect />
 			<WeekLink />
 		</section>
 	);
