@@ -32,7 +32,6 @@ const Comments = () => {
 };
 const WebtoonComment = () => {
 	const [userInfo, setUserInfo] = useRecoilState(userInfoState);
-	console.log(userInfo);
 	return (
 		<section className="webtoon-review">
 			<div>

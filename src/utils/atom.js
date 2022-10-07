@@ -23,3 +23,8 @@ export const userInfoState = atom({
 	default: null,
 	effects_UNSTABLE: [persistAtom],
 });
+
+export const boardListState = atom({
+	key: "boardListState",
+	default: null,
+});

@@ -339,7 +339,13 @@ const Nav = () => {
 				/>
 			</div>
 			<PlatformSelect />
-			<WeekLink />
+			{location.pathname.includes("board") ? (
+				""
+			) : (
+				<>
+					<WeekLink />
+				</>
+			)}
 		</section>
 	);
 };
