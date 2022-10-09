@@ -31,11 +31,11 @@ const BoardPage = () => {
 							key={index}
 							onClick={(e) => onClickBoard(e, item)}
 						>
-							<div>
+							<div className="board-img-container">
 								<img src={item.webtoon.img} className="board-img" />
 							</div>
 							<div className="board-description">
-								<h3>{item.title}</h3>
+								<h4>{item.title}</h4>
 								<h5>
 									{item.webtoon.title} | {item.webtoon.author}
 								</h5>

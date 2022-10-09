@@ -21,6 +21,7 @@ function App() {
 		<>
 			{pathname === "/webtoon" ||
 			pathname === "/mywebtoon" ||
+			pathname === "/board/detail" ||
 			pathname === "/userinfo" ? (
 				<NavBack />
 			) : (

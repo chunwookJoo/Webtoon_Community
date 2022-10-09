@@ -78,27 +78,25 @@ const PlatformLink = (props) => {
 
 const PlatformSelect = () => {
 	let { search, pathname } = useLocation();
-	// const platform = Object.hasOwn(PlatformLinkOptions, pathname.split("/")[1]);
-	// const SelectedIcon = !platform
-	// 	? PlatformLinkOptions.all.icon
-	// 	: PlatformLinkOptions[pathname.split("/")[1]].icon;
 
-	let selected = "";
-	switch (pathname.split("/")[1]) {
-		case "naver":
-			selected = "네이버";
-			break;
-		case "kakao":
-			selected = "카카오";
-			break;
-		case "kakaoPage":
-			selected = "페이지";
-			break;
-		default:
-			selected = "전체";
-			break;
-	}
-	const [platformNameSelected, setPlatformNameSelected] = useState(selected);
+	useEffect(() => {
+		switch (pathname.split("/")[1]) {
+			case "naver":
+				setPlatformNameSelected("네이버");
+				break;
+			case "kakao":
+				setPlatformNameSelected("카카오");
+				break;
+			case "kakaoPage":
+				setPlatformNameSelected("페이지");
+				break;
+			default:
+				setPlatformNameSelected("전체");
+				break;
+		}
+	}, [pathname]);
+
+	const [platformNameSelected, setPlatformNameSelected] = useState("전체");
 
 	const getPlatformName = (name) => {
 		setPlatformNameSelected(name);
@@ -194,6 +192,7 @@ export const UserInfo = () => {
 		<div className="login-container">
 			{pathname === "/webtoon" ||
 			pathname === "/mywebtoon" ||
+			pathname === "/board/detail" ||
 			pathname === "/userinfo" ? (
 				""
 			) : (
@@ -305,7 +304,7 @@ const Nav = () => {
 				<LogoComponent />
 				{/* <PlatformSelect/> */}
 				<TransformPage
-					url={location.pathname.includes("board") ? "/" : "/board"}
+					url={location.pathname.includes("board") ? "/all" : "/board"}
 					text={
 						location.pathname.includes("board")
 							? "플랫폼별 웹툰 모음"
@@ -323,7 +322,7 @@ const Nav = () => {
 			</div>
 			<div className="mobile-page-select">
 				<TransformPage
-					url={location.pathname.includes("board") ? "/" : "/board"}
+					url={location.pathname.includes("board") ? "/all" : "/board"}
 					text={
 						location.pathname.includes("board")
 							? "플랫폼별 웹툰 모음"
