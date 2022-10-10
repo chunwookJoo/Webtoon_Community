@@ -26,6 +26,11 @@
 
 			.mantine-Card-cardSection {
 				flex: 1;
+
+				.mantine-Image-image {
+					max-height: 320px;
+					height: 320px !important;
+				}
 			}
 		}
 

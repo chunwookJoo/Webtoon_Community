@@ -28,3 +28,13 @@ export const boardListState = atom({
 	key: "boardListState",
 	default: null,
 });
+
+export const boardIdState = atom({
+	key: "boardIdState",
+	default: null,
+});
+
+export const commentListState = atom({
+	key: "commentListState",
+	default: null,
+});

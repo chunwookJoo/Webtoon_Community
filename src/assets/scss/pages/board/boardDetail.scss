@@ -1,0 +1,125 @@
+@import "../../libs";
+@import "../webtoonDetail.scss";
+
+.board-title-container {
+	max-width: 40em;
+	margin: 0 auto;
+	margin-top: 140px;
+
+	h1 {
+		word-break: keep-all;
+		margin-bottom: 0.5rem;
+	}
+
+	.creater {
+		display: flex;
+		align-items: center;
+		gap: 4px;
+
+		.board-author-img {
+			img {
+				border-radius: 50%;
+			}
+		}
+
+		.nickname {
+			font-weight: bold;
+		}
+	}
+
+	@include if-small-device {
+		margin-top: 100px;
+		padding: 0 1rem;
+	}
+}
+
+.webtoon-detail-container {
+	padding-top: 40px;
+}
+
+.board-description-container {
+	max-width: 40em;
+	margin: 0 auto;
+
+	div {
+		word-break: keep-all;
+		background-color: #fff4ee;
+		padding: 2rem;
+	}
+}
+
+.webtoon-review {
+	max-width: 40em;
+	margin: 0 auto;
+	padding: 1rem 0 10rem 0;
+
+	.comment-lists {
+		.comment {
+			border-bottom: 1px solid $color-base-border;
+			margin-bottom: 1rem;
+
+			.comment-user {
+				display: flex;
+				gap: 4px;
+				.comment-img {
+					img {
+						border-radius: 50%;
+					}
+				}
+
+				.nickname {
+					line-height: 14px;
+					h5 {
+						font-size: 13px;
+						font-weight: bold;
+					}
+					span {
+						font-size: 12px;
+					}
+				}
+			}
+		}
+
+		.comment-des {
+			margin: 8px 0 8px 1.5rem;
+			font-size: 14px;
+		}
+
+		@include if-small-device {
+			padding: 0 1rem;
+		}
+	}
+
+	.comment-container {
+		background-color: $color-white;
+		max-width: 40em;
+		width: 100%;
+		gap: 10px;
+		bottom: 0;
+		padding: 6px 10px 1rem 10px;
+		position: fixed;
+		display: flex;
+		align-items: center;
+
+		.comment-img {
+			img {
+				border-radius: 50%;
+			}
+		}
+
+		.comment-input {
+			flex: 1;
+		}
+
+		.comment-btn {
+			button {
+				border: 1px solid $color-primary;
+				border-radius: $base-border-radius;
+				background-color: $color-primary;
+				color: $color-white;
+				font-size: 14px;
+				padding: 4px 10px;
+			}
+		}
+	}
+}

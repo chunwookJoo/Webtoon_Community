@@ -153,7 +153,11 @@ export const SignIn = () => {
 	return (
 		<>
 			<div className="login-container">
-				{pathname === "/webtoon" ? "" : <WebtoonSearch />}
+				{pathname === "/webtoon" || pathname === "/board/detail" ? (
+					""
+				) : (
+					<WebtoonSearch />
+				)}
 				<span className="login-btn" onClick={modalHandler}>
 					로그인
 				</span>

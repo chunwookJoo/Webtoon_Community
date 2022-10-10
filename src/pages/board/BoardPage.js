@@ -1,15 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { boardListState } from "../../utils/atom";
+import { boardListState, jwtTokenState } from "../../utils/atom";
 import axios from "axios";
 import { API_URL } from "../../config";
 import "../../assets/scss/pages/board/boardPage.scss";
+import { showNotification } from "@mantine/notifications";
 
 const BoardPage = () => {
 	const navigate = useNavigate();
-	// const [boardList, setBoardList] = useState();
 	const [boardList, setBoardList] = useRecoilState(boardListState);
+	const [jwtToken, setJwtToken] = useRecoilState(jwtTokenState);
 
 	useEffect(() => {
 		axios.get(API_URL + "/board").then((response) => {
@@ -18,7 +19,16 @@ const BoardPage = () => {
 	}, []);
 
 	const onClickBoard = (e, item) => {
-		navigate("/board/detail", { state: item });
+		if (jwtToken === null) {
+			showNotification({
+				message: "로그인을 먼저 해주세요.",
+				autoClose: 1500,
+				radius: "md",
+				color: "yellow",
+			});
+		} else {
+			navigate("/board/detail", { state: item });
+		}
 	};
 
 	return (
