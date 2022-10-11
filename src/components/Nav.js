@@ -15,6 +15,7 @@ import {
 	userIdState,
 	userInfoState,
 	searchModalState,
+	boardPlatformPathname,
 } from "../utils/atom";
 import { useRecoilState } from "recoil";
 
@@ -52,7 +53,7 @@ export const LogoComponent = () => {
 const TransformPage = (props) => {
 	const { url, text, icon } = props;
 	return (
-		<Link to={url} className="page-select">
+		<Link to={url} state={"/board"} className="page-select">
 			<span>
 				{icon} {text}
 			</span>
@@ -64,19 +65,37 @@ const TransformPage = (props) => {
 };
 
 const PlatformLink = (props) => {
+	const { pathname } = useLocation();
 	const { option, active } = props;
-	const { icon, name, src } = option;
+	const { icon, name, src, boardSrc } = option;
+	const [boardPathname, setBoardPathname] = useRecoilState(
+		boardPlatformPathname,
+	);
+
 	return (
 		<li onClick={() => props.getData(name)}>
-			<Link to={src} className={active === name ? "active" : ""}>
-				<span>{icon}</span>
-				<span className="platform-name">{name}</span>
-			</Link>
+			{pathname.split("/")[1] === "board" ? (
+				<Link
+					to="/board"
+					state={boardSrc}
+					className={active === name ? "active" : ""}
+				>
+					<span>{icon}</span>
+					<span className="platform-name">{name}</span>
+				</Link>
+			) : (
+				<Link to={src} className={active === name ? "active" : ""}>
+					<span>{icon}</span>
+					<span className="platform-name">{name}</span>
+				</Link>
+			)}
 		</li>
 	);
 };
 
 const PlatformSelect = () => {
+	const [platformNameSelected, setPlatformNameSelected] = useState("전체");
+
 	let { search, pathname } = useLocation();
 
 	useEffect(() => {
@@ -96,8 +115,6 @@ const PlatformSelect = () => {
 		}
 	}, [pathname]);
 
-	const [platformNameSelected, setPlatformNameSelected] = useState("전체");
-
 	const getPlatformName = (name) => {
 		setPlatformNameSelected(name);
 	};
@@ -105,26 +122,15 @@ const PlatformSelect = () => {
 	return (
 		<div className="platform-container">
 			<ul className="platform-list">
-				<PlatformLink
-					active={platformNameSelected}
-					option={PlatformLinkOptions.all}
-					getData={getPlatformName}
-				/>
-				<PlatformLink
-					active={platformNameSelected}
-					option={PlatformLinkOptions.naver}
-					getData={getPlatformName}
-				/>
-				<PlatformLink
-					active={platformNameSelected}
-					option={PlatformLinkOptions.kakao}
-					getData={getPlatformName}
-				/>
-				<PlatformLink
-					active={platformNameSelected}
-					option={PlatformLinkOptions.kakaoPage}
-					getData={getPlatformName}
-				/>
+				{PlatformLinkOptions.map((item, index) => {
+					return (
+						<PlatformLink
+							active={platformNameSelected}
+							option={item}
+							getData={getPlatformName}
+						/>
+					);
+				})}
 			</ul>
 		</div>
 	);
@@ -288,7 +294,7 @@ const WeekLink = () => {
 };
 
 const Nav = () => {
-	const location = useLocation();
+	const { pathname } = useLocation();
 	const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 	const [jwtToken, setJwtToken] = useRecoilState(jwtTokenState);
 
@@ -300,22 +306,19 @@ const Nav = () => {
 			.then((response) => {
 				setUserInfo(response.data);
 			});
-	}, [location, userInfo]);
+	}, [pathname, userInfo]);
 
 	return (
 		<section className="nav-section">
 			<div className="nav-container">
 				<LogoComponent />
-				{/* <PlatformSelect/> */}
 				<TransformPage
-					url={location.pathname.includes("board") ? "/all" : "/board"}
+					url={pathname.includes("board") ? "/all" : "/board"}
 					text={
-						location.pathname.includes("board")
-							? "플랫폼별 웹툰 모음"
-							: "독자 후기 모음"
+						pathname.includes("board") ? "플랫폼별 웹툰 모음" : "독자 후기 모음"
 					}
 					icon={
-						location.pathname.includes("board") ? (
+						pathname.includes("board") ? (
 							<IconLayoutDashboard />
 						) : (
 							<IconMessageCircle />
@@ -326,14 +329,12 @@ const Nav = () => {
 			</div>
 			<div className="mobile-page-select">
 				<TransformPage
-					url={location.pathname.includes("board") ? "/all" : "/board"}
+					url={pathname.includes("board") ? "/all" : "/board"}
 					text={
-						location.pathname.includes("board")
-							? "플랫폼별 웹툰 모음"
-							: "독자 후기 모음"
+						pathname.includes("board") ? "플랫폼별 웹툰 모음" : "독자 후기 모음"
 					}
 					icon={
-						location.pathname.includes("board") ? (
+						pathname.includes("board") ? (
 							<IconLayoutDashboard />
 						) : (
 							<IconMessageCircle />
@@ -342,7 +343,7 @@ const Nav = () => {
 				/>
 			</div>
 			<PlatformSelect />
-			{location.pathname.includes("board") ? (
+			{pathname.includes("board") ? (
 				""
 			) : (
 				<>

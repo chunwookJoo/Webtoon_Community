@@ -13,6 +13,11 @@ export const loginModalState = atom({
 	default: false,
 });
 
+export const createBoardModalState = atom({
+	key: "createBoardModalState",
+	default: false,
+});
+
 export const jwtTokenState = atom({
 	key: "jwtTokenState",
 	default: null,
@@ -26,6 +31,11 @@ export const userInfoState = atom({
 
 export const boardListState = atom({
 	key: "boardListState",
+	default: null,
+});
+
+export const boardPlatformPathname = atom({
+	key: "boardPlatformPathname",
 	default: null,
 });
 
