@@ -131,7 +131,7 @@ const BoardDetail = () => {
 	window.scrollTo(0, 0);
 
 	return (
-		<div>
+		<div className="board-detail-global">
 			<section className="board-title-container">
 				<h1>{state.title}</h1>
 				<div className="creater">

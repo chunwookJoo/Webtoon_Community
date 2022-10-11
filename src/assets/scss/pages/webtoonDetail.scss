@@ -3,7 +3,7 @@
 .webtoon-detail-container {
 	max-width: 50em;
 	margin: 0 auto;
-	padding: 90px 0;
+	padding-top: 70px;
 
 	.webtoon-img {
 		text-align: center;
@@ -60,6 +60,7 @@
 	.webtoon-detail-btns {
 		display: flex;
 		gap: 1rem;
+		padding-bottom: 90px;
 
 		.mywebtoon-save-btn,
 		.webtoon-show-btn {
