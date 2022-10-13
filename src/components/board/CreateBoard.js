@@ -14,6 +14,8 @@ import { API_URL } from "../../config";
 import { useInView } from "react-intersection-observer";
 import Loading from "../Loading";
 import { showNotification } from "@mantine/notifications";
+import "../../assets/scss/components/board/createBoard.scss";
+import { IconCircleX } from "@tabler/icons";
 
 const CreateBoard = (props) => {
 	const modal = props.isOpen;
@@ -21,7 +23,7 @@ const CreateBoard = (props) => {
 
 	const EMPTY = <></>;
 	const NO_WEBTOON_FOUND = [
-		<li className="no-search-result">검색 결과가 없습니다.</li>,
+		<li className="no-search-result">검색 결과가 없습니다. 😥</li>,
 	];
 
 	const [inputValue, setInputValue] = useState("");
@@ -58,10 +60,10 @@ const CreateBoard = (props) => {
 										<span className="searched-title">{webtoon.title}</span>
 										<small>
 											{webtoon.service === "naver"
-												? "네이버 웹툰"
+												? "네이버"
 												: webtoon.service === "kakao"
-												? "카카오 웹툰"
-												: "카카오페이지 웹툰"}
+												? "카카오"
+												: "카카오페이지"}
 										</small>
 									</article>
 								</li>
@@ -143,69 +145,72 @@ const CreateBoard = (props) => {
 			onClose={toggle}
 			className="create-board-modal-container"
 		>
-			<div>
+			<div className="create-board-input">
 				{selectWebtoon === null ? (
 					""
 				) : (
-					<article>
-						<img src={selectWebtoon.img} width={80} height={80} />
-						<div>
-							<span>{selectWebtoon.title}</span>
-							<span>{selectWebtoon.author}</span>
+					<article className="selected-item">
+						<div className="selected-img">
+							<img src={selectWebtoon.img} width={100} height={100} />
+							<span className="deleted-img" onClick={selectWebtoonDelete}>
+								<IconCircleX />
+							</span>
 						</div>
-						<div>
-							<small>
-								{selectWebtoon.service === "naver"
-									? "네이버 웹툰"
-									: selectWebtoon.service === "kakao"
-									? "카카오 웹툰"
-									: "카카오페이지 웹툰"}
-							</small>
-						</div>
-						<div>
-							<button onClick={selectWebtoonDelete}>삭제</button>
-						</div>
+						<span className="searched-title">{selectWebtoon.title}</span>
+						<small>
+							{selectWebtoon.service === "naver"
+								? "네이버"
+								: selectWebtoon.service === "kakao"
+								? "카카오"
+								: "카카오페이지"}
+						</small>
 					</article>
 				)}
 			</div>
-			<Input.Wrapper label="웹툰 검색" required>
-				<Input
-					disabled={selectWebtoon !== null ? true : false}
-					placeholder="작품 또는 작가를 입력하세요"
-					data={MatchingWebtoonList}
-					value={inputValue}
-					onChange={(e) => {
-						setMatchingKeywordShow(true);
-						setInputValue(e.target.value);
-						const tempKeyword = e.target.value;
-						setTimeout(() => {
-							const keyword = e.target.value;
-							keyword === tempKeyword && setSearchValue(keyword);
-						}, 500);
-					}}
-				/>
-			</Input.Wrapper>
-			<ul>{MatchingKeywordList}</ul>
-			<Input.Wrapper label="제목" required>
-				<Input
-					placeholder="후기 제목을 입력해주세요."
-					value={title}
-					onChange={(e) => {
-						setTitle(e.target.value);
-					}}
-				/>
-			</Input.Wrapper>
-			<Input.Wrapper label="내용" required>
-				<Textarea
-					minRows={8}
-					maxRows={12}
-					placeholder="후기 내용을 입력해주세요."
-					value={description}
-					onChange={(e) => {
-						setDescription(e.target.value);
-					}}
-				/>
-			</Input.Wrapper>
+			<div className="create-board-input">
+				<Input.Wrapper label="웹툰 검색" required>
+					<Input
+						disabled={selectWebtoon !== null ? true : false}
+						placeholder="작품 또는 작가로 검색한 후 선택하세요."
+						data={MatchingWebtoonList}
+						value={inputValue}
+						onChange={(e) => {
+							setMatchingKeywordShow(true);
+							setInputValue(e.target.value);
+							const tempKeyword = e.target.value;
+							setTimeout(() => {
+								const keyword = e.target.value;
+								keyword === tempKeyword && setSearchValue(keyword);
+							}, 500);
+						}}
+					/>
+				</Input.Wrapper>
+			</div>
+			<ul className="search-result">{MatchingKeywordList}</ul>
+			<div className="create-board-input">
+				<Input.Wrapper label="제목" required>
+					<Input
+						placeholder="후기 제목을 입력해주세요."
+						value={title}
+						onChange={(e) => {
+							setTitle(e.target.value);
+						}}
+					/>
+				</Input.Wrapper>
+			</div>
+			<div className="create-board-input">
+				<Input.Wrapper label="내용" required>
+					<Textarea
+						minRows={8}
+						maxRows={12}
+						placeholder="후기 내용을 입력해주세요."
+						value={description}
+						onChange={(e) => {
+							setDescription(e.target.value);
+						}}
+					/>
+				</Input.Wrapper>
+			</div>
 			<div className="create-board-btn">
 				<button onClick={onClickCreateBoard}>후기 작성</button>
 			</div>
