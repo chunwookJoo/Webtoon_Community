@@ -22,9 +22,8 @@ https://github.com/chunwookJoo/Korea_Webtoon_API 의 api를 사용합니다.
 5. 웹툰 보러가기 클릭 시 해당 플랫폼으로 이동
 
 ## Demo
-
-데모 사이트 배포 준비중
-
+http://woogie97.co.kr/
+(도메인 변경 예정)
 ## 미리보기
 
 ### 웹
