@@ -31,38 +31,31 @@ const KakaoRedirecting = () => {
 	 * 서버에 인가코드 보내고 액세스 토큰 받아옴
 	 */
 	useEffect(() => {
-		axios
-			.post(API_URL + "/auth/kakaoLogin", kakaoBody)
-			// .post(
-			// 	state === "kakao"
-			// 		? (API_URL + "/auth/kakaoLogin", kakaoBody)
-			// 		: (API_URL + "/auth/naverLogin", naverBody),
-			// )
-			.then((response) => {
-				if (response.data.RESULT === 200) {
-					console.log(response);
-					setJwtToken(response.data.user.jwtToken);
-					setUserInfo(response.data.user);
-					localStorage.setItem("Authentication", response.data.user.jwtToken);
-					localStorage.setItem("userId", response.data.user.user.id);
-					navigate("/");
-					showNotification({
-						message: `${response.data.user.user_data.nickname}님, 환영합니다.`,
-						autoClose: 2000,
-						radius: "md",
-						color: "green",
-					});
-					return;
-				} else if (response.data.RESULT === 401) {
-					navigate(`/regist/kakao?token=${response.data.user.access_token}`, {
-						state: {
-							data: response.data.user,
-							platform: "kakao",
-						},
-						replace: true,
-					});
-				}
-			});
+		axios.post(API_URL + "/auth/kakaoLogin", kakaoBody).then((response) => {
+			if (response.data.RESULT === 200) {
+				console.log(response);
+				setJwtToken(response.data.user.jwtToken);
+				setUserInfo(response.data.user);
+				localStorage.setItem("Authentication", response.data.user.jwtToken);
+				localStorage.setItem("userId", response.data.user.user.id);
+				navigate("/");
+				showNotification({
+					message: `${response.data.user.user_data.nickname}님, 환영합니다.`,
+					autoClose: 2000,
+					radius: "md",
+					color: "green",
+				});
+				return;
+			} else if (response.data.RESULT === 401) {
+				navigate(`/regist/kakao?token=${response.data.user.access_token}`, {
+					state: {
+						data: response.data.user,
+						platform: "kakao",
+					},
+					replace: true,
+				});
+			}
+		});
 	}, []);
 
 	return (

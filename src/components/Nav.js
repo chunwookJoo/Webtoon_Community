@@ -306,7 +306,7 @@ const Nav = () => {
 			.then((response) => {
 				setUserInfo(response.data);
 			});
-	}, [pathname, userInfo]);
+	}, [pathname]);
 
 	return (
 		<section className="nav-section">

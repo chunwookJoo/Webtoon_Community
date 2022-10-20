@@ -18,47 +18,6 @@ const EMPTY = <></>;
 const todayWeek = week[todayNum === 0 ? 6 : todayNum - 1];
 let part = 2;
 
-// const WeekLink = () => {
-// 	let { search, pathname } = useLocation();
-// 	const week = ["월", "화", "수", "목", "금", "토", "일"];
-// 	const todayNum = new Date().getDay();
-
-// 	const weekDayLinkOptions = week.map((day, weekNum) => ({
-// 		name: day,
-// 		src: `?week=${weekNum}`,
-// 	}));
-
-// 	weekDayLinkOptions.unshift({
-// 		name: "신작",
-// 		src: "?week=new",
-// 	});
-
-// 	weekDayLinkOptions.push({
-// 		name: "완결",
-// 		src: "?week=fin",
-// 	});
-
-// 	const today = week[todayNum === 0 ? 6 : todayNum - 1];
-
-// 	// 요일 nav
-// 	const WeekList = weekDayLinkOptions.map((weekItem, index) => {
-// 		let active = "";
-// 		!search
-// 			? weekItem.name === today && (active = "active")
-// 			: search === weekItem.src && (active = "active");
-
-// 		return (
-// 			<li key={index}>
-// 				<Link to={weekItem.src} className={active}>
-// 					{weekItem.name}
-// 				</Link>
-// 			</li>
-// 		);
-// 	});
-
-// 	return <ul className="week-list-wrap">{WeekList}</ul>;
-// };
-
 const WebtoonPage = () => {
 	let { search, pathname } = useLocation();
 	const visibleWebtoonCount = part * 12;
@@ -95,6 +54,8 @@ const WebtoonPage = () => {
 	const [moreRef, isMoreRefShow] = useInView();
 	isMoreRefShow && part++;
 
+	console.log("웹툰 페이지");
+
 	// console.log(visibleWebtoonCount); // 24, 36, 48 ...
 
 	const More =
@@ -112,9 +73,6 @@ const WebtoonPage = () => {
 		<main>
 			<section className="contents-container"></section>
 			<section className="contents-container">
-				{/* <div>
-					<WeekLink />
-				</div> */}
 				<ul className="webtoon-list">{VisibleWebtoonList}</ul>
 			</section>
 		</main>
