@@ -33,7 +33,6 @@ const KakaoRedirecting = () => {
 	useEffect(() => {
 		axios.post(API_URL + "/auth/kakaoLogin", kakaoBody).then((response) => {
 			if (response.data.RESULT === 200) {
-				console.log(response);
 				setJwtToken(response.data.user.jwtToken);
 				setUserInfo(response.data.user);
 				localStorage.setItem("Authentication", response.data.user.jwtToken);

@@ -39,6 +39,7 @@ import {
 	IconMessageCircle,
 } from "@tabler/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { showNotification } from "@mantine/notifications";
 
 export const LogoComponent = () => {
 	return (
@@ -191,7 +192,15 @@ export const UserInfo = () => {
 		localStorage.removeItem("Authentication");
 		localStorage.removeItem("userId");
 		navigate("/");
-		// window.location.reload();
+		showNotification({
+			message: "정상적으로 로그아웃되었습니다.",
+			autoClose: 2000,
+			radius: "md",
+			color: "yellow",
+		});
+		setTimeout(() => {
+			window.location.reload();
+		}, 1000);
 	};
 
 	const navigateHandler = (url) => {

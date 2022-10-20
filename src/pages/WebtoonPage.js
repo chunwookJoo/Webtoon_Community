@@ -54,8 +54,6 @@ const WebtoonPage = () => {
 	const [moreRef, isMoreRefShow] = useInView();
 	isMoreRefShow && part++;
 
-	console.log("웹툰 페이지");
-
 	// console.log(visibleWebtoonCount); // 24, 36, 48 ...
 
 	const More =
