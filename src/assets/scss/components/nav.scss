@@ -154,6 +154,7 @@
 					:first-child {
 						outline: 2px solid $color-primary;
 						border-radius: 30%;
+						isolation: isolate;
 					}
 
 					.platform-name {

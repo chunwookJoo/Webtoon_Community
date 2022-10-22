@@ -196,7 +196,7 @@ export const UserInfo = () => {
 			message: "정상적으로 로그아웃되었습니다.",
 			autoClose: 2000,
 			radius: "md",
-			color: "yellow",
+			color: "green",
 		});
 		setTimeout(() => {
 			window.location.reload();
