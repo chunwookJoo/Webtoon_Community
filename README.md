@@ -68,13 +68,3 @@ http://woogie97.co.kr/
 - **회원가입**<br/>
   <img src="https://user-images.githubusercontent.com/64945491/192677754-3a10a4de-5440-4cc4-ba1f-59cea85b8f2c.gif">
 
-## 참고
-
-**https://github.com/HyeokjaeLee/webtoon-hub**
-
-```
-위 사이트를 많이 참고했습니다.
-사실상 거의 코드는 같지만 위 API를 그대로 쓰는 것이 아닌 제 API를 따로 만들어서 개발했습니다.
-크롤링 부분도 참고를 많이 했습니다. 윗 분의 코드를 보며 하나씩 파헤쳤고 네이버 웹툰의 "신작" 부분을 제가 따로 추가해서 넣었습니다.
-정말 감사드립니다.
-```
