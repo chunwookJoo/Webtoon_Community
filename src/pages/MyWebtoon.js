@@ -134,7 +134,11 @@ const MyWebtoon = () => {
 									{item.author}
 								</Text>
 
-								<a href={item.url} target="_blank">
+								<a
+									href={item.url}
+									target="_blank"
+									onClick={(e) => e.stopPropagation()}
+								>
 									<Button
 										variant="light"
 										color="blue"
