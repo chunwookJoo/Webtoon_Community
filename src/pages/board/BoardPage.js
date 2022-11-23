@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import {
+	boardDataState,
 	boardListState,
 	createBoardModalState,
 	jwtTokenState,
@@ -16,6 +17,7 @@ const BoardPage = () => {
 	const navigate = useNavigate();
 	const { state } = useLocation();
 	const [boardList, setBoardList] = useRecoilState(boardListState);
+	const [boardData, setBoardData] = useRecoilState(boardDataState);
 	const [jwtToken, setJwtToken] = useRecoilState(jwtTokenState);
 	const [createBoardOpen, setCreateBoardOpen] = useRecoilState(
 		createBoardModalState,
@@ -23,7 +25,7 @@ const BoardPage = () => {
 
 	useEffect(() => {
 		axios
-			.get(API_URL + (state === null ? "/board" : state))
+			.get(API_URL + (state === null ? "/api/board" : "/api" + state))
 			.then((response) => {
 				setBoardList(response.data);
 			});
@@ -38,7 +40,8 @@ const BoardPage = () => {
 				color: "yellow",
 			});
 		} else {
-			navigate("/board/detail", { state: item });
+			setBoardData(item);
+			navigate("/board/detail");
 		}
 	};
 

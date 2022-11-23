@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { boardIdState, userInfoState } from "../../utils/atom";
+import { boardDataState, userInfoState } from "../../utils/atom";
 import { Input } from "@mantine/core";
 import axios from "axios";
 import { API_URL } from "../../config";
@@ -10,11 +9,11 @@ import "../../assets/scss/pages/board/boardDetail.scss";
 import { showNotification } from "@mantine/notifications";
 
 const Comments = (props) => {
-	const [boardId, setBoardId] = useRecoilState(boardIdState);
+	const [boardData, setBoardData] = useRecoilState(boardDataState);
 	const [commentData, setCommentData] = useState();
 
 	useEffect(() => {
-		axios.get(API_URL + `/comment/${boardId}`).then((response) => {
+		axios.get(API_URL + `/comment/${boardData._id}`).then((response) => {
 			setCommentData(response.data);
 		});
 	}, [props.commentState]);
@@ -53,10 +52,10 @@ const Comments = (props) => {
 	);
 };
 
-const WebtoonComment = () => {
+const EditWebtoonComment = () => {
 	const commentInput = useRef();
 	const [userInfo, setUserInfo] = useRecoilState(userInfoState);
-	const [boardId, setBoardId] = useRecoilState(boardIdState);
+	const [boardData, setBoardData] = useRecoilState(boardDataState);
 	const [comment, setComment] = useState("");
 	const [commentState, setCommentState] = useState();
 
@@ -67,7 +66,7 @@ const WebtoonComment = () => {
 	const dateString = year + "-" + month + "-" + day;
 
 	const commentBody = {
-		board_id: boardId,
+		board_id: boardData._id,
 		comment,
 		author: userInfo._id,
 		createdAt: dateString,
@@ -124,31 +123,34 @@ const WebtoonComment = () => {
 };
 
 const BoardDetail = () => {
-	const location = useLocation();
-	const { state } = location;
-	const [boardId, setBoardId] = useRecoilState(boardIdState);
-	setBoardId(state._id);
-	window.scrollTo(0, 0);
+	const [boardData, setBoardData] = useRecoilState(boardDataState);
+
+	useEffect(() => {
+		window.scrollTo(0, 0);
+		axios.get(API_URL + `/board/${boardData._id}`).then((response) => {
+			setBoardData(response.data);
+		});
+	}, []);
 
 	return (
 		<div className="board-detail-global">
 			<section className="board-title-container">
-				<h1>{state.title}</h1>
+				<h1>{boardData.title}</h1>
 				<div className="creater">
 					<span className="board-author-img">
-						<img src={state.author.profileImage} width={30} height={30} />
+						<img src={boardData.author.profileImage} width={30} height={30} />
 					</span>
-					<span className="nickname">{state.author.nickname}</span>
+					<span className="nickname">{boardData.author.nickname}</span>
 				</div>
 			</section>
 			<section className="webtoon-detail-container">
-				<WebtoonInfoDetail webtoon={state.webtoon} />
+				<WebtoonInfoDetail webtoon={boardData.webtoon} />
 			</section>
 			<section className="board-description-container">
-				<div>{state.description}</div>
+				<div>{boardData.description}</div>
 			</section>
 			<section>
-				<WebtoonComment />
+				<EditWebtoonComment />
 			</section>
 		</div>
 	);

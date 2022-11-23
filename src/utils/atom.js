@@ -34,17 +34,7 @@ export const boardListState = atom({
 	default: null,
 });
 
-export const boardPlatformPathname = atom({
-	key: "boardPlatformPathname",
-	default: null,
-});
-
-export const boardIdState = atom({
-	key: "boardIdState",
-	default: null,
-});
-
-export const commentListState = atom({
-	key: "commentListState",
+export const boardDataState = atom({
+	key: "boardDataState",
 	default: null,
 });

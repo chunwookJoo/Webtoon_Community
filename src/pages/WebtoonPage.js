@@ -26,7 +26,7 @@ const WebtoonPage = () => {
 
 	useEffect(() => {
 		part = 2;
-		const DataParsing = async () => {
+		(async () => {
 			setWebtoonList([<Loading />]);
 			const PLATFORM_URL =
 				pathname === "/"
@@ -46,15 +46,11 @@ const WebtoonPage = () => {
 				<Webtoon webtoonData={webtoon} />
 			));
 			setWebtoonList(WebtoonList);
-			return;
-		};
-		DataParsing();
+		})();
 	}, [query.week, pathname]);
 
 	const [moreRef, isMoreRefShow] = useInView();
 	isMoreRefShow && part++;
-
-	// console.log(visibleWebtoonCount); // 24, 36, 48 ...
 
 	const More =
 		visibleWebtoonCount < webtoonList.length && 24 < webtoonList.length ? (

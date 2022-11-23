@@ -15,7 +15,6 @@ import {
 	userIdState,
 	userInfoState,
 	searchModalState,
-	boardPlatformPathname,
 } from "../utils/atom";
 import { useRecoilState } from "recoil";
 
@@ -69,9 +68,6 @@ const PlatformLink = (props) => {
 	const { pathname } = useLocation();
 	const { option, active } = props;
 	const { icon, name, src, boardSrc } = option;
-	const [boardPathname, setBoardPathname] = useRecoilState(
-		boardPlatformPathname,
-	);
 
 	return (
 		<li onClick={() => props.getData(name)}>
@@ -96,8 +92,7 @@ const PlatformLink = (props) => {
 
 const PlatformSelect = () => {
 	const [platformNameSelected, setPlatformNameSelected] = useState("전체");
-
-	let { search, pathname } = useLocation();
+	const { pathname } = useLocation();
 
 	useEffect(() => {
 		switch (pathname.split("/")[1]) {
@@ -123,7 +118,7 @@ const PlatformSelect = () => {
 	return (
 		<div className="platform-container">
 			<ul className="platform-list">
-				{PlatformLinkOptions.map((item, index) => {
+				{PlatformLinkOptions.map((item) => {
 					return (
 						<PlatformLink
 							active={platformNameSelected}
@@ -262,7 +257,7 @@ export const UserInfo = () => {
 };
 
 const WeekLink = () => {
-	let { search, pathname } = useLocation();
+	const { search } = useLocation();
 	const week = ["월", "화", "수", "목", "금", "토", "일"];
 	const todayNum = new Date().getDay();
 
