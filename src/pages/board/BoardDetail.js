@@ -127,7 +127,7 @@ const BoardDetail = () => {
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
-		axios.get(API_URL + `/board/${boardData._id}`).then((response) => {
+		axios.get(API_URL + `/api/board/${boardData._id}`).then((response) => {
 			setBoardData(response.data);
 		});
 	}, []);

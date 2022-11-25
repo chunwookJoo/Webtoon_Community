@@ -8,7 +8,7 @@ import {
 	Textarea,
 } from "@mantine/core";
 import { useRecoilState } from "recoil";
-import { createBoardModalState, userInfoState } from "../../utils/atom";
+import { userInfoState } from "../../utils/atom";
 import axios from "axios";
 import { API_URL } from "../../config";
 import { useInView } from "react-intersection-observer";
@@ -44,7 +44,6 @@ const CreateBoard = (props) => {
 		!!searchValue
 			? (async () => {
 					const { data } = await axios.get(
-						// `https://korea-webtoon-api.herokuapp.com/search?keyword=${searchValue}`,
 						`${API_URL}/search?keyword=${searchValue}`,
 					);
 					if (Array.isArray(data)) {
@@ -103,7 +102,7 @@ const CreateBoard = (props) => {
 				color: "yellow",
 			});
 		} else {
-			axios.post(API_URL + "/board/create", createBody).then((response) => {
+			axios.post(API_URL + "/api/board/create", createBody).then((response) => {
 				if (response.data.RESULT === 200) {
 					toggle();
 					setTitle("");

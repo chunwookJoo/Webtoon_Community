@@ -10,6 +10,7 @@ const CreateBoardButton = () => {
 	const [createBoardOpen, setCreateBoardOpen] = useRecoilState(
 		createBoardModalState,
 	);
+
 	const modalHandler = () => {
 		if (localStorage.getItem("userId") === null) {
 			showNotification({
