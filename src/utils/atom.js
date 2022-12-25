@@ -36,5 +36,5 @@ export const boardListState = atom({
 
 export const boardDataState = atom({
 	key: "boardDataState",
-	default: null,
+	default: [],
 });

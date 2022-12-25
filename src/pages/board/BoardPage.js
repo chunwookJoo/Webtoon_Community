@@ -41,7 +41,7 @@ const BoardPage = () => {
 			});
 		} else {
 			setBoardData(item);
-			navigate("/board/detail");
+			navigate(`/board/detail`, { state: item._id });
 		}
 	};
 

@@ -44,7 +44,6 @@ const WebtoonPage = () => {
 			const { data } = await axios.get(
 				API_URL + "/api" + PLATFORM_URL + WEEK_URL,
 			);
-			console.log(data);
 			const WebtoonList = await data.map((webtoon) => (
 				<Webtoon webtoonData={webtoon} />
 			));

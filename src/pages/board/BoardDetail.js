@@ -7,6 +7,7 @@ import { API_URL } from "../../config";
 import WebtoonInfoDetail from "../../components/WebtoonInfoDetail";
 import "../../assets/scss/pages/board/boardDetail.scss";
 import { showNotification } from "@mantine/notifications";
+import { useLocation } from "react-router-dom";
 
 const Comments = (props) => {
 	const [boardData, setBoardData] = useRecoilState(boardDataState);
@@ -123,35 +124,45 @@ const EditWebtoonComment = () => {
 };
 
 const BoardDetail = () => {
+	const { state } = useLocation(); // board_id
 	const [boardData, setBoardData] = useRecoilState(boardDataState);
-
 	useEffect(() => {
 		window.scrollTo(0, 0);
-		axios.get(API_URL + `/api/board/${boardData._id}`).then((response) => {
+		axios.get(API_URL + `/api/board/${state}`).then((response) => {
 			setBoardData(response.data);
 		});
 	}, []);
 
 	return (
 		<div className="board-detail-global">
-			<section className="board-title-container">
-				<h1>{boardData.title}</h1>
-				<div className="creater">
-					<span className="board-author-img">
-						<img src={boardData.author.profileImage} width={30} height={30} />
-					</span>
-					<span className="nickname">{boardData.author.nickname}</span>
-				</div>
-			</section>
-			<section className="webtoon-detail-container">
-				<WebtoonInfoDetail webtoon={boardData.webtoon} />
-			</section>
-			<section className="board-description-container">
-				<div>{boardData.description}</div>
-			</section>
-			<section>
-				<EditWebtoonComment />
-			</section>
+			{boardData.length === 0 ? (
+				""
+			) : (
+				<>
+					<section className="board-title-container">
+						<h1>{boardData.title}</h1>
+						<div className="creater">
+							<span className="board-author-img">
+								<img
+									src={boardData.author.profileImage}
+									width={30}
+									height={30}
+								/>
+							</span>
+							<span className="nickname">{boardData.author.nickname}</span>
+						</div>
+					</section>
+					<section className="webtoon-detail-container">
+						<WebtoonInfoDetail webtoon={boardData.webtoon} />
+					</section>
+					<section className="board-description-container">
+						<div>{boardData.description}</div>
+					</section>
+					<section>
+						<EditWebtoonComment />
+					</section>
+				</>
+			)}
 		</div>
 	);
 };
