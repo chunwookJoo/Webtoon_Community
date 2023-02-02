@@ -5,30 +5,24 @@ import { API_URL } from "../config";
 import "../assets/scss/components/nav.scss";
 
 // design library (mantine, reactstrap)
-import { Collapse } from "reactstrap";
 import { Modal, Avatar, Menu } from "@mantine/core";
 
 // recoil
 import {
 	jwtTokenState,
 	loginModalState,
-	userIdState,
 	userInfoState,
 	searchModalState,
 } from "../utils/atom";
 import { useRecoilState } from "recoil";
 
 // components
-import Search from "../components/Search";
+import Search from "./Search";
 import OauthLogin from "./login/OauthLogin";
 import { PlatformLinkOptions } from "./PlatformLinkOptions";
 import { ReactComponent as Logo } from "../assets/img/logo.svg";
 
 // icon
-import {
-	faCaretDown,
-	faMagnifyingGlass,
-} from "@fortawesome/free-solid-svg-icons";
 import {
 	IconBook2,
 	IconChevronRight,
@@ -36,8 +30,8 @@ import {
 	IconLayoutDashboard,
 	IconLogout,
 	IconMessageCircle,
+	IconSearch,
 } from "@tabler/icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { showNotification } from "@mantine/notifications";
 
 export const LogoComponent = () => {
@@ -66,11 +60,11 @@ const TransformPage = (props) => {
 
 const PlatformLink = (props) => {
 	const { pathname } = useLocation();
-	const { option, active } = props;
+	const { id, option, active } = props;
 	const { icon, name, src, boardSrc } = option;
 
 	return (
-		<li onClick={() => props.getData(name)}>
+		<li key={id} onClick={() => props.getData(name)}>
 			{pathname.split("/")[1] === "board" ? (
 				<Link
 					to="/board"
@@ -121,6 +115,7 @@ const PlatformSelect = () => {
 				{PlatformLinkOptions.map((item) => {
 					return (
 						<PlatformLink
+							id={item.id}
 							active={platformNameSelected}
 							option={item}
 							getData={getPlatformName}
@@ -141,7 +136,7 @@ const WebtoonSearch = () => {
 		<>
 			<span className="search" onClick={modalHandler}>
 				검색 &nbsp;
-				<FontAwesomeIcon icon={faMagnifyingGlass} />
+				<IconSearch width="20px" height="20px" />
 			</span>
 			<Search isOpen={modalOpen} toggle={modalHandler} />
 		</>

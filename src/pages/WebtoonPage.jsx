@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
 
 import Loading from "../components/Loading";
@@ -8,8 +8,6 @@ import axios from "axios";
 import qs from "qs";
 
 import "../assets/scss/pages/webtoonPage.scss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { API_URL } from "../config";
 
 const todayNum = new Date().getDay();
@@ -41,6 +39,7 @@ const WebtoonPage = () => {
 					: query.week === "new"
 					? "/new"
 					: "/week?day=" + query.week;
+
 			const { data } = await axios.get(
 				API_URL + "/api" + PLATFORM_URL + WEEK_URL,
 			);
@@ -56,9 +55,7 @@ const WebtoonPage = () => {
 
 	const More =
 		visibleWebtoonCount < webtoonList.length && 24 < webtoonList.length ? (
-			<li ref={moreRef} className="loading">
-				<FontAwesomeIcon size="xl" icon={faSpinner} spin />
-			</li>
+			<Loading />
 		) : (
 			EMPTY
 		);
