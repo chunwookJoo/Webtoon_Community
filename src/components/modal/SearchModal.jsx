@@ -1,12 +1,23 @@
+// npm package
 import React, { useState, useEffect } from "react";
-// import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
-import { Modal, Button, Group } from "@mantine/core";
+
+// api
 import axios from "axios";
-import Webtoon from "./Webtoon";
-import Loading from "./Loading";
+import { API_URL } from "../../config";
+
+// design library (mantine)
+import { Modal } from "@mantine/core";
+
+// recoil
+// components
+import Webtoon from "../Webtoon";
+import Loading from "../Loading";
+
+// hooks
 import { useInView } from "react-intersection-observer";
-import "../assets/scss/components/search.scss";
-import { API_URL } from "../config";
+
+// icon
+import "../../assets/scss/components/search.scss";
 
 const display = (value) => (value ? {} : { display: "none" });
 const EMPTY = <></>;
@@ -15,7 +26,7 @@ const NO_WEBTOON_FOUND = [
 ];
 let part = 2;
 
-const Search = (props) => {
+const SearchModal = (props) => {
 	const modal = props.isOpen;
 	const toggle = props.toggle;
 
@@ -40,7 +51,6 @@ const Search = (props) => {
 					};
 
 					const { data } = await axios.get(
-						// `https://korea-webtoon-api.herokuapp.com/search?keyword=${searchValue}`,
 						`${API_URL}/search?keyword=${searchValue}`,
 					);
 					if (Array.isArray(data)) {
@@ -48,22 +58,22 @@ const Search = (props) => {
 							data.map((webtoon, index) => (
 								<li key={index} className="searched-item-wrap">
 									<article className="searched-item">
-										<a
+										<span
 											className="searched-title"
 											onClick={() => {
 												setMatchingWebtoon(webtoon.title);
 											}}
 										>
 											{webtoon.title}
-										</a>
-										<a
+										</span>
+										<span
 											className="searched-author"
 											onClick={() => {
 												setMatchingWebtoon(webtoon.author);
 											}}
 										>
 											{webtoon.author}
-										</a>
+										</span>
 									</article>
 								</li>
 							)),
@@ -145,4 +155,4 @@ const Search = (props) => {
 	);
 };
 
-export default Search;
+export default SearchModal;

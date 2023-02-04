@@ -1,11 +1,22 @@
+// npm package
 import React from "react";
+import { Link } from "react-router-dom";
+
+// api
+// design library (mantine)
+
+// recoil
+import { useRecoilState } from "recoil";
+import { searchModalState } from "../store/recoilModalState";
+
+// components
 import { ReactComponent as Naver } from "../assets/img/naver.svg";
 import { ReactComponent as Kakao } from "../assets/img/kakao.svg";
 import { ReactComponent as KakaoPage } from "../assets/img/kakaopage.svg";
-import { Link } from "react-router-dom";
+
+// hooks
+// icon
 import "../assets/scss/components/webtoon.scss";
-import { useRecoilState } from "recoil";
-import { searchModalState } from "../utils/atom";
 
 const PlatformLogo = (props) => {
 	const { platform } = props;

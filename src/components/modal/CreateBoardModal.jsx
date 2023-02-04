@@ -1,23 +1,29 @@
+// npm package
 import React, { useEffect, useState } from "react";
-import {
-	Modal,
-	Avatar,
-	Menu,
-	Autocomplete,
-	Input,
-	Textarea,
-} from "@mantine/core";
-import { useRecoilState } from "recoil";
-import { userInfoState } from "../../utils/atom";
+
+// api
 import axios from "axios";
 import { API_URL } from "../../config";
-import { useInView } from "react-intersection-observer";
-import Loading from "../Loading";
-import { showNotification } from "@mantine/notifications";
-import "../../assets/scss/components/board/createBoard.scss";
-import { IconCircleX } from "@tabler/icons";
 
-const CreateBoard = (props) => {
+// design library (mantine)
+import { Modal, Input, Textarea } from "@mantine/core";
+import { showNotification } from "@mantine/notifications";
+
+// recoil
+import { useRecoilState } from "recoil";
+import { userInfoState } from "../../store/recoilAuthState";
+
+// components
+import Loading from "../Loading";
+
+// hooks
+import { useInView } from "react-intersection-observer";
+
+// icon
+import { IconCircleX } from "@tabler/icons";
+import "../../assets/scss/components/board/createBoard.scss";
+
+const CreateBoardModal = (props) => {
 	const modal = props.isOpen;
 	const toggle = props.toggle;
 
@@ -217,4 +223,4 @@ const CreateBoard = (props) => {
 	);
 };
 
-export default CreateBoard;
+export default CreateBoardModal;

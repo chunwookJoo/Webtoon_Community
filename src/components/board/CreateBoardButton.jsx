@@ -1,10 +1,21 @@
-import { showNotification } from "@mantine/notifications";
-import { IconPencil } from "@tabler/icons";
+// npm package
 import React from "react";
+
+// api
+// design library (mantine)
+import { showNotification } from "@mantine/notifications";
+
+// recoil
 import { useRecoilState } from "recoil";
+import { createBoardModalState } from "../../store/recoilModalState";
+
+// components
+import CreateBoardModal from "../modal/CreateBoardModal";
+
+// hooks
+// icon
+import { IconPencil } from "@tabler/icons";
 import "../../assets/scss/components/board/createBoard.scss";
-import { createBoardModalState } from "../../utils/atom";
-import CreateBoard from "./CreateBoard";
 
 const CreateBoardButton = () => {
 	const [createBoardOpen, setCreateBoardOpen] = useRecoilState(
@@ -30,7 +41,7 @@ const CreateBoardButton = () => {
 			<div className="create-board-btn" onClick={modalHandler}>
 				<IconPencil />
 			</div>
-			<CreateBoard isOpen={createBoardOpen} toggle={modalHandler} />
+			<CreateBoardModal isOpen={createBoardOpen} toggle={modalHandler} />
 		</div>
 	);
 };

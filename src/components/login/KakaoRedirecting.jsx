@@ -1,13 +1,22 @@
-import React, { useState, useEffect } from "react";
+// npm package
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
+// api
 import axios from "axios";
 import { API_URL } from "../../config";
 import { KAKAO_REST_API_KEY } from "./LoginApiData";
-import { useNavigate } from "react-router-dom";
+
+// design library (mantine)
+import { showNotification } from "@mantine/notifications";
+
+// recoil
+import { useRecoilState } from "recoil";
+import { jwtTokenState, userInfoState } from "../../store/recoilAuthState";
+
+// components
 import { ReactComponent as Logo } from "../../assets/img/logo.svg";
 import Loading from "../Loading";
-import { useRecoilState } from "recoil";
-import { jwtTokenState, userInfoState } from "../../utils/atom";
-import { showNotification } from "@mantine/notifications";
 
 /**
  * 발급받은 인가코드 서버로 전송

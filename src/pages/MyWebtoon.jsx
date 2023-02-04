@@ -1,11 +1,23 @@
-import { Card, Image, Text, Button, Group, Menu } from "@mantine/core";
-import React, { useEffect, useRef, useState } from "react";
+// npm package
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { userInfoState } from "../utils/atom";
+
+// api
 import axios from "axios";
 import { API_URL } from "../config";
+
+// design library (mantine)
 import { showNotification } from "@mantine/notifications";
+import { Card, Image, Text, Button, Group, Menu } from "@mantine/core";
+
+// recoil
+import { useRecoilState } from "recoil";
+import { userInfoState } from "../store/recoilAuthState";
+
+// components
+// hooks
+
+// icon
 import { IconDotsVertical, IconTrash } from "@tabler/icons";
 import "../assets/scss/pages/myWebtoon.scss";
 
@@ -138,6 +150,7 @@ const MyWebtoon = () => {
 									href={item.url}
 									target="_blank"
 									onClick={(e) => e.stopPropagation()}
+									rel="noreferrer"
 								>
 									<Button
 										variant="light"

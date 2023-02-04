@@ -1,5 +1,8 @@
+// npm package
 import React from "react";
 import { useLocation } from "react-router-dom";
+
+// components
 import RegistPage from "../RegistPage";
 
 const KakaoRegist = () => {

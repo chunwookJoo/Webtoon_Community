@@ -8,12 +8,11 @@ const loginWithKakao = () => {
 
 const KakaoLogin = () => {
 	return (
-		<a id="custom-login-btn" className="kakao-btn" onClick={loginWithKakao}>
+		<div id="custom-login-btn" className="kakao-btn" onClick={loginWithKakao}>
 			<div>
-				<img src="/images/kakao_login_medium_narrow.png" />
-				{/* <span>카카오로 시작하기</span> */}
+				<img alt="kakao" src="/images/kakao_login_medium_narrow.png" />
 			</div>
-		</a>
+		</div>
 	);
 };
 

@@ -1,11 +1,16 @@
+// npm package
 import React, { Suspense } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
-import Loading from "./components/Loading";
-import KakaoRedirecting from "./components/login/KakaoRedirecting";
-import NaverRedirecting from "./components/login/NaverRedirecting";
-import Nav from "./components/Nav";
-import NavBack from "./components/NavBack";
-import NotFound from "./pages/NotFound";
+
+// components
+import {
+	Nav,
+	NavBack,
+	Loading,
+	KakaoRedirecting,
+	NaverRedirecting,
+} from "./components/ComponentIndex";
+
 import {
 	WebtoonPage,
 	WebtoonDetail,
@@ -15,6 +20,7 @@ import {
 	UserInfo,
 	KakaoRegist,
 	NaverRegist,
+	NotFound,
 } from "./pages/PagesIndex";
 
 function App() {

@@ -1,12 +1,21 @@
-import { Avatar, Input, Select } from "@mantine/core";
+// npm package
 import React, { useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { userInfoState } from "../utils/atom";
-import "../assets/scss/pages/userinfo.scss";
+
+// api
 import axios from "axios";
 import { API_URL } from "../config";
+
+// design library (mantine)
+import { Avatar, Input, Select } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
+
+// recoil
+import { useRecoilState } from "recoil";
+import { userInfoState } from "../store/recoilAuthState";
+
+// icon
+import "../assets/scss/pages/userinfo.scss";
 
 const UserInfo = () => {
 	const { state } = useLocation();

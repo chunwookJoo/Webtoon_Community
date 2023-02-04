@@ -1,17 +1,26 @@
+// npm package
 import React, { useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import {
-	boardDataState,
-	boardListState,
-	createBoardModalState,
-	jwtTokenState,
-} from "../../utils/atom";
+import { useLocation, useNavigate } from "react-router-dom";
+
+// api
 import axios from "axios";
 import { API_URL } from "../../config";
-import "../../assets/scss/pages/board/boardPage.scss";
+
+// design library (mantine)
 import { showNotification } from "@mantine/notifications";
+
+// recoil
+import { useRecoilState } from "recoil";
+import { jwtTokenState } from "../../store/recoilAuthState";
+import { createBoardModalState } from "../../store/recoilModalState";
+import { boardDataState, boardListState } from "../../store/recoilBoardState";
+
+// components
 import CreateBoardButton from "../../components/board/CreateBoardButton";
+
+// hooks
+// icon
+import "../../assets/scss/pages/board/boardPage.scss";
 
 const BoardPage = () => {
 	const navigate = useNavigate();

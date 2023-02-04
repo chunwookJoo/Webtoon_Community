@@ -1,23 +1,22 @@
+// npm package
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+
+// api
 import axios from "axios";
 import { API_URL } from "../config";
-import "../assets/scss/components/nav.scss";
 
-// design library (mantine, reactstrap)
+// design library (mantine)
 import { Modal, Avatar, Menu } from "@mantine/core";
+import { showNotification } from "@mantine/notifications";
 
 // recoil
-import {
-	jwtTokenState,
-	loginModalState,
-	userInfoState,
-	searchModalState,
-} from "../utils/atom";
 import { useRecoilState } from "recoil";
+import { searchModalState, loginModalState } from "../store/recoilModalState";
+import { jwtTokenState, userInfoState } from "../store/recoilAuthState";
 
 // components
-import Search from "./Search";
+import SearchModal from "./modal/SearchModal";
 import OauthLogin from "./login/OauthLogin";
 import { PlatformLinkOptions } from "./PlatformLinkOptions";
 import { ReactComponent as Logo } from "../assets/img/logo.svg";
@@ -32,7 +31,7 @@ import {
 	IconMessageCircle,
 	IconSearch,
 } from "@tabler/icons";
-import { showNotification } from "@mantine/notifications";
+import "../assets/scss/components/nav.scss";
 
 export const LogoComponent = () => {
 	return (
@@ -138,7 +137,7 @@ const WebtoonSearch = () => {
 				검색 &nbsp;
 				<IconSearch width="20px" height="20px" />
 			</span>
-			<Search isOpen={modalOpen} toggle={modalHandler} />
+			<SearchModal isOpen={modalOpen} toggle={modalHandler} />
 		</>
 	);
 };

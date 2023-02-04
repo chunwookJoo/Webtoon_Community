@@ -1,15 +1,22 @@
+// npm package
 import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+
+// api
+import axios from "axios";
+import { API_URL } from "../config";
+
+// design library (mantine)
+import { showNotification } from "@mantine/notifications";
+
+// components
 import { ReactComponent as Naver } from "../assets/img/naver.svg";
 import { ReactComponent as Kakao } from "../assets/img/kakao.svg";
 import { ReactComponent as KakaoPage } from "../assets/img/kakaopage.svg";
-import "../assets/scss/pages/webtoonDetail.scss";
-import axios from "axios";
-import { API_URL } from "../config";
-import { showNotification } from "@mantine/notifications";
-import { useRecoilState } from "recoil";
-import { userInfoState } from "../utils/atom";
 import WebtoonInfoDetail from "../components/WebtoonInfoDetail";
+
+// icon
+import "../assets/scss/pages/webtoonDetail.scss";
 
 const WebtoonDetail = () => {
 	const { state } = useLocation();
@@ -73,6 +80,7 @@ const WebtoonDetail = () => {
 						href={webtoonData.url}
 						target="_blank"
 						className="webtoon-show-btn"
+						rel="noreferrer"
 					>
 						<button className={`${webtoonData.service}`}>
 							<span className="logo">

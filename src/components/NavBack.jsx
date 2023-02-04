@@ -1,14 +1,26 @@
 // 모바일 화면에서 보이는 뒤로가기 버튼
 
-import React, { useEffect, useState } from "react";
+// npm package
+import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { jwtTokenState, userInfoState } from "../utils/atom";
-import { LogoComponent, SignIn, UserInfo } from "./Nav";
-import { IconChevronLeft } from "@tabler/icons";
-import "../assets/scss/components/navback.scss";
+
+// api
 import axios from "axios";
 import { API_URL } from "../config";
+
+// design library (mantine)
+import { IconChevronLeft } from "@tabler/icons";
+
+// recoil
+import { useRecoilState } from "recoil";
+import { jwtTokenState, userInfoState } from "../store/recoilAuthState";
+
+// components
+import { LogoComponent, SignIn, UserInfo } from "./Nav";
+
+// hooks
+// icon
+import "../assets/scss/components/navback.scss";
 
 const NavBack = () => {
 	const location = useLocation();

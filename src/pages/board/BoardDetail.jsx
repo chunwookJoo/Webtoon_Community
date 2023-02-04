@@ -1,13 +1,26 @@
+// npm package
 import React, { useEffect, useRef, useState } from "react";
-import { useRecoilState } from "recoil";
-import { boardDataState, userInfoState } from "../../utils/atom";
-import { Input } from "@mantine/core";
+import { useLocation } from "react-router-dom";
+
+// api
 import axios from "axios";
 import { API_URL } from "../../config";
-import WebtoonInfoDetail from "../../components/WebtoonInfoDetail";
-import "../../assets/scss/pages/board/boardDetail.scss";
+
+// design library (mantine)
+import { Input } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
-import { useLocation } from "react-router-dom";
+
+// recoil
+import { useRecoilState } from "recoil";
+import { boardDataState } from "../../store/recoilBoardState";
+import { userInfoState } from "../../store/recoilAuthState";
+
+// components
+import WebtoonInfoDetail from "../../components/WebtoonInfoDetail";
+
+// hooks
+// ico
+import "../../assets/scss/pages/board/boardDetail.scss";
 
 const Comments = (props) => {
 	const [boardData, setBoardData] = useRecoilState(boardDataState);

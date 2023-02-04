@@ -17,3 +17,6 @@ export const UserInfo = React.lazy(() => import("./UserInfo"));
 // regist
 export const KakaoRegist = React.lazy(() => import("./regist/KakaoRegist"));
 export const NaverRegist = React.lazy(() => import("./regist/NaverRegist"));
+
+// 404 페이지
+export const NotFound = React.lazy(() => import("./NotFound"));

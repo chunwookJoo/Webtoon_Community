@@ -1,5 +1,8 @@
+// npm package
 import React from "react";
 import { Link } from "react-router-dom";
+
+// icon
 import "../assets/scss/pages/notFound.scss";
 
 const NotFound = () => {

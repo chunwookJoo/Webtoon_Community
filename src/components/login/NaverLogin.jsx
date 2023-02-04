@@ -27,10 +27,10 @@ const NaverLogin = () => {
 	return (
 		<>
 			<div ref={naverRef} id="naverIdLogin"></div>
-			<a onClick={handleClick} className="naver-btn">
-				<img src="/images/Naver_Logo.png" />
+			<div onClick={handleClick} className="naver-btn">
+				<img alt="naver" src="/images/Naver_Logo.png" />
 				<span className="naver-btn-text">네이버로 시작하기</span>
-			</a>
+			</div>
 		</>
 	);
 };

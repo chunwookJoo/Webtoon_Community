@@ -1,14 +1,21 @@
+// npm package
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { useInView } from "react-intersection-observer";
-
-import Loading from "../components/Loading";
-import Webtoon from "../components/Webtoon";
-import axios from "axios";
 import qs from "qs";
 
-import "../assets/scss/pages/webtoonPage.scss";
+// api
+import axios from "axios";
 import { API_URL } from "../config";
+
+// components
+import Loading from "../components/Loading";
+import Webtoon from "../components/Webtoon";
+
+// hooks
+import { useInView } from "react-intersection-observer";
+
+// icon
+import "../assets/scss/pages/webtoonPage.scss";
 
 const todayNum = new Date().getDay();
 const week = ["0", "1", "2", "3", "4", "5", "6"];
@@ -54,8 +61,10 @@ const WebtoonPage = () => {
 	isMoreRefShow && part++;
 
 	const More =
-		visibleWebtoonCount < webtoonList.length && 24 < webtoonList.length ? (
-			<Loading />
+		visibleWebtoonCount < webtoonList.length && 24 <= webtoonList.length ? (
+			<li ref={moreRef} className="loading">
+				<Loading />
+			</li>
 		) : (
 			EMPTY
 		);

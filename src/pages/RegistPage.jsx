@@ -1,15 +1,25 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Input, Select } from "@mantine/core";
-import { showNotification } from "@mantine/notifications";
-import { IconCheck, IconX } from "@tabler/icons";
-// import { Select } from "@mantine/core";
-import { ReactComponent as Logo } from "../assets/img/logo.svg";
-import "../assets/scss/pages/registPage.scss";
+// npm package
+import React, { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+
+// api
 import axios from "axios";
 import { API_URL } from "../config";
+
+// design library (mantine)
+import { Input, Select } from "@mantine/core";
+import { showNotification } from "@mantine/notifications";
+
+// recoil
 import { useRecoilState } from "recoil";
-import { jwtTokenState, userInfoState } from "../utils/atom";
+import { jwtTokenState, userInfoState } from "../store/recoilAuthState";
+
+// components
+import { ReactComponent as Logo } from "../assets/img/logo.svg";
+
+// hooks
+// icon
+import "../assets/scss/pages/registPage.scss";
 
 const AGE_RANGE = [
 	{ value: "10~19", label: "10대" },

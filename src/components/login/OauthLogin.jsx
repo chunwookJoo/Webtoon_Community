@@ -1,8 +1,17 @@
+// npm package
 import React from "react";
+
+// api
+// design library (mantine)
+// recoil
+// components
 import KakaoLogin from "./KakaoLogin";
+import NaverLogin from "./NaverLogin";
+
+// hooks
+// icon
 import { ReactComponent as Logo } from "../../assets/img/logo.svg";
 import "../../assets/scss/components/login.scss";
-import NaverLogin from "./NaverLogin";
 
 const OauthLogin = () => {
 	return (
