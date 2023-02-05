@@ -1,11 +1,7 @@
 // npm package
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import qs from "qs";
-
-// api
-import axios from "axios";
-import { API_URL } from "../config";
 
 // components
 import Loading from "../components/Loading";
@@ -16,66 +12,54 @@ import { useInView } from "react-intersection-observer";
 
 // icon
 import "../assets/scss/pages/webtoonPage.scss";
-
-const todayNum = new Date().getDay();
-const week = ["0", "1", "2", "3", "4", "5", "6"];
-const EMPTY = <></>;
-const todayWeek = week[todayNum === 0 ? 6 : todayNum - 1];
-let part = 2;
+import { getWebtoonList } from "../api/webtoon";
 
 const WebtoonPage = () => {
 	let { search, pathname } = useLocation();
-	const visibleWebtoonCount = part * 12;
+	const [webtoonList, setWebtoonList] = useState([]);
+	const [moreRef, isMoreRefShow] = useInView();
+
+	let page = useRef(1);
+	let didMount = useRef(false);
 	const query = qs.parse(search, { ignoreQueryPrefix: true });
-	const [webtoonList, setWebtoonList] = useState([EMPTY]);
+
+	const fetchWebtoonList = async () => {
+		if (isMoreRefShow) page.current += 1;
+		const data = await getWebtoonList(pathname, query, page.current);
+		const WebtoonList = await data.map((webtoon) => (
+			<Webtoon webtoonData={webtoon} />
+		));
+		setWebtoonList((prev) => [...prev, WebtoonList]);
+		didMount.current = true;
+	};
 
 	useEffect(() => {
-		part = 2;
 		(async () => {
-			setWebtoonList([<Loading />]);
-			const PLATFORM_URL =
-				pathname === "/"
-					? "/all"
-					: pathname === "/kakaoPage"
-					? "/kakao-page"
-					: pathname;
-			!query.week && (query.week = todayWeek);
-			const WEEK_URL =
-				query.week === "fin"
-					? "/finished"
-					: query.week === "new"
-					? "/new"
-					: "/week?day=" + query.week;
-
-			const { data } = await axios.get(
-				API_URL + "/api" + PLATFORM_URL + WEEK_URL,
-			);
-			const WebtoonList = await data.map((webtoon) => (
-				<Webtoon webtoonData={webtoon} />
-			));
-			setWebtoonList(WebtoonList);
+			page.current = 1;
+			setWebtoonList([]);
+			window.scrollTo(0, 0);
+			fetchWebtoonList();
 		})();
 	}, [query.week, pathname]);
 
-	const [moreRef, isMoreRefShow] = useInView();
-	isMoreRefShow && part++;
-
-	const More =
-		visibleWebtoonCount < webtoonList.length && 24 <= webtoonList.length ? (
-			<li ref={moreRef} className="loading">
-				<Loading />
-			</li>
-		) : (
-			EMPTY
-		);
-	const VisibleWebtoonList = webtoonList.slice(0, part * 12);
-	VisibleWebtoonList.push(More);
+	useEffect(() => {
+		if (isMoreRefShow && didMount.current) {
+			fetchWebtoonList();
+		}
+	}, [isMoreRefShow]);
 
 	return (
 		<main>
 			<section className="contents-container"></section>
 			<section className="contents-container">
-				<ul className="webtoon-list">{VisibleWebtoonList}</ul>
+				<ul className="webtoon-list">{webtoonList}</ul>
+				<div ref={moreRef}></div>
+
+				{webtoonList.length === 0 && (
+					<div className="loading">
+						<Loading />
+					</div>
+				)}
 			</section>
 		</main>
 	);

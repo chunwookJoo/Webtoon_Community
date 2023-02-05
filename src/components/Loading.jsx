@@ -13,7 +13,7 @@ const spinner = keyframes`
 
 const Loading = () => {
 	return (
-		<li
+		<span
 			style={{
 				display: "flex",
 				justifyContent: "center",
@@ -28,7 +28,7 @@ const Loading = () => {
 					animation: `${spinner} 1s cubic-bezier(0.5, 0, 0.5, 1) infinite`,
 				})}
 			/>
-		</li>
+		</span>
 	);
 };
 
