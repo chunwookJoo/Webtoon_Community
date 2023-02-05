@@ -8,7 +8,12 @@ const loginWithKakao = () => {
 
 const KakaoLogin = () => {
 	return (
-		<div id="custom-login-btn" className="kakao-btn" onClick={loginWithKakao}>
+		<div
+			id="custom-login-btn"
+			className="kakao-btn"
+			style={{ cursor: "pointer" }}
+			onClick={loginWithKakao}
+		>
 			<div>
 				<img alt="kakao" src="/images/kakao_login_medium_narrow.png" />
 			</div>
