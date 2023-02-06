@@ -4,7 +4,7 @@
 
 # 웹툰 커뮤니티 서비스 "이거 봤어?"
 
-<img src="https://img.shields.io/badge/React-61DAFB?style=flat&logo=React&logoColor=000000"/><img src="https://img.shields.io/badge/Recoil-ffffff?style=flat&logo=React&logoColor=000000"/><img src="https://img.shields.io/badge/Scss-CC6699?style=flat&logo=Sass&logoColor=ffffff"/><img src="https://img.shields.io/badge/Vite-646CFF?style=flat&logo=Vite&logoColor=FFDA44"/>
+<img src="https://img.shields.io/badge/React-61DAFB?style=flat&logo=React&logoColor=000000"/> <img src="https://img.shields.io/badge/Recoil-ffffff?style=flat&logo=React&logoColor=000000"/> <img src="https://img.shields.io/badge/Scss-CC6699?style=flat&logo=Sass&logoColor=ffffff"/> <img src="https://img.shields.io/badge/Vite-646CFF?style=flat&logo=Vite&logoColor=FFDA44"/>
 
 <br/>
 
