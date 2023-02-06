@@ -4,10 +4,7 @@
 
 # 웹툰 커뮤니티 서비스 "이거 봤어?"
 
-<img src="https://img.shields.io/badge/React-61DAFB?style=flat&logo=React&logoColor=000000"/>
-<img src="https://img.shields.io/badge/Recoil-ffffff?style=flat&logo=React&logoColor=000000"/>
-<img src="https://img.shields.io/badge/Scss-CC6699?style=flat&logo=Sass&logoColor=ffffff"/>
-<img src="https://img.shields.io/badge/Vite-646CFF?style=flat&logo=Vite&logoColor=FFDA44"/>
+<img src="https://img.shields.io/badge/React-61DAFB?style=flat&logo=React&logoColor=000000"/><img src="https://img.shields.io/badge/Recoil-ffffff?style=flat&logo=React&logoColor=000000"/><img src="https://img.shields.io/badge/Scss-CC6699?style=flat&logo=Sass&logoColor=ffffff"/><img src="https://img.shields.io/badge/Vite-646CFF?style=flat&logo=Vite&logoColor=FFDA44"/>
 
 <br/>
 
@@ -138,13 +135,13 @@ $ npm run dev
 </tr>
 <tr>
  <td align="center">
-	카카오/네이버 API 로그인
+	회원가입
  </td>
  <td>
-  <img width="400" src="https://user-images.githubusercontent.com/64945491/216927617-becf578e-0e43-4062-9b23-46a28abbf7ed.gif"/>
+  <img width="400" src="https://user-images.githubusercontent.com/64945491/216928281-1c728516-82a8-427f-aa2f-5da814e0ef6e.gif"/>
 	</td>
  <td>
-  <img width="200" src="https://user-images.githubusercontent.com/64945491/216927646-6e348558-8ce7-4bbc-86f3-8a5bde4c470b.gif"/>
+  <img width="200" src="https://user-images.githubusercontent.com/64945491/216928295-0d19b391-3932-4b4c-a058-8d126a20d723.gif"/>
 	</td>
 </tr>
 <tr>
@@ -171,13 +168,36 @@ $ npm run dev
 </tr>
 <tr>
  <td align="center">
-	회원가입
+	독자 후기 모음 페이지
  </td>
  <td>
-  <img width="400" src="https://user-images.githubusercontent.com/64945491/216928281-1c728516-82a8-427f-aa2f-5da814e0ef6e.gif"/>
+  <img width="400" src="https://user-images.githubusercontent.com/64945491/216977874-7450cf55-3f14-4e4e-b610-bd9490d3a93b.gif"/>
 	</td>
  <td>
-  <img width="200" src="https://user-images.githubusercontent.com/64945491/216928295-0d19b391-3932-4b4c-a058-8d126a20d723.gif"/>
+  <img width="200" src="https://user-images.githubusercontent.com/64945491/216977889-fb6e64dd-9c21-4581-b571-f650a375de88.gif"/>
 	</td>
 </tr>
+<tr>
+ <td align="center">
+	댓글 작성
+ </td>
+ <td>
+  <img width="400" src="https://user-images.githubusercontent.com/64945491/216978031-0cc9074e-c2a6-414a-90e1-01f57327f4c7.gif"/>
+	</td>
+ <td>
+  <img width="200" src="https://user-images.githubusercontent.com/64945491/216978046-e79310fd-6414-4090-9ae4-05153a322332.gif"/>
+	</td>
+</tr>
+<tr>
+ <td align="center">
+	후기 작성
+ </td>
+ <td>
+  <img width="400" src="https://user-images.githubusercontent.com/64945491/216978209-84c5774b-df13-4a62-946c-c6fc003531d6.gif"/>
+	</td>
+ <td>
+  <img width="200" src="https://user-images.githubusercontent.com/64945491/216978218-79eb4bf4-52fc-4d6b-9c0f-2c36159fac1d.gif"/>
+	</td>
+</tr>
+
 </table>
