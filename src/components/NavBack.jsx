@@ -22,39 +22,41 @@ import { LogoComponent, SignIn, UserInfo } from "./Nav";
 // icon
 import "../assets/scss/components/navback.scss";
 
+// utils
+import { getLocalStorage } from "../utils/storage";
+import { LOGIN_TOKEN, USER_ID } from "../utils/constants";
+
 const NavBack = () => {
-	const location = useLocation();
-	const navigate = useNavigate();
-	const [userInfo, setUserInfo] = useRecoilState(userInfoState);
-	const [jwtToken, setJwtToken] = useRecoilState(jwtTokenState);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const [jwtToken, setJwtToken] = useRecoilState(jwtTokenState);
 
-	useEffect(() => {
-		setJwtToken(localStorage.getItem("Authentication"));
+  useEffect(() => {
+    setJwtToken(getLocalStorage(LOGIN_TOKEN));
 
-		axios
-			.get(API_URL + `/auth/userinfo/${localStorage.getItem("userId")}`)
-			.then((response) => {
-				setUserInfo(response.data);
-			});
-	}, [location]);
+    axios.get(API_URL + `/auth/userinfo/${getLocalStorage(USER_ID)}`).then((response) => {
+      setUserInfo(response.data);
+    });
+  }, [location]);
 
-	const onClickBackPage = () => {
-		navigate(-1);
-	};
+  const onClickBackPage = () => {
+    navigate(-1);
+  };
 
-	return (
-		<section className="nav-section">
-			<div className="nav-container">
-				<div className="webtoon-detail-logo">
-					<LogoComponent />
-				</div>
-				<span onClick={onClickBackPage} className="back-btn">
-					<IconChevronLeft size={24} />
-				</span>
-				{jwtToken !== null ? <UserInfo /> : <SignIn />}
-			</div>
-		</section>
-	);
+  return (
+    <section className="nav-section">
+      <div className="nav-container">
+        <div className="webtoon-detail-logo">
+          <LogoComponent />
+        </div>
+        <span onClick={onClickBackPage} className="back-btn">
+          <IconChevronLeft size={24} />
+        </span>
+        {jwtToken !== null ? <UserInfo /> : <SignIn />}
+      </div>
+    </section>
+  );
 };
 
 export default NavBack;

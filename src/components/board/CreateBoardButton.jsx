@@ -3,7 +3,6 @@ import React from "react";
 
 // api
 // design library (mantine)
-import { showNotification } from "@mantine/notifications";
 
 // recoil
 import { useRecoilState } from "recoil";
@@ -17,33 +16,31 @@ import CreateBoardModal from "../modal/CreateBoardModal";
 import { IconPencil } from "@tabler/icons";
 import "../../assets/scss/components/board/createBoard.scss";
 
+// utils
+import { getLocalStorage } from "../../utils/storage";
+import { INFORM_LOGIN_WARNING, USER_ID } from "../../utils/constants";
+import showToast from "../../utils/toast";
+
 const CreateBoardButton = () => {
-	const [createBoardOpen, setCreateBoardOpen] = useRecoilState(
-		createBoardModalState,
-	);
+  const [createBoardOpen, setCreateBoardOpen] = useRecoilState(createBoardModalState);
 
-	const modalHandler = () => {
-		if (localStorage.getItem("userId") === null) {
-			showNotification({
-				message: "로그인을 먼저 해주세요.",
-				autoClose: 1500,
-				radius: "md",
-				color: "yellow",
-			});
-			return;
-		} else {
-			setCreateBoardOpen(!createBoardOpen);
-		}
-	};
+  const modalHandler = () => {
+    if (getLocalStorage(USER_ID) === null) {
+      showToast(INFORM_LOGIN_WARNING, "yellow");
+      return;
+    } else {
+      setCreateBoardOpen(!createBoardOpen);
+    }
+  };
 
-	return (
-		<div className="create-board-container">
-			<div className="create-board-btn" onClick={modalHandler}>
-				<IconPencil />
-			</div>
-			<CreateBoardModal isOpen={createBoardOpen} toggle={modalHandler} />
-		</div>
-	);
+  return (
+    <div className="create-board-container">
+      <div className="create-board-btn" onClick={modalHandler}>
+        <IconPencil />
+      </div>
+      <CreateBoardModal isOpen={createBoardOpen} toggle={modalHandler} />
+    </div>
+  );
 };
 
 export default CreateBoardButton;

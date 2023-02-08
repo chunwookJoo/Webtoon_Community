@@ -1,0 +1,13 @@
+{
+  "plugins": ["import"],
+  "extends": ["plugin:prettier/recommended"],
+  "rules": {
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index", "object", "type"]
+      }
+    ]
+  },
+  "parser": "babel-eslint"
+}
