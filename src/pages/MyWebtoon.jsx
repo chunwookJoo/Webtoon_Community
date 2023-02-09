@@ -2,10 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-// api
-import axios from "axios";
-import { API_URL } from "../config";
-
 // design library (mantine)
 import { Card, Image, Text, Button, Group, Menu } from "@mantine/core";
 
@@ -21,15 +17,15 @@ import { IconDotsVertical, IconTrash } from "@tabler/icons";
 import "../assets/scss/pages/myWebtoon.scss";
 
 // utils
-import { getLocalStorage } from "../utils/storage";
-import { REMOVE_MYWEBTOON_SUCCESS, USER_ID } from "../utils/constants";
+import { REMOVE_MYWEBTOON_SUCCESS } from "../utils/constants";
 import showToast from "../utils/toast";
+import { getWebtoonDetail, removeMyWebtoon } from "../api/webtoon";
 
 const MyWebtoon = () => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const [webtoonList, setWebtoonList] = useState();
-  const list = [];
+  const myWebtoonList = [];
 
   /**
    *
@@ -41,25 +37,19 @@ const MyWebtoon = () => {
 
   /**
    *
-   * @param {*} e event
-   * @param {*} webtoonId webtoonId
+   * @param {any} event event
+   * @param {string} webtoonId webtoonId
    */
-
-  const onClickRemoveWebtoon = (e, webtoonId) => {
-    const removeBody = {
+  const onClickRemoveWebtoon = async (event, webtoonId) => {
+    const removeMyWebtoonAPIBody = {
       _id: webtoonId,
     };
-    e.stopPropagation();
-    axios
-      .post(API_URL + `/auth/delete/mywebtoon/${getLocalStorage(USER_ID)}`, removeBody)
-      .then((response) => {
-        if (response.data.RESULT === 200) {
-          setUserInfo(response.data.user);
-          showToast(REMOVE_MYWEBTOON_SUCCESS, "green");
-        } else {
-          console.log(response.data);
-        }
-      });
+    event.stopPropagation();
+    const response = await removeMyWebtoon(removeMyWebtoonAPIBody);
+    if (response.RESULT === 200) {
+      setUserInfo(response.user);
+      showToast(REMOVE_MYWEBTOON_SUCCESS, "green");
+    }
   };
 
   /**
@@ -67,32 +57,19 @@ const MyWebtoon = () => {
    * @param {*} id webtoonId
    * @returns webtoonData
    */
-  const getWebtoonData = (id) => {
-    return new Promise((resolve, reject) => {
-      axios
-        .get(API_URL + `/search/webtoon/${id}`)
-        .then((response) => {
-          list.push(response.data);
-          resolve("정상");
-        })
-        .catch(() => {
-          reject("비정상");
-        });
-    });
+  const getMyWebtoon = async (webtoonId) => {
+    const response = await getWebtoonDetail(webtoonId);
+    myWebtoonList.push(response);
   };
 
   useEffect(() => {
-    const sequentialRequest = async () => {
+    const fetchMyWebtoonList = async () => {
       for (let i = 0; i < userInfo.myWebtoon.length; i++) {
-        try {
-          await getWebtoonData(userInfo.myWebtoon[i]);
-        } catch (error) {
-          console.log(error);
-        }
+        await getMyWebtoon(userInfo.myWebtoon[i]);
       }
-      setWebtoonList(list);
+      setWebtoonList(myWebtoonList);
     };
-    sequentialRequest();
+    fetchMyWebtoonList();
   }, [userInfo]);
 
   return (

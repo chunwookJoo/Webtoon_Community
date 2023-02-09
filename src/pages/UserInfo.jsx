@@ -16,7 +16,10 @@ import { userInfoState } from "../store/recoilAuthState";
 // icon
 import "../assets/scss/pages/userinfo.scss";
 import showToast from "../utils/toast";
-import { NICKNAME_CHECK_WARNING } from "../utils/constants";
+import { NICKNAME_CHECK_WARNING, UPDATE_PROFILE_SUCCESS } from "../utils/constants";
+import { postCheckNickName, postUserProfileImg, updateUserProfile } from "../api/profile";
+import { AGE_RANGE, GENDER } from "../utils/userSelectItems";
+import useNicknameCheck from "../hooks/useNicknameCheck";
 
 const UserInfo = () => {
   const { state } = useLocation();
@@ -24,20 +27,6 @@ const UserInfo = () => {
   const user = state;
   const nicknameInput = useRef();
   const profileImgInput = useRef();
-
-  const AGE_RANGE = [
-    { value: "10~19", label: "10대" },
-    { value: "20~29", label: "20대" },
-    { value: "30~39", label: "30대" },
-    { value: "40~49", label: "40대" },
-    { value: "50~59", label: "50대" },
-    { value: "60~69", label: "60대" },
-  ];
-
-  const GENDER = [
-    { value: "male", label: "남자" },
-    { value: "female", label: "여자" },
-  ];
 
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const [profileImagePreview, setProfileImagePreview] = useState(user.profileImage);
@@ -57,18 +46,7 @@ const UserInfo = () => {
     const formData = new FormData();
     encodeFileToBase64(e.target.files[0]);
     formData.append("images", e.target.files[0]);
-
-    axios({
-      baseURL: API_URL,
-      url: `/auth/userinfo/profileimg/upload/${user.id}`,
-      method: "POST",
-      data: formData,
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    }).then((response) => {
-      console.log(response);
-    });
+    await postUserProfileImg(user.id, formData);
   };
 
   // 프로필 사진 미리보기 인코딩
@@ -89,50 +67,28 @@ const UserInfo = () => {
     profileImgInput.current.click();
   };
 
-  const nicknameBody = {
-    nickname: nickName,
-  };
-
   // 닉네임 중복 체크
-  const onClickNicknameCheck = () => {
-    if (nickName === "") {
-      setNicknameChecked("empty");
-      return;
-    } else {
-      axios.post(API_URL + "/auth/nickname/check", nicknameBody).then((response) => {
-        if (response.data.RESULT === 200) {
-          setNicknameChecked("available");
-          return;
-        } else if (response.data.RESULT === 403) {
-          setNicknameChecked("unavailable");
-          return;
-        }
-      });
-    }
-  };
-
-  // 회원정보 수정 데이터
-  const updateBody = {
-    nickname: nickName,
-    age: ageRange,
-    gender,
+  const onClickNicknameCheck = async () => {
+    setNicknameChecked(await useNicknameCheck(nickName));
   };
 
   // 회원정보 수정하기 버튼
-  const onClickUserInfoUpdate = () => {
-    if (nicknameChecked === "available") {
-      axios
-        .post(API_URL + `/auth/userinfo/update/${user.id}`, updateBody)
-        .then((response) => {
-          if (response.data.RESULT === 200) {
-            setUserInfo(response.data.user);
+  const onClickUserInfoUpdate = async () => {
+    const updateUserProfileAPIBody = {
+      nickname: nickName,
+      age: ageRange,
+      gender,
+    };
 
-            showToast(UPDATE_PROFILE_SUCCESS, "green");
-            setTimeout(() => {
-              navigate("/");
-            }, 1000);
-          }
-        });
+    if (nicknameChecked === "available") {
+      const response = await updateUserProfile(user.id, updateUserProfileAPIBody);
+      if (response.RESULT === 200) {
+        setUserInfo(response.user);
+        showToast(UPDATE_PROFILE_SUCCESS, "green");
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      }
     } else {
       nicknameInput.current.focus();
       showToast(NICKNAME_CHECK_WARNING, "yellow");

@@ -27,34 +27,24 @@ import {
   USER_ID,
 } from "../utils/constants";
 import showToast from "../utils/toast";
+import { postMyWebtoon } from "../api/webtoon";
 
 const WebtoonDetail = () => {
   const { state } = useLocation();
   const webtoonData = state.webtoonDetailData;
 
-  const myWebtoonInsertBody = {
+  const postMyWebtoonAPIBody = {
     _id: webtoonData._id,
   };
 
-  const onClickMyWebtoonInsert = () => {
+  const onClickMyWebtoonInsert = async () => {
     if (getLocalStorage(USER_ID) === null) {
       showToast(INFORM_LOGIN_WARNING, "yellow");
       return;
     } else {
-      axios
-        .post(
-          API_URL + `/auth/insert/mywebtoon/${getLocalStorage(USER_ID)}`,
-          myWebtoonInsertBody,
-        )
-        .then((response) => {
-          if (response.data.RESULT === 200) {
-            showToast(SAVE_MYWEBTOON_SUCCESS, "green");
-          } else if (response.data.RESULT === 403) {
-            showToast(ALREADY_EXISTS_MYWEBTOON_WARNING, "yellow");
-          } else {
-            showToast(SAVE_MYWEBTOON_FAIL, "red");
-          }
-        });
+      const response = await postMyWebtoon(postMyWebtoonAPIBody);
+      if (response.RESULT === 200) showToast(SAVE_MYWEBTOON_SUCCESS, "green");
+      if (response.RESULT === 403) showToast(ALREADY_EXISTS_MYWEBTOON_WARNING, "yellow");
     }
   };
 
