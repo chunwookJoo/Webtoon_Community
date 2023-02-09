@@ -21,3 +21,5 @@ export const SAVE_MYWEBTOON_FAIL = "마이웹툰 저장에 실패했어요.";
 export const REMOVE_MYWEBTOON_SUCCESS = "웹툰이 마이웹툰에서 삭제되었어요.";
 
 export const UPDATE_PROFILE_SUCCESS = "프로필이 정상적으로 수정되었어요.";
+
+export const ERROR_MESSAGE = "알 수 없는 에러입니다.";
