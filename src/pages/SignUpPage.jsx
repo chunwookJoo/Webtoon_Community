@@ -10,7 +10,7 @@ import { API_URL } from "../config";
 import { Input, Select } from "@mantine/core";
 
 // recoil
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { jwtTokenState, userInfoState } from "../store/recoilAuthState";
 
 // components
@@ -29,22 +29,12 @@ import {
 } from "../utils/constants";
 import { setLocalStorage } from "../utils/storage";
 import showToast from "../utils/toast";
+import { AGE_RANGE, GENDER } from "../utils/userSelectItems";
+import { postCheckNickName } from "../api/profile";
+import useNicknameCheck from "../hooks/useNicknameCheck";
+import { postSignUP } from "../api/signUp";
 
-const AGE_RANGE = [
-  { value: "10~19", label: "10대" },
-  { value: "20~29", label: "20대" },
-  { value: "30~39", label: "30대" },
-  { value: "40~49", label: "40대" },
-  { value: "50~59", label: "50대" },
-  { value: "60~69", label: "60대" },
-];
-
-const GENDER = [
-  { value: "male", label: "남자" },
-  { value: "female", label: "여자" },
-];
-
-const RegistPage = (props) => {
+const SignUpPage = (props) => {
   const navigate = useNavigate();
   const nicknameInput = useRef();
   const { platform, account, token, id } = props;
@@ -62,8 +52,8 @@ const RegistPage = (props) => {
   /**
    * 공통으로 쓰이는 state
    */
-  const [jwtToken, setJwtToken] = useRecoilState(jwtTokenState);
-  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const setJwtToken = useSetRecoilState(jwtTokenState);
+  const setUserInfo = useSetRecoilState(userInfoState);
   const [nickName, setNickName] = useState("");
   const [nicknameChecked, setNicknameChecked] = useState("empty");
 
@@ -73,75 +63,44 @@ const RegistPage = (props) => {
     else if (state === "gender") setGender(e);
   };
 
-  const nicknameBody = {
-    nickname: nickName,
+  // 닉네임 중복 체크
+  const onClickNicknameCheck = async () => {
+    setNicknameChecked(await useNicknameCheck(nickName));
   };
 
-  const onClickNicknameCheck = () => {
-    if (nickName === "") {
-      setNicknameChecked("empty");
-      return;
-    } else {
-      axios.post(API_URL + "/auth/nickname/check", nicknameBody).then((response) => {
-        if (response.data.RESULT === 200) {
-          setNicknameChecked("available");
-          return;
-        } else if (response.data.RESULT === 403) {
-          setNicknameChecked("unavailable");
-          return;
-        }
-      });
-    }
-  };
+  const onClickSignUp = async (e, platform) => {
+    const postSignUpKakaoAPIBody = {
+      kakaoToken: token,
+      id,
+      email,
+      profileImage,
+      nickname: nickName,
+      age: ageRange,
+      gender,
+    };
 
-  const kakaoBody = {
-    kakaoToken: token,
-    id,
-    email,
-    profileImage,
-    nickname: nickName,
-    age: ageRange,
-    gender,
-  };
+    const postSignUpNaverAPIBody = {
+      naverToken: token,
+      id,
+      email,
+      profileImage,
+      nickname: nickName,
+      age: ageRange,
+      gender,
+    };
 
-  const naverBody = {
-    naverToken: token,
-    id,
-    email,
-    profileImage,
-    nickname: nickName,
-    age: ageRange,
-    gender,
-  };
-
-  const onClickSignup = (e, platform) => {
     if (nicknameChecked === "available") {
-      if (platform === "kakao") {
-        axios.post(API_URL + "/auth/kakaoSignUp", kakaoBody).then((response) => {
-          if (response.data.RESULT === 200) {
-            setJwtToken(response.data.jwtToken);
-            setUserInfo(response.data.user_data);
-            setLocalStorage(LOGIN_TOKEN, response.data.jwtToken);
-            setLocalStorage(USER_ID, response.data.user_data.id);
-
-            navigate("/");
-            showToast(SIGNUP_SUCCESS, "green");
-            return;
-          }
-        });
-      } else if (platform === "naver") {
-        axios.post(API_URL + "/auth/naverSignUp", naverBody).then((response) => {
-          if (response.data.RESULT === 200) {
-            setJwtToken(response.data.jwtToken);
-            setUserInfo(response.data.user_data);
-            setLocalStorage(LOGIN_TOKEN, response.data.jwtToken);
-            setLocalStorage(USER_ID, response.data.user_data.id);
-
-            navigate("/");
-            showToast(SIGNUP_SUCCESS, "green");
-            return;
-          }
-        });
+      const response = await postSignUP(
+        platform,
+        platform === "kakao" ? postSignUpKakaoAPIBody : postSignUpNaverAPIBody,
+      );
+      if (response.RESULT === 200) {
+        setJwtToken(response.jwtToken);
+        setUserInfo(response.user_data);
+        setLocalStorage(LOGIN_TOKEN, response.jwtToken);
+        setLocalStorage(USER_ID, response.user_data.id);
+        navigate("/");
+        showToast(SIGNUP_SUCCESS, "green");
       }
     } else {
       nicknameInput.current.focus();
@@ -207,11 +166,11 @@ const RegistPage = (props) => {
           </div>
         </div>
         <div className="regist-btn">
-          <button onClick={(e) => onClickSignup(e, platform)}>회원가입하기</button>
+          <button onClick={(e) => onClickSignUp(e, platform)}>회원가입하기</button>
         </div>
       </div>
     </div>
   );
 };
 
-export default RegistPage;
+export default SignUpPage;

@@ -14,9 +14,9 @@ export const MyWebtoon = React.lazy(() => import("./MyWebtoon"));
 // 내정보
 export const UserInfo = React.lazy(() => import("./UserInfo"));
 
-// regist
-export const KakaoRegist = React.lazy(() => import("./regist/KakaoRegist"));
-export const NaverRegist = React.lazy(() => import("./regist/NaverRegist"));
+// signup
+export const KakaoSignUp = React.lazy(() => import("./signup/KakaoSignUp"));
+export const NaverSignUp = React.lazy(() => import("./signup/NaverSignUp"));
 
 // 404 페이지
 export const NotFound = React.lazy(() => import("./NotFound"));
