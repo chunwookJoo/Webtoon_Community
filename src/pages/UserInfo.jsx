@@ -3,23 +3,25 @@ import React, { useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 // api
-import axios from "axios";
-import { API_URL } from "../config";
+import { postUserProfileImg, updateUserProfile } from "../api/profile";
 
 // design library (mantine)
 import { Avatar, Input, Select } from "@mantine/core";
 
 // recoil
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { userInfoState } from "../store/recoilAuthState";
+
+// hook
+import useNicknameCheck from "../hooks/useNicknameCheck";
 
 // icon
 import "../assets/scss/pages/userinfo.scss";
+
+// utils
 import showToast from "../utils/toast";
-import { NICKNAME_CHECK_WARNING, UPDATE_PROFILE_SUCCESS } from "../utils/constants";
-import { postCheckNickName, postUserProfileImg, updateUserProfile } from "../api/profile";
 import { AGE_RANGE, GENDER } from "../utils/userSelectItems";
-import useNicknameCheck from "../hooks/useNicknameCheck";
+import { NICKNAME_CHECK_WARNING, UPDATE_PROFILE_SUCCESS } from "../utils/constants";
 
 const UserInfo = () => {
   const { state } = useLocation();
@@ -28,7 +30,7 @@ const UserInfo = () => {
   const nicknameInput = useRef();
   const profileImgInput = useRef();
 
-  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const setUserInfo = useSetRecoilState(userInfoState);
   const [profileImagePreview, setProfileImagePreview] = useState(user.profileImage);
 
   const [nickName, setNickName] = useState(user.nickname);

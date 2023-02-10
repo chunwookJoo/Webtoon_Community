@@ -27,7 +27,9 @@ const WebtoonPage = () => {
   const fetchWebtoonList = async () => {
     if (isMoreRefShow) page.current += 1;
     const data = await getWebtoonList(pathname, query, page.current);
-    const WebtoonList = await data.map((webtoon) => <Webtoon webtoonData={webtoon} />);
+    const WebtoonList = await data.map((webtoon) => (
+      <Webtoon key={webtoon._id} webtoonData={webtoon} />
+    ));
     setWebtoonList((prev) => [...prev, WebtoonList]);
     didMount.current = true;
   };

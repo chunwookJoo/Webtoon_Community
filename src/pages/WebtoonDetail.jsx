@@ -3,10 +3,7 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 
 // api
-import axios from "axios";
-import { API_URL } from "../config";
-
-// design library (mantine)
+import { postMyWebtoon } from "../api/webtoon";
 
 // components
 import { ReactComponent as Naver } from "../assets/img/naver.svg";
@@ -22,12 +19,10 @@ import { getLocalStorage } from "../utils/storage";
 import {
   ALREADY_EXISTS_MYWEBTOON_WARNING,
   INFORM_LOGIN_WARNING,
-  SAVE_MYWEBTOON_FAIL,
   SAVE_MYWEBTOON_SUCCESS,
   USER_ID,
 } from "../utils/constants";
 import showToast from "../utils/toast";
-import { postMyWebtoon } from "../api/webtoon";
 
 const WebtoonDetail = () => {
   const { state } = useLocation();

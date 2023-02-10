@@ -2,21 +2,22 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-// api
-import axios from "axios";
-import { API_URL } from "../config";
-
 // design library (mantine)
 import { Input, Select } from "@mantine/core";
 
+//api
+import { postSignUp } from "../api/signUp";
+
 // recoil
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { jwtTokenState, userInfoState } from "../store/recoilAuthState";
 
 // components
 import { ReactComponent as Logo } from "../assets/img/logo.svg";
 
 // hooks
+import useNicknameCheck from "../hooks/useNicknameCheck";
+
 // icon
 import "../assets/scss/pages/registPage.scss";
 
@@ -30,9 +31,6 @@ import {
 import { setLocalStorage } from "../utils/storage";
 import showToast from "../utils/toast";
 import { AGE_RANGE, GENDER } from "../utils/userSelectItems";
-import { postCheckNickName } from "../api/profile";
-import useNicknameCheck from "../hooks/useNicknameCheck";
-import { postSignUP } from "../api/signUp";
 
 const SignUpPage = (props) => {
   const navigate = useNavigate();
@@ -90,7 +88,7 @@ const SignUpPage = (props) => {
     };
 
     if (nicknameChecked === "available") {
-      const response = await postSignUP(
+      const response = await postSignUp(
         platform,
         platform === "kakao" ? postSignUpKakaoAPIBody : postSignUpNaverAPIBody,
       );
