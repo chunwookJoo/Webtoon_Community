@@ -3,13 +3,10 @@ import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 // api
-import axios from "axios";
-import { API_URL } from "../../config";
-
-// design library (mantine)
+import { getBoardList, getCommentList } from "../../api/board";
 
 // recoil
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { jwtTokenState } from "../../store/recoilAuthState";
 import { createBoardModalState } from "../../store/recoilModalState";
 import { boardDataState, boardListState } from "../../store/recoilBoardState";
@@ -17,9 +14,10 @@ import { boardDataState, boardListState } from "../../store/recoilBoardState";
 // components
 import CreateBoardButton from "../../components/board/CreateBoardButton";
 
-// hooks
 // icon
 import "../../assets/scss/pages/board/boardPage.scss";
+
+// utils
 import showToast from "../../utils/toast";
 import { INFORM_LOGIN_WARNING } from "../../utils/constants";
 
@@ -27,16 +25,19 @@ const BoardPage = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [boardList, setBoardList] = useRecoilState(boardListState);
-  const [boardData, setBoardData] = useRecoilState(boardDataState);
-  const [jwtToken, setJwtToken] = useRecoilState(jwtTokenState);
-  const [createBoardOpen, setCreateBoardOpen] = useRecoilState(createBoardModalState);
+  const setBoardData = useSetRecoilState(boardDataState);
+
+  const jwtToken = useRecoilValue(jwtTokenState);
+  const createBoardOpen = useRecoilValue(createBoardModalState);
 
   useEffect(() => {
-    axios
-      .get(API_URL + (state === null ? "/api/board" : "/api" + state))
-      .then((response) => {
-        setBoardList(response.data);
-      });
+    const fetchBoardList = async () => {
+      if (state) {
+        const response = await getBoardList(state);
+        setBoardList(response);
+      }
+    };
+    fetchBoardList();
   }, [state, createBoardOpen]);
 
   const onClickBoard = (e, item) => {

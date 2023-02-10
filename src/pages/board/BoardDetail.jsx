@@ -3,22 +3,22 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 // api
-import axios from "axios";
-import { API_URL } from "../../config";
+import { getBoardDetail, getCommentList, postCreateComment } from "../../api/board";
 
 // design library (mantine)
 import { Input } from "@mantine/core";
 // recoil
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { boardDataState } from "../../store/recoilBoardState";
 import { userInfoState } from "../../store/recoilAuthState";
 
 // components
 import WebtoonInfoDetail from "../../components/WebtoonInfoDetail";
 
-// hooks
-// ico
+// icon
 import "../../assets/scss/pages/board/boardDetail.scss";
+
+// utils
 import showToast from "../../utils/toast";
 import { CREATE_COMMENT_SUCCESS, EMPTY_COMMENT_WARNING } from "../../utils/constants";
 
@@ -27,9 +27,12 @@ const Comments = (props) => {
   const [commentData, setCommentData] = useState();
 
   useEffect(() => {
-    axios.get(API_URL + `/comment/${boardData._id}`).then((response) => {
-      setCommentData(response.data);
-    });
+    const fetchCommentList = async () => {
+      const response = await getCommentList(boardData._id);
+      setCommentData(response);
+    };
+
+    fetchCommentList();
   }, [props.commentState]);
 
   return (
@@ -64,8 +67,8 @@ const Comments = (props) => {
 
 const EditWebtoonComment = () => {
   const commentInput = useRef();
-  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
-  const [boardData, setBoardData] = useRecoilState(boardDataState);
+  const userInfo = useRecoilValue(userInfoState);
+  const boardData = useRecoilValue(boardDataState);
   const [comment, setComment] = useState("");
   const [commentState, setCommentState] = useState();
 
@@ -75,25 +78,24 @@ const EditWebtoonComment = () => {
   const day = ("0" + today.getDate()).slice(-2);
   const dateString = year + "-" + month + "-" + day;
 
-  const commentBody = {
-    board_id: boardData._id,
-    comment,
-    author: userInfo._id,
-    createdAt: dateString,
-  };
+  const onClickCreateComment = async () => {
+    const postCreateCommentAPIBody = {
+      board_id: boardData._id,
+      comment,
+      author: userInfo._id,
+      createdAt: dateString,
+    };
 
-  const onClickCreateComment = () => {
     if (comment === "") {
       showToast(EMPTY_COMMENT_WARNING, "yellow");
       commentInput.current.focus();
     } else {
-      axios.post(API_URL + "/comment/insert", commentBody).then((response) => {
-        if (response.data.RESULT === 200) {
-          setComment("");
-          setCommentState(response.data);
-          showToast(CREATE_COMMENT_SUCCESS, "green");
-        }
-      });
+      const response = await postCreateComment(postCreateCommentAPIBody);
+      if (response.RESULT === 200) {
+        setComment("");
+        setCommentState(response);
+        showToast(CREATE_COMMENT_SUCCESS, "green");
+      }
     }
   };
   return (
@@ -125,11 +127,14 @@ const EditWebtoonComment = () => {
 const BoardDetail = () => {
   const { state } = useLocation(); // board_id
   const [boardData, setBoardData] = useRecoilState(boardDataState);
+
   useEffect(() => {
-    window.scrollTo(0, 0);
-    axios.get(API_URL + `/api/board/${state}`).then((response) => {
-      setBoardData(response.data);
-    });
+    const fetchBoardDetail = async () => {
+      window.scrollTo(0, 0);
+      const response = await getBoardDetail(state);
+      setBoardData(response);
+    };
+    fetchBoardDetail();
   }, []);
 
   return (

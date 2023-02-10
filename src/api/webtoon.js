@@ -49,13 +49,28 @@ const getWebtoonList = async (pathname, query, page) => {
   }
 };
 
+/**
+ * 웹툰 상세 정보
+ * @param {string} webtoonId
+ * @returns
+ */
 const getWebtoonDetail = async (webtoonId) => {
   try {
     const { data } = await api.get(`/search/webtoon/${webtoonId}`);
     return data;
   } catch (error) {
     showToast(ERROR_MESSAGE, "red");
-    throw new Error(error, "마이웹툰 저장 에러");
+    throw new Error(error, "웹툰 조회 에러");
+  }
+};
+
+const getSearchWebtoon = async (searchValue) => {
+  try {
+    const { data } = await api.get(`/search?keyword=${searchValue}`);
+    return data;
+  } catch (error) {
+    showToast(ERROR_MESSAGE, "red");
+    throw new Error(error, "웹툰 검색 에러");
   }
 };
 
@@ -77,6 +92,11 @@ const postMyWebtoon = async (postMyWebtoonAPIBody) => {
   }
 };
 
+/**
+ * 마이웹툰 삭제
+ * @param {any} removeMyWebtoonAPIBody
+ * @returns
+ */
 const removeMyWebtoon = async (removeMyWebtoonAPIBody) => {
   try {
     const { data } = await api.post(
@@ -86,8 +106,14 @@ const removeMyWebtoon = async (removeMyWebtoonAPIBody) => {
     return data;
   } catch (error) {
     showToast(ERROR_MESSAGE, "red");
-    throw new Error(error, "마이웹툰 저장 에러");
+    throw new Error(error, "마이웹툰 삭제 에러");
   }
 };
 
-export { getWebtoonList, getWebtoonDetail, postMyWebtoon, removeMyWebtoon };
+export {
+  getWebtoonList,
+  getWebtoonDetail,
+  getSearchWebtoon,
+  postMyWebtoon,
+  removeMyWebtoon,
+};
