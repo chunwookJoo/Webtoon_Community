@@ -15,8 +15,7 @@ import { jwtTokenState, userInfoState } from "../store/recoilAuthState";
 // components
 import { ReactComponent as Logo } from "../assets/img/logo.svg";
 
-// hooks
-import useNicknameCheck from "../hooks/useNicknameCheck";
+import isNicknameCheck from "../utils/user";
 
 // icon
 import "../assets/scss/pages/registPage.scss";
@@ -63,7 +62,7 @@ const SignUpPage = (props) => {
 
   // 닉네임 중복 체크
   const onClickNicknameCheck = async () => {
-    setNicknameChecked(await useNicknameCheck(nickName));
+    setNicknameChecked(await isNicknameCheck(nickName));
   };
 
   const onClickSignUp = async (e, platform) => {

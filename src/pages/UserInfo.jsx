@@ -12,9 +12,6 @@ import { Avatar, Input, Select } from "@mantine/core";
 import { useSetRecoilState } from "recoil";
 import { userInfoState } from "../store/recoilAuthState";
 
-// hook
-import useNicknameCheck from "../hooks/useNicknameCheck";
-
 // icon
 import "../assets/scss/pages/userinfo.scss";
 
@@ -22,6 +19,7 @@ import "../assets/scss/pages/userinfo.scss";
 import showToast from "../utils/toast";
 import { AGE_RANGE, GENDER } from "../utils/userSelectItems";
 import { NICKNAME_CHECK_WARNING, UPDATE_PROFILE_SUCCESS } from "../utils/constants";
+import isNicknameCheck from "../utils/user";
 
 const UserInfo = () => {
   const { state } = useLocation();
@@ -71,7 +69,7 @@ const UserInfo = () => {
 
   // 닉네임 중복 체크
   const onClickNicknameCheck = async () => {
-    setNicknameChecked(await useNicknameCheck(nickName));
+    setNicknameChecked(await isNicknameCheck(nickName));
   };
 
   // 회원정보 수정하기 버튼

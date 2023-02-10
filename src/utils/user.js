@@ -1,6 +1,6 @@
 import { postCheckNickName } from "../api/profile";
 
-const useNicknameCheck = async (nickname) => {
+const isNicknameCheck = async (nickname) => {
   const postCheckNickNameAPIBody = {
     nickname,
   };
@@ -12,4 +12,4 @@ const useNicknameCheck = async (nickname) => {
   else if (response.RESULT === 403) return "unavailable";
 };
 
-export default useNicknameCheck;
+export default isNicknameCheck;

@@ -8,6 +8,5 @@ export const KAKAO_REDIRECT_URL = import.meta.env.VITE_KAKAO_REDIRECT_URL;
 
 // 네이버
 export const NAVER_CLIENT_ID = import.meta.env.VITE_NAVER_CLIENT_ID;
-export const NAVER_CLIENT_SECRET = import.meta.env
-	.REACT_APP_NAVER_CLIENT_SECRET;
+export const NAVER_CLIENT_SECRET = import.meta.env.VITE_NAVER_CLIENT_SECRET;
 export const NAVER_REDIRECT_URL = import.meta.env.VITE_NAVER_REDIRECT_URL;

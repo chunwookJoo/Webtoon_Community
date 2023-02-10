@@ -17,6 +17,11 @@ const postCreateBoard = async (postCreateBoardAPIBody) => {
   }
 };
 
+/**
+ * 플랫폼별 웹툰 후기 리스트 조회
+ * @param {string} url
+ * @returns
+ */
 const getBoardList = async (url) => {
   try {
     const { data } = await api.get(`/api${url}`);

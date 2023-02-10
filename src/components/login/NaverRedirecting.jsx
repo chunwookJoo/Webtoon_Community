@@ -18,8 +18,9 @@ import { ReactComponent as Logo } from "../../assets/img/logo.svg";
 
 // utils
 import { setLocalStorage } from "../../utils/storage";
-import { LOGIN_TOKEN, USER_ID } from "../../utils/constants";
+import { LOGIN_SUCCESS, LOGIN_TOKEN, USER_ID } from "../../utils/constants";
 import { postNaverLogin } from "../../api/auth";
+import showToast from "../../utils/toast";
 
 const NaverRedirecting = () => {
   const navigate = useNavigate();
