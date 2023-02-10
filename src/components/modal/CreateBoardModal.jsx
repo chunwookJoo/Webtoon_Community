@@ -1,15 +1,11 @@
 // npm package
 import React, { useEffect, useState } from "react";
 
-// api
-import axios from "axios";
-import { API_URL } from "../../config";
-
 // design library (mantine)
 import { Modal, Input, Textarea } from "@mantine/core";
 
 // recoil
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { userInfoState } from "../../store/recoilAuthState";
 
 // components
@@ -23,6 +19,8 @@ import { IconCircleX } from "@tabler/icons";
 import "../../assets/scss/components/board/createBoard.scss";
 import showToast from "../../utils/toast";
 import { CREATE_BOARD_SUCCESS, EMPTY_INPUT_WARNING } from "../../utils/constants";
+import { getSearchWebtoon } from "../../api/webtoon";
+import { postCreateBoard } from "../../api/board";
 
 const CreateBoardModal = (props) => {
   const modal = props.isOpen;
@@ -45,17 +43,17 @@ const CreateBoardModal = (props) => {
 
   const [selectWebtoon, setSelectWebtoon] = useState(null);
 
-  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const userInfo = useRecoilValue(userInfoState);
 
   useEffect(() => {
     !!searchValue
       ? (async () => {
-          const { data } = await axios.get(`${API_URL}/search?keyword=${searchValue}`);
-          if (Array.isArray(data)) {
+          const response = await getSearchWebtoon(searchValue);
+          if (Array.isArray(response)) {
             setMatchingKeywordList(
-              data.map((webtoon, index) => (
+              response.map((webtoon, index) => (
                 <li
-                  key={index}
+                  key={webtoon._id}
                   className="searched-item-wrap"
                   onClick={() => setSelectWebtoon(webtoon)}
                 >
@@ -89,30 +87,26 @@ const CreateBoardModal = (props) => {
     setSelectWebtoon(null);
   };
 
-  const createBody = {
-    title,
-    description,
-    author: userInfo._id,
-    webtoon: selectWebtoon?._id,
-    service: selectWebtoon?.service,
-  };
+  const onClickCreateBoard = async () => {
+    const postCreateBoardAPIBody = {
+      title,
+      description,
+      author: userInfo._id,
+      webtoon: selectWebtoon?._id,
+      service: selectWebtoon?.service,
+    };
 
-  // 후기 등록 버튼 클릭
-  const onClickCreateBoard = () => {
     if (title === "" || description === "" || selectWebtoon === null) {
       showToast(EMPTY_INPUT_WARNING, "yellow");
     } else {
-      axios.post(API_URL + "/api/board/create", createBody).then((response) => {
-        if (response.data.RESULT === 200) {
-          toggle();
-          setTitle("");
-          setDescription("");
-          setSelectWebtoon(null);
-          showToast(CREATE_BOARD_SUCCESS, "green");
-        } else {
-          console.log(response);
-        }
-      });
+      const response = await postCreateBoard(postCreateBoardAPIBody);
+      if (response.RESULT === 200) {
+        toggle();
+        setTitle("");
+        setDescription("");
+        setSelectWebtoon(null);
+        showToast(CREATE_BOARD_SUCCESS, "green");
+      }
     }
   };
 

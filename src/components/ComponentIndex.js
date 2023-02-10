@@ -1,7 +1,7 @@
 import React from "react";
 
-import Nav from "./Nav";
-import NavBack from "./NavBack";
+import Nav from "./navigation/Nav";
+import NavBack from "./navigation/NavBack";
 
 import SearchModal from "./modal/SearchModal";
 
@@ -12,15 +12,6 @@ import Loading from "./Loading";
 
 // 웹툰
 export const Webtoon = React.lazy(() => import("./Webtoon"));
-export const WebtoonInfoDetail = React.lazy(() =>
-	import("./WebtoonInfoDetail"),
-);
+export const WebtoonInfoDetail = React.lazy(() => import("./WebtoonInfoDetail"));
 
-export {
-	Nav,
-	NavBack,
-	SearchModal,
-	KakaoRedirecting,
-	NaverRedirecting,
-	Loading,
-};
+export { Nav, NavBack, SearchModal, KakaoRedirecting, NaverRedirecting, Loading };

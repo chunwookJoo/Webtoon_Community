@@ -4,40 +4,41 @@
 import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-// api
-import axios from "axios";
-import { API_URL } from "../config";
-
 // design library (mantine)
 import { IconChevronLeft } from "@tabler/icons";
 
 // recoil
-import { useRecoilState } from "recoil";
-import { jwtTokenState, userInfoState } from "../store/recoilAuthState";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { jwtTokenState, userInfoState } from "../../store/recoilAuthState";
 
 // components
-import { LogoComponent, SignIn, UserInfo } from "./Nav";
+import UserInfo from "./UserInfo";
+import SignIn from "./SignIn";
+import LogoComponent from "./Logo";
 
 // hooks
 // icon
-import "../assets/scss/components/navback.scss";
+import "../../assets/scss/components/navback.scss";
 
 // utils
-import { getLocalStorage } from "../utils/storage";
-import { LOGIN_TOKEN, USER_ID } from "../utils/constants";
+import { getLocalStorage } from "../../utils/storage";
+import { LOGIN_TOKEN, USER_ID } from "../../utils/constants";
+import { getUserInfo } from "../../api/user";
 
 const NavBack = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const setUserInfo = useSetRecoilState(userInfoState);
   const [jwtToken, setJwtToken] = useRecoilState(jwtTokenState);
 
   useEffect(() => {
-    setJwtToken(getLocalStorage(LOGIN_TOKEN));
+    const fetchUserInfo = async () => {
+      setJwtToken(getLocalStorage(LOGIN_TOKEN));
+      const response = await getUserInfo();
+      setUserInfo(response);
+    };
 
-    axios.get(API_URL + `/auth/userinfo/${getLocalStorage(USER_ID)}`).then((response) => {
-      setUserInfo(response.data);
-    });
+    fetchUserInfo();
   }, [location]);
 
   const onClickBackPage = () => {

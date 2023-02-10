@@ -3,15 +3,11 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 // api
-import axios from "axios";
-import { API_URL } from "../../config";
 import { KAKAO_REST_API_KEY } from "./LoginApiData";
-
-// design library (mantine)
-import { showNotification } from "@mantine/notifications";
+import { postKakaoLogin } from "../../api/auth";
 
 // recoil
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { jwtTokenState, userInfoState } from "../../store/recoilAuthState";
 
 // components
@@ -29,13 +25,13 @@ import showToast from "../../utils/toast";
 const KakaoRedirecting = () => {
   const navigate = useNavigate();
 
-  const [jwtToken, setJwtToken] = useRecoilState(jwtTokenState);
-  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const setJwtToken = useSetRecoilState(jwtTokenState);
+  const setUserInfo = useSetRecoilState(userInfoState);
 
   // 카카오 인가코드
   let kakaoCode = new URL(window.location.href).searchParams.get("code");
 
-  const kakaoBody = {
+  const postKakaoLoginAPIBody = {
     rest_api_key: KAKAO_REST_API_KEY,
     auth_code: kakaoCode,
     domain: window.location.origin,
@@ -45,25 +41,28 @@ const KakaoRedirecting = () => {
    * 서버에 인가코드 보내고 액세스 토큰 받아옴
    */
   useEffect(() => {
-    axios.post(API_URL + "/auth/kakaoLogin", kakaoBody).then((response) => {
-      if (response.data.RESULT === 200) {
-        setJwtToken(response.data.user.jwtToken);
-        setUserInfo(response.data.user);
-        setLocalStorage(LOGIN_TOKEN, response.data.user.jwtToken);
-        setLocalStorage(USER_ID, response.data.user.user.id);
+    const fetchKakaoLogin = async () => {
+      const response = await postKakaoLogin(postKakaoLoginAPIBody);
+      if (response.RESULT === 200) {
+        setJwtToken(response.user.jwtToken);
+        setUserInfo(response.user);
+        setLocalStorage(LOGIN_TOKEN, response.user.jwtToken);
+        setLocalStorage(USER_ID, response.user.user.id);
         navigate("/");
-        showToast(response.data.user.user.nickname + LOGIN_SUCCESS, "green");
+        showToast(response.user.user.nickname + LOGIN_SUCCESS, "green");
         return;
-      } else if (response.data.RESULT === 401) {
-        navigate(`/regist/kakao?token=${response.data.user.access_token}`, {
+      } else if (response.RESULT === 401) {
+        navigate(`/regist/kakao?token=${response.user.access_token}`, {
           state: {
-            data: response.data.user,
+            data: response.user,
             platform: "kakao",
           },
           replace: true,
         });
       }
-    });
+    };
+
+    fetchKakaoLogin();
   }, []);
 
   return (
