@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import { IconLoader2 } from "@tabler/icons";
-import { css, keyframes } from "@emotion/react";
+import { css, keyframes } from '@emotion/react';
+import { IconLoader2 } from '@tabler/icons';
 
 const spinner = keyframes`
 	0% {
@@ -15,12 +15,11 @@ const Loading = () => {
 	return (
 		<span
 			style={{
-				display: "flex",
-				justifyContent: "center",
-				width: "100%",
-				margin: "5em 0",
-			}}
-		>
+				display: 'flex',
+				justifyContent: 'center',
+				width: '100%',
+				margin: '5em 0',
+			}}>
 			<IconLoader2
 				width="30px"
 				height="30px"

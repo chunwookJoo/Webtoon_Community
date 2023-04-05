@@ -1,6 +1,6 @@
-import { ERROR_MESSAGE } from "../utils/constants";
-import showToast from "../utils/toast";
-import api from "./api";
+import { ERROR_MESSAGE } from '../utils/constants';
+import showToast from '../utils/toast';
+import api from './api';
 
 /**
  * 웹툰 후기 작성
@@ -8,13 +8,16 @@ import api from "./api";
  * @returns
  */
 const postCreateBoard = async (postCreateBoardAPIBody) => {
-  try {
-    const { data } = await api.post("/api/board/create", postCreateBoardAPIBody);
-    return data;
-  } catch (error) {
-    showToast(ERROR_MESSAGE, "red");
-    throw new Error(error, "웹툰 후기 작성 에러");
-  }
+	try {
+		const { data } = await api.post(
+			'/api/board/create',
+			postCreateBoardAPIBody,
+		);
+		return data;
+	} catch (error) {
+		showToast(ERROR_MESSAGE, 'red');
+		throw new Error(error, '웹툰 후기 작성 에러');
+	}
 };
 
 /**
@@ -23,13 +26,13 @@ const postCreateBoard = async (postCreateBoardAPIBody) => {
  * @returns
  */
 const getBoardList = async (url) => {
-  try {
-    const { data } = await api.get(`/api${url}`);
-    return data;
-  } catch (error) {
-    showToast(ERROR_MESSAGE, "red");
-    throw new Error(error, "웹툰 후기 리스트 조회 에러");
-  }
+	try {
+		const { data } = await api.get(`/api${url}`);
+		return data;
+	} catch (error) {
+		showToast(ERROR_MESSAGE, 'red');
+		throw new Error(error, '웹툰 후기 리스트 조회 에러');
+	}
 };
 
 /**
@@ -38,13 +41,13 @@ const getBoardList = async (url) => {
  * @returns
  */
 const getBoardDetail = async (boardId) => {
-  try {
-    const { data } = await api.get(`/api/board/${boardId}`);
-    return data;
-  } catch (error) {
-    showToast(ERROR_MESSAGE, "red");
-    throw new Error(error, "웹툰 후기 조회 에러");
-  }
+	try {
+		const { data } = await api.get(`/api/board/${boardId}`);
+		return data;
+	} catch (error) {
+		showToast(ERROR_MESSAGE, 'red');
+		throw new Error(error, '웹툰 후기 조회 에러');
+	}
 };
 
 /**
@@ -53,13 +56,16 @@ const getBoardDetail = async (boardId) => {
  * @returns
  */
 const postCreateComment = async (postCreateCommentAPIBody) => {
-  try {
-    const { data } = await api.post("/comment/insert", postCreateCommentAPIBody);
-    return data;
-  } catch (error) {
-    showToast(ERROR_MESSAGE, "red");
-    throw new Error(error, "웹툰 후기 댓글 작성 에러");
-  }
+	try {
+		const { data } = await api.post(
+			'/comment/insert',
+			postCreateCommentAPIBody,
+		);
+		return data;
+	} catch (error) {
+		showToast(ERROR_MESSAGE, 'red');
+		throw new Error(error, '웹툰 후기 댓글 작성 에러');
+	}
 };
 
 /**
@@ -68,19 +74,19 @@ const postCreateComment = async (postCreateCommentAPIBody) => {
  * @returns
  */
 const getCommentList = async (boardId) => {
-  try {
-    const { data } = await api.get(`/comment/${boardId}`);
-    return data;
-  } catch (error) {
-    showToast(ERROR_MESSAGE, "red");
-    throw new Error(error, "웹툰 후기 댓글 조회 에러");
-  }
+	try {
+		const { data } = await api.get(`/comment/${boardId}`);
+		return data;
+	} catch (error) {
+		showToast(ERROR_MESSAGE, 'red');
+		throw new Error(error, '웹툰 후기 댓글 조회 에러');
+	}
 };
 
 export {
-  postCreateBoard,
-  getBoardList,
-  getBoardDetail,
-  postCreateComment,
-  getCommentList,
+	getBoardDetail,
+	getBoardList,
+	getCommentList,
+	postCreateBoard,
+	postCreateComment,
 };

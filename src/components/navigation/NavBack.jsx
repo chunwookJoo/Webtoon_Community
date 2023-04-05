@@ -1,63 +1,51 @@
-// 모바일 화면에서 보이는 뒤로가기 버튼
+import '../../assets/scss/components/navback.scss';
 
-// npm package
-import React, { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { IconChevronLeft } from '@tabler/icons';
+import React, { useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
-// design library (mantine)
-import { IconChevronLeft } from "@tabler/icons";
-
-// recoil
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { jwtTokenState, userInfoState } from "../../store/recoilAuthState";
-
-// components
-import UserInfo from "./UserInfo";
-import SignIn from "./SignIn";
-import LogoComponent from "./Logo";
-
-// hooks
-// icon
-import "../../assets/scss/components/navback.scss";
-
-// utils
-import { getLocalStorage } from "../../utils/storage";
-import { LOGIN_TOKEN, USER_ID } from "../../utils/constants";
-import { getUserInfo } from "../../api/user";
+import { getUserInfo } from '../../api/user';
+import { jwtTokenState, userInfoState } from '../../store/recoilAuthState';
+import { LOGIN_TOKEN, USER_ID } from '../../utils/constants';
+import { getLocalStorage } from '../../utils/storage';
+import LogoComponent from './Logo';
+import SignIn from './SignIn';
+import UserInfo from './UserInfo';
 
 const NavBack = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const setUserInfo = useSetRecoilState(userInfoState);
-  const [jwtToken, setJwtToken] = useRecoilState(jwtTokenState);
+	const location = useLocation();
+	const navigate = useNavigate();
+	const setUserInfo = useSetRecoilState(userInfoState);
+	const [jwtToken, setJwtToken] = useRecoilState(jwtTokenState);
 
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      setJwtToken(getLocalStorage(LOGIN_TOKEN));
-      const response = await getUserInfo();
-      setUserInfo(response);
-    };
+	useEffect(() => {
+		const fetchUserInfo = async () => {
+			setJwtToken(getLocalStorage(LOGIN_TOKEN));
+			const response = await getUserInfo();
+			setUserInfo(response);
+		};
 
-    fetchUserInfo();
-  }, [location]);
+		fetchUserInfo();
+	}, [location]);
 
-  const onClickBackPage = () => {
-    navigate(-1);
-  };
+	const onClickBackPage = () => {
+		navigate(-1);
+	};
 
-  return (
-    <section className="nav-section">
-      <div className="nav-container">
-        <div className="webtoon-detail-logo">
-          <LogoComponent />
-        </div>
-        <span onClick={onClickBackPage} className="back-btn">
-          <IconChevronLeft size={24} />
-        </span>
-        {jwtToken !== null ? <UserInfo /> : <SignIn />}
-      </div>
-    </section>
-  );
+	return (
+		<section className="nav-section">
+			<div className="nav-container">
+				<div className="webtoon-detail-logo">
+					<LogoComponent />
+				</div>
+				<span onClick={onClickBackPage} className="back-btn">
+					<IconChevronLeft size={24} />
+				</span>
+				{jwtToken !== null ? <UserInfo /> : <SignIn />}
+			</div>
+		</section>
+	);
 };
 
 export default NavBack;

@@ -1,46 +1,37 @@
-// npm package
-import React from "react";
+import '../../assets/scss/components/board/createBoard.scss';
 
-// api
-// design library (mantine)
+import { IconPencil } from '@tabler/icons';
+import React from 'react';
+import { useRecoilState } from 'recoil';
 
-// recoil
-import { useRecoilState } from "recoil";
-import { createBoardModalState } from "../../store/recoilModalState";
-
-// components
-import CreateBoardModal from "../modal/CreateBoardModal";
-
-// hooks
-// icon
-import { IconPencil } from "@tabler/icons";
-import "../../assets/scss/components/board/createBoard.scss";
-
-// utils
-import { getLocalStorage } from "../../utils/storage";
-import { INFORM_LOGIN_WARNING, USER_ID } from "../../utils/constants";
-import showToast from "../../utils/toast";
+import { createBoardModalState } from '../../store/recoilModalState';
+import { INFORM_LOGIN_WARNING, USER_ID } from '../../utils/constants';
+import { getLocalStorage } from '../../utils/storage';
+import showToast from '../../utils/toast';
+import CreateBoardModal from '../modal/CreateBoardModal';
 
 const CreateBoardButton = () => {
-  const [createBoardOpen, setCreateBoardOpen] = useRecoilState(createBoardModalState);
+	const [createBoardOpen, setCreateBoardOpen] = useRecoilState(
+		createBoardModalState,
+	);
 
-  const modalHandler = () => {
-    if (getLocalStorage(USER_ID) === null) {
-      showToast(INFORM_LOGIN_WARNING, "yellow");
-      return;
-    } else {
-      setCreateBoardOpen(!createBoardOpen);
-    }
-  };
+	const modalHandler = () => {
+		if (getLocalStorage(USER_ID) === null) {
+			showToast(INFORM_LOGIN_WARNING, 'yellow');
+			return;
+		} else {
+			setCreateBoardOpen(!createBoardOpen);
+		}
+	};
 
-  return (
-    <div className="create-board-container">
-      <div className="create-board-btn" onClick={modalHandler}>
-        <IconPencil />
-      </div>
-      <CreateBoardModal isOpen={createBoardOpen} toggle={modalHandler} />
-    </div>
-  );
+	return (
+		<div className="create-board-container">
+			<div className="create-board-btn" onClick={modalHandler}>
+				<IconPencil />
+			</div>
+			<CreateBoardModal isOpen={createBoardOpen} toggle={modalHandler} />
+		</div>
+	);
 };
 
 export default CreateBoardButton;

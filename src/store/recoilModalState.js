@@ -1,14 +1,14 @@
-import { atom } from "recoil";
+import { atom } from 'recoil';
 
 export const searchModalState = atom({
-	key: "searchModalState",
+	key: 'searchModalState',
 	default: false,
 });
 export const loginModalState = atom({
-	key: "loginModalState",
+	key: 'loginModalState',
 	default: false,
 });
 export const createBoardModalState = atom({
-	key: "createBoardModalState",
+	key: 'createBoardModalState',
 	default: false,
 });

@@ -1,24 +1,22 @@
-import React from "react";
-
 const WebtoonInfoDetail = (props) => {
 	const { webtoon } = props;
 	const platform =
-		webtoon.service === "naver"
-			? "네이버 웹툰"
-			: webtoon.service === "kakao"
-			? "카카오 웹툰"
-			: "카카오페이지 웹툰";
+		webtoon.service === 'naver'
+			? '네이버 웹툰'
+			: webtoon.service === 'kakao'
+			? '카카오 웹툰'
+			: '카카오페이지 웹툰';
 
 	const week = [
-		"월요일",
-		"화요일",
-		"수요일",
-		"목요일",
-		"금요일",
-		"토요일",
-		"일요일",
-		"완결",
-		"신작",
+		'월요일',
+		'화요일',
+		'수요일',
+		'목요일',
+		'금요일',
+		'토요일',
+		'일요일',
+		'완결',
+		'신작',
 	];
 
 	return (

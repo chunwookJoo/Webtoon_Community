@@ -1,4 +1,4 @@
-import { showNotification } from "@mantine/notifications";
+import { showNotification } from '@mantine/notifications';
 
 /**
  *
@@ -6,12 +6,12 @@ import { showNotification } from "@mantine/notifications";
  * @param {*} resultState 응답 상태 (success = green, warning = yellow, fail = red)
  */
 const showToast = (message, resultState) => {
-  return showNotification({
-    message,
-    autoClose: 2000,
-    radius: "md",
-    color: resultState,
-  });
+	return showNotification({
+		message,
+		autoClose: 2000,
+		radius: 'md',
+		color: resultState,
+	});
 };
 
 export default showToast;

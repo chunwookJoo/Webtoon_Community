@@ -1,11 +1,11 @@
-import { atom } from "recoil";
+import { atom } from 'recoil';
 
 export const boardListState = atom({
-	key: "boardListState",
+	key: 'boardListState',
 	default: null,
 });
 
 export const boardDataState = atom({
-	key: "boardDataState",
+	key: 'boardDataState',
 	default: [],
 });
