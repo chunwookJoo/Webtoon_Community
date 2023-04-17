@@ -1,6 +1,5 @@
 import '../../assets/scss/components/nav.scss';
 
-import { IconLayoutDashboard, IconMessageCircle } from '@tabler/icons';
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
@@ -34,44 +33,14 @@ const Nav = () => {
 		<section className="nav-section">
 			<div className="nav-container">
 				<LogoComponent />
-				<TransformPage
-					url={pathname.includes('board') ? '/all' : '/board'}
-					text={
-						pathname.includes('board') ? '플랫폼별 웹툰 모음' : '독자 후기 모음'
-					}
-					icon={
-						pathname.includes('board') ? (
-							<IconLayoutDashboard />
-						) : (
-							<IconMessageCircle />
-						)
-					}
-				/>
+				<TransformPage />
 				{jwtToken !== null ? <UserInfo /> : <SignIn />}
 			</div>
 			<div className="mobile-page-select">
-				<TransformPage
-					url={pathname.includes('board') ? '/all' : '/board'}
-					text={
-						pathname.includes('board') ? '플랫폼별 웹툰 모음' : '독자 후기 모음'
-					}
-					icon={
-						pathname.includes('board') ? (
-							<IconLayoutDashboard />
-						) : (
-							<IconMessageCircle />
-						)
-					}
-				/>
+				<TransformPage />
 			</div>
 			<PlatformSelect />
-			{pathname.includes('board') ? (
-				''
-			) : (
-				<>
-					<WeekLink />
-				</>
-			)}
+			{!pathname.includes('board') && <WeekLink />}
 		</section>
 	);
 };

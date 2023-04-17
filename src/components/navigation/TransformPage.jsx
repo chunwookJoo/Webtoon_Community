@@ -1,13 +1,27 @@
-import { IconChevronRight } from '@tabler/icons';
+import {
+	IconChevronRight,
+	IconLayoutDashboard,
+	IconMessageCircle,
+} from '@tabler/icons';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
-const TransformPage = (props) => {
-	const { url, text, icon } = props;
+const TransformPage = () => {
+	const { pathname } = useLocation();
+
 	return (
-		<Link to={url} state={'/board'} className="page-select">
+		<Link
+			to={pathname.includes('board') ? '/all' : '/board'}
+			state={'/board'}
+			className="page-select">
 			<span>
-				{icon} {text}
+				{pathname.includes('board') ? (
+					<IconLayoutDashboard />
+				) : (
+					<IconMessageCircle />
+				)}
+				&nbsp;
+				{pathname.includes('board') ? '플랫폼별 웹툰 모음' : '독자 후기 모음'}
 			</span>
 			<span className="arrow">
 				<IconChevronRight />

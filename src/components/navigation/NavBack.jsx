@@ -7,7 +7,7 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { getUserInfo } from '../../api/user';
 import { jwtTokenState, userInfoState } from '../../store/recoilAuthState';
-import { LOGIN_TOKEN, USER_ID } from '../../utils/constants';
+import { LOGIN_TOKEN } from '../../utils/constants';
 import { getLocalStorage } from '../../utils/storage';
 import LogoComponent from './Logo';
 import SignIn from './SignIn';
