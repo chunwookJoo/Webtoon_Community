@@ -9,7 +9,7 @@ import api from './api';
  */
 const postUserProfileImg = async (userId, formData) => {
 	try {
-		const { data } = await api.post(
+		await api.post(
 			`/auth/userinfo/profileimg/upload/${userId}`,
 			formData,
 			{
