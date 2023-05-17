@@ -66,13 +66,17 @@ const getWebtoonDetail = async (webtoonId) => {
 	}
 };
 
-const getSearchWebtoon = async (searchValue) => {
-	try {
-		const { data } = await api.get(`/search?keyword=${searchValue}`);
-		return data;
-	} catch (error) {
-		showToast(ERROR_MESSAGE, 'red');
-		throw new Error(error, '웹툰 검색 에러');
+const getSearchWebtoon = async (searchValue, page) => {
+	if (!!searchValue) {
+		try {
+			const { data } = await api.get(
+				`/search?keyword=${searchValue}&page=${page}`,
+			);
+			return data;
+		} catch (error) {
+			showToast(ERROR_MESSAGE, 'red');
+			throw new Error(error, '웹툰 검색 에러');
+		}
 	}
 };
 

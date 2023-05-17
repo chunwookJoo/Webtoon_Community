@@ -5,7 +5,6 @@ import React, { useEffect, useRef } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useLocation } from 'react-router-dom';
 
-import Webtoon from '../components/Webtoon';
 import WebtoonList from '../components/WebtoonList';
 import { useFetchWebtoonList } from '../hooks/apis/useFetchWebtoonList';
 
@@ -20,18 +19,17 @@ const WebtoonPage = () => {
 		refetch: webtoonListRefetch,
 		fetchNextPage,
 	} = useFetchWebtoonList({
+		isSearch: false,
 		pathname,
 		query,
 		pageRef,
 	});
 
-	// 요일, 플랫폼 변경 감지
 	useEffect(() => {
 		window.scrollTo(0, 0);
 		webtoonListRefetch();
 	}, [query.week, pathname]);
 
-	// 스크롤 위치 감지
 	useEffect(() => {
 		if (isMoreRefShow) {
 			pageRef.current++;

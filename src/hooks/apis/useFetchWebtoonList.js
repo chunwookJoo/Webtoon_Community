@@ -1,13 +1,30 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { getWebtoonList } from '../../api/webtoon';
+import { getSearchWebtoon, getWebtoonList } from '../../api/webtoon';
 
-export const useFetchWebtoonList = ({ pathname, query, pageRef }) => {
-	return useInfiniteQuery({
-		queryKey: ['webtoonList'],
-		queryFn: ({ pageParam = '' }) => getWebtoonList(pathname, query, pageParam),
-		getNextPageParam: () => {
-			return pageRef.current;
-		},
-	});
+export const useFetchWebtoonList = ({
+	isSearch,
+	searchValue,
+	pathname,
+	query,
+	pageRef,
+}) => {
+	if (isSearch) {
+		return useInfiniteQuery({
+			queryKey: ['webtoonSearchList'],
+			queryFn: ({ pageParam = '' }) => getSearchWebtoon(searchValue, pageParam),
+			getNextPageParam: () => {
+				return pageRef.current;
+			},
+		});
+	} else {
+		return useInfiniteQuery({
+			queryKey: ['webtoonList'],
+			queryFn: ({ pageParam = '' }) =>
+				getWebtoonList(pathname, query, pageParam),
+			getNextPageParam: () => {
+				return pageRef.current;
+			},
+		});
+	}
 };
