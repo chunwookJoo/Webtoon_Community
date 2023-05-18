@@ -7,26 +7,17 @@ import { useInView } from 'react-intersection-observer';
 import { getSearchWebtoon } from '../../api/webtoon';
 import { useFetchWebtoonList } from '../../hooks/apis/useFetchWebtoonList';
 import useDebounce from '../../hooks/useDebounce';
-import Loading from '../Loading';
 import Webtoon from '../Webtoon';
-import WebtoonList from '../WebtoonList';
-
-const NO_WEBTOON_FOUND = [
-	<li key="nothing-result" className="no-search-result">
-		검색 결과가 없습니다.
-	</li>,
-];
 
 const SearchModal = ({ isOpen, toggle }) => {
 	const [moreRef, isMoreRefShow] = useInView();
-	const pageRef = useRef(1);
+	const pageRef = useRef(0);
 	const [inputValue, setInputValue] = useState('');
+	const [hasSearchResult, setHasSearchResult] = useState(true);
 	const searchDebounceValue = useDebounce(inputValue, 500);
-
-	const [matchingWebtoonList, setMatchingWebtoonList] = useState([]);
 	const {
 		data: webtoonSearchListData,
-		refetch: webtoonSearchListRefetch,
+		refetch,
 		fetchNextPage,
 	} = useFetchWebtoonList({
 		isSearch: true,
@@ -45,17 +36,25 @@ const SearchModal = ({ isOpen, toggle }) => {
 	useEffect(() => {
 		if (!!searchDebounceValue) {
 			const fetch = async () => {
-				const data = await getSearchWebtoon(
-					searchDebounceValue,
-					pageRef.current,
-				);
-				if (Array.isArray(data)) {
-					webtoonSearchListRefetch();
+				const data = await getSearchWebtoon(searchDebounceValue, 1);
+				refetch();
+				if (data.statusCode === 404) {
+					setHasSearchResult(false);
+					return;
+				} else {
+					setHasSearchResult(true);
+					pageRef.current = 1;
+					if (webtoonSearchListData?.pages) {
+						webtoonSearchListData.pages = [];
+						webtoonSearchListData.pageParams = [];
+					}
+					return;
 				}
 			};
 			fetch();
-		} else {
-			setMatchingWebtoonList([]);
+		} else if (webtoonSearchListData?.pages) {
+			webtoonSearchListData.pages = [];
+			webtoonSearchListData.pageParams = [];
 		}
 	}, [searchDebounceValue]);
 
@@ -78,18 +77,23 @@ const SearchModal = ({ isOpen, toggle }) => {
 			</header>
 			<article className="search-wrap">
 				<section className="search-contents">
-					<ul className="matching-webtoon-list">
-						{webtoonSearchListData?.length !== 0 &&
-							webtoonSearchListData?.pages.map((webtoons) => (
-								<>
+					{hasSearchResult ? (
+						<ul className="matching-webtoon-list">
+							{webtoonSearchListData?.pages.map((webtoons, index) => (
+								<React.Fragment key={index}>
 									{Array.isArray(webtoons) &&
 										webtoons?.map((webtoon) => (
 											<Webtoon key={webtoon._id} webtoonData={webtoon} />
 										))}
-								</>
+								</React.Fragment>
 							))}
-						{!!searchDebounceValue && <div ref={moreRef}></div>}
-					</ul>
+							{!!searchDebounceValue && <div ref={moreRef}></div>}
+						</ul>
+					) : (
+						<div key="nothing-result" className="no-search-result">
+							검색 결과가 없습니다.
+						</div>
+					)}
 				</section>
 			</article>
 		</Modal>

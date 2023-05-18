@@ -1,4 +1,4 @@
-@import "../libs";
+@import '../libs';
 
 .search-modal-container {
 	max-height: $search-modal-max-height;
@@ -44,71 +44,16 @@
 				padding: 0;
 			}
 
-			.matching-keyword-list {
-				display: flex;
-				flex-direction: column;
-				padding: 3rem 0 2rem 0;
-				margin: 0;
-				gap: 0.5em;
-
-				.searched-item-wrap {
-					background-color: $color-black;
-
-					.searched-item {
-						background-color: $color-white;
-						display: flex;
-						flex-direction: row;
-						align-items: center;
-						gap: 0.5em;
-						padding: 0 0.4em;
-						transition: margin-left 0.3s;
-						@include hover {
-							margin-left: 0.5em;
-						}
-
-						.searched-title,
-						.searched-author {
-							cursor: pointer;
-							text-decoration: none;
-							overflow: hidden;
-							text-overflow: ellipsis;
-							white-space: nowrap;
-							display: block;
-						}
-
-						.searched-title {
-							color: $color-black;
-							&:hover {
-								color: $color-black;
-							}
-						}
-
-						.searched-author {
-							background-color: $color-black;
-							color: $color-white;
-							border-radius: $color-light-grey;
-							padding: 0.2em 0.4em;
-							font-size: 0.7em;
-							max-width: 15em;
-							&:hover {
-								color: $color-white;
-							}
-						}
-					}
-				}
-
-				.no-search-result {
-					text-align: center;
-					padding: 3rem 0 2rem 0;
-				}
-			}
-
 			.matching-webtoon-list {
 				padding: 1rem;
 				display: flex;
 				flex-wrap: wrap;
 				justify-content: flex-start;
 				max-height: 650px;
+			}
+			.no-search-result {
+				text-align: center;
+				padding: 2rem 0 1rem 0;
 			}
 		}
 	}

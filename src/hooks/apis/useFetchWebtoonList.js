@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { isError, useInfiniteQuery } from '@tanstack/react-query';
 
 import { getSearchWebtoon, getWebtoonList } from '../../api/webtoon';
 
@@ -16,6 +16,7 @@ export const useFetchWebtoonList = ({
 			getNextPageParam: () => {
 				return pageRef.current;
 			},
+			refetchOnWindowFocus: false,
 		});
 	} else {
 		return useInfiniteQuery({
