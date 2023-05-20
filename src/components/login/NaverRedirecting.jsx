@@ -5,7 +5,7 @@ import { useSetRecoilState } from 'recoil';
 import { postNaverLogin } from '../../api/auth';
 import { ReactComponent as Logo } from '../../assets/img/logo.svg';
 import { jwtTokenState, userInfoState } from '../../store/recoilAuthState';
-import { LOGIN_SUCCESS, LOGIN_TOKEN, USER_ID } from '../../utils/constants';
+import { LOGIN_SUCCESS, LOGIN_TOKEN, USER_ID } from '../../utils/constants.jsx';
 import { setLocalStorage } from '../../utils/storage';
 import showToast from '../../utils/toast';
 import Loading from '../Loading';

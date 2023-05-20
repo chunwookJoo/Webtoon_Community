@@ -1,3 +1,5 @@
+import { IconBook2, IconEdit, IconLogout } from '@tabler/icons';
+
 // storage
 export const LOGIN_TOKEN = 'login-token';
 export const USER_ID = 'userId';
@@ -23,3 +25,41 @@ export const REMOVE_MYWEBTOON_SUCCESS = '웹툰이 마이웹툰에서 삭제되�
 export const UPDATE_PROFILE_SUCCESS = '프로필이 정상적으로 수정되었어요.';
 
 export const ERROR_MESSAGE = '알 수 없는 에러입니다.';
+
+export const AGE_RANGE = [
+	{ value: '10~19', label: '10대' },
+	{ value: '20~29', label: '20대' },
+	{ value: '30~39', label: '30대' },
+	{ value: '40~49', label: '40대' },
+	{ value: '50~59', label: '50대' },
+	{ value: '60~69', label: '60대' },
+];
+
+export const GENDER = [
+	{ value: 'male', label: '남자' },
+	{ value: 'female', label: '여자' },
+];
+
+export const AVATAR_ITEM = [
+	{
+		id: '1',
+		icon: <IconBook2 size={16} />,
+		name: '마이 웹툰',
+		target: 'mywebtoon',
+		className: '',
+	},
+	{
+		id: '2',
+		icon: <IconEdit size={16} />,
+		name: '프로필 수정',
+		target: 'userinfo',
+		className: '',
+	},
+	{
+		id: '3',
+		icon: <IconLogout size={16} />,
+		name: '로그아웃',
+		target: 'logout',
+		className: 'logout',
+	},
+];

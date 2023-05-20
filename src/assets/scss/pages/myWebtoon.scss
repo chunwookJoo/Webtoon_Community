@@ -1,4 +1,4 @@
-@import "../libs";
+@import '../libs';
 
 .mywebtoon-container {
 	max-width: 40em;
@@ -42,9 +42,6 @@
 	}
 
 	.webtoon-list-empty {
-		display: flex;
-		flex-direction: column;
-		gap: 2rem;
 		text-align: center;
 		padding: 8rem 0;
 
@@ -58,6 +55,7 @@
 			color: $color-white;
 			background-color: $color-primary;
 			padding: 8px 2rem;
+			margin-top: 2rem;
 		}
 	}
 }

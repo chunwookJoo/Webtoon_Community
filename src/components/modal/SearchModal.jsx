@@ -5,9 +5,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import { getSearchWebtoon } from '../../api/webtoon';
+import useFetchSearchWebtoon from '../../hooks/apis/useFetchSearchWebtoon';
 import { useFetchWebtoonList } from '../../hooks/apis/useFetchWebtoonList';
 import useDebounce from '../../hooks/useDebounce';
-import Webtoon from '../Webtoon';
+import useFetchNextPage from '../../hooks/useFetchNextPage';
+import { Webtoon } from '../ComponentIndex';
+import EmptyData from '../EmptyData';
 
 const SearchModal = ({ isOpen, toggle }) => {
 	const [moreRef, isMoreRefShow] = useInView();
@@ -17,7 +20,7 @@ const SearchModal = ({ isOpen, toggle }) => {
 	const searchDebounceValue = useDebounce(inputValue, 500);
 	const {
 		data: webtoonSearchListData,
-		refetch,
+		refetch: refetchWebtoonSearch,
 		fetchNextPage,
 	} = useFetchWebtoonList({
 		isSearch: true,
@@ -25,38 +28,20 @@ const SearchModal = ({ isOpen, toggle }) => {
 		pageRef,
 	});
 
-	useEffect(() => {
-		if (webtoonSearchListData?.pages.statusCode === 404) return;
-		if (isMoreRefShow) {
-			pageRef.current++;
-			fetchNextPage();
-		}
-	}, [isMoreRefShow]);
+	useFetchNextPage(
+		webtoonSearchListData,
+		isMoreRefShow,
+		pageRef,
+		fetchNextPage,
+	);
 
-	useEffect(() => {
-		if (!!searchDebounceValue) {
-			const fetch = async () => {
-				const data = await getSearchWebtoon(searchDebounceValue, 1);
-				refetch();
-				if (data.statusCode === 404) {
-					setHasSearchResult(false);
-					return;
-				} else {
-					setHasSearchResult(true);
-					pageRef.current = 1;
-					if (webtoonSearchListData?.pages) {
-						webtoonSearchListData.pages = [];
-						webtoonSearchListData.pageParams = [];
-					}
-					return;
-				}
-			};
-			fetch();
-		} else if (webtoonSearchListData?.pages) {
-			webtoonSearchListData.pages = [];
-			webtoonSearchListData.pageParams = [];
-		}
-	}, [searchDebounceValue]);
+	useFetchSearchWebtoon(
+		searchDebounceValue,
+		refetchWebtoonSearch,
+		setHasSearchResult,
+		pageRef,
+		webtoonSearchListData,
+	);
 
 	return (
 		<Modal
@@ -90,9 +75,10 @@ const SearchModal = ({ isOpen, toggle }) => {
 							{!!searchDebounceValue && <div ref={moreRef}></div>}
 						</ul>
 					) : (
-						<div key="nothing-result" className="no-search-result">
-							검색 결과가 없습니다.
-						</div>
+						<EmptyData
+							className="no-search-result"
+							content="검색 결과가 없습니다. 😥"
+						/>
 					)}
 				</section>
 			</article>

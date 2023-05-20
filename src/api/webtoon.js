@@ -1,4 +1,4 @@
-import { ERROR_MESSAGE, USER_ID } from '../utils/constants';
+import { ERROR_MESSAGE, USER_ID } from '../utils/constants.jsx';
 import { getLocalStorage } from '../utils/storage';
 import showToast from '../utils/toast';
 import api from './api';
@@ -57,6 +57,7 @@ const getWebtoonList = async (pathname, query, page) => {
  * @returns
  */
 const getWebtoonDetail = async (webtoonId) => {
+	console.log(webtoonId);
 	try {
 		const { data } = await api.get(`/search/webtoon/${webtoonId}`);
 		return data;

@@ -2,84 +2,90 @@ import '../../assets/scss/components/board/createBoard.scss';
 
 import { Input, Modal, Textarea } from '@mantine/core';
 import { IconCircleX } from '@tabler/icons';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useRecoilValue } from 'recoil';
 
 import { postCreateBoard } from '../../api/board';
 import { getSearchWebtoon } from '../../api/webtoon';
+import useFetchSearchWebtoon from '../../hooks/apis/useFetchSearchWebtoon';
+import { useFetchWebtoonList } from '../../hooks/apis/useFetchWebtoonList';
+import useDebounce from '../../hooks/useDebounce';
+import useFetchNextPage from '../../hooks/useFetchNextPage';
 import { userInfoState } from '../../store/recoilAuthState';
 import {
 	CREATE_BOARD_SUCCESS,
 	EMPTY_INPUT_WARNING,
-} from '../../utils/constants';
+} from '../../utils/constants.jsx';
 import showToast from '../../utils/toast';
-import Loading from '../Loading';
+import { Webtoon } from '../ComponentIndex';
+import EmptyData from '../EmptyData';
 
-const CreateBoardModal = (props) => {
-	const modal = props.isOpen;
-	const toggle = props.toggle;
+const WebtoonItem = ({
+	articleClassName,
+	titleClassName,
+	webtoonItemImg,
+	webtoon,
+}) => {
+	return (
+		<article className={articleClassName}>
+			{webtoonItemImg}
+			<span className={titleClassName}>{webtoon.title}</span>
+			<small>
+				{webtoon.service === 'naver'
+					? '네이버'
+					: webtoon.service === 'kakao'
+					? '카카오'
+					: '카카오페이지'}
+			</small>
+		</article>
+	);
+};
 
-	const EMPTY = <></>;
-	const NO_WEBTOON_FOUND = [
-		<li key="nothing-result" className="no-search-result">
-			검색 결과가 없습니다. 😥
-		</li>,
-	];
-
+const CreateBoardModal = ({ isOpen, toggle }) => {
+	const [moreRef, isMoreRefShow] = useInView();
+	const pageRef = useRef(0);
 	const [inputValue, setInputValue] = useState('');
-	const [searchValue, setSearchValue] = useState('');
+	const [hasSearchResult, setHasSearchResult] = useState(true);
+	const searchDebounceValue = useDebounce(inputValue, 500);
+	const {
+		data: webtoonSearchListData,
+		refetch: refetchWebtoonSearch,
+		fetchNextPage,
+	} = useFetchWebtoonList({
+		isSearch: true,
+		searchValue: searchDebounceValue,
+		pageRef,
+	});
+
+	useFetchNextPage(
+		webtoonSearchListData,
+		isMoreRefShow,
+		pageRef,
+		fetchNextPage,
+	);
+
+	useFetchSearchWebtoon(
+		searchDebounceValue,
+		refetchWebtoonSearch,
+		setHasSearchResult,
+		pageRef,
+		webtoonSearchListData,
+	);
+
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
-	const [matchingKeywordShow, setMatchingKeywordShow] = useState(true);
-	let part = 2;
-	const visibleWebtoonCount = part * 12;
-	const [MatchingKeywordList, setMatchingKeywordList] = useState([]);
-	const [MatchingWebtoonList, setMatchingWebtoonList] = useState([]);
-
+	const [disabled, setDisabled] = useState(false);
 	const [selectWebtoon, setSelectWebtoon] = useState(null);
-
 	const userInfo = useRecoilValue(userInfoState);
 
 	useEffect(() => {
-		!!searchValue
-			? (async () => {
-					const response = await getSearchWebtoon(searchValue);
-					if (Array.isArray(response)) {
-						setMatchingKeywordList(
-							response.map((webtoon, index) => (
-								<li
-									key={webtoon._id}
-									className="searched-item-wrap"
-									onClick={() => setSelectWebtoon(webtoon)}>
-									<article className="searched-item">
-										<img src={webtoon.img} width={80} height={80} />
-										<span className="searched-title">{webtoon.title}</span>
-										<small>
-											{webtoon.service === 'naver'
-												? '네이버'
-												: webtoon.service === 'kakao'
-												? '카카오'
-												: '카카오페이지'}
-										</small>
-									</article>
-								</li>
-							)),
-						);
-					} else {
-						setMatchingKeywordList(NO_WEBTOON_FOUND);
-					}
-			  })()
-			: setMatchingKeywordList([]);
-	}, [searchValue]);
-
-	useEffect(() => {
-		if (selectWebtoon !== null) setMatchingKeywordList([]);
+		if (selectWebtoon !== null) return setDisabled(true);
 	}, [selectWebtoon]);
 
-	// 선택된 웹툰 삭제
 	const selectWebtoonDelete = () => {
 		setSelectWebtoon(null);
+		setDisabled(false);
 	};
 
 	const onClickCreateBoard = async () => {
@@ -105,70 +111,76 @@ const CreateBoardModal = (props) => {
 		}
 	};
 
-	const [moreRef, isMoreRefShow] = useInView();
-	isMoreRefShow && part++;
-	const More =
-		visibleWebtoonCount < MatchingWebtoonList.length &&
-		24 <= MatchingWebtoonList.length ? (
-			<li ref={moreRef} className="loading">
-				<Loading />
-			</li>
-		) : (
-			EMPTY
-		);
-	const VisibleMatchingWebtoonList = MatchingWebtoonList.slice(0, part * 12);
-	VisibleMatchingWebtoonList.push(More);
-
 	return (
 		<Modal
 			title="후기 작성"
 			fullScreen
 			overflow="inside"
-			opened={modal}
+			opened={isOpen}
 			onClose={toggle}
 			className="create-board-modal-container">
 			<div className="create-board-input">
-				{selectWebtoon === null ? (
-					''
-				) : (
-					<article className="selected-item">
-						<div className="selected-img">
-							<img src={selectWebtoon.img} width={100} height={100} />
-							<span className="deleted-img" onClick={selectWebtoonDelete}>
-								<IconCircleX />
-							</span>
-						</div>
-						<span className="searched-title">{selectWebtoon.title}</span>
-						<small>
-							{selectWebtoon.service === 'naver'
-								? '네이버'
-								: selectWebtoon.service === 'kakao'
-								? '카카오'
-								: '카카오페이지'}
-						</small>
-					</article>
+				{selectWebtoon !== null && (
+					<WebtoonItem
+						articleClassName="selected-item"
+						titleClassName="searched-title"
+						webtoon={selectWebtoon}
+						webtoonItemImg={
+							<div className="selected-img">
+								<img src={selectWebtoon.img} width={100} height={100} />
+								<span className="deleted-img" onClick={selectWebtoonDelete}>
+									<IconCircleX />
+								</span>
+							</div>
+						}
+					/>
 				)}
 			</div>
 			<div className="create-board-input">
 				<Input.Wrapper label="웹툰 검색" required>
 					<Input
-						disabled={selectWebtoon !== null ? true : false}
+						disabled={selectWebtoon !== null}
 						placeholder="작품 또는 작가로 검색한 후 선택하세요."
-						data={MatchingWebtoonList}
 						value={inputValue}
-						onChange={(e) => {
-							setMatchingKeywordShow(true);
-							setInputValue(e.target.value);
-							const tempKeyword = e.target.value;
-							setTimeout(() => {
-								const keyword = e.target.value;
-								keyword === tempKeyword && setSearchValue(keyword);
-							}, 500);
-						}}
+						onChange={(e) => setInputValue(e.target.value)}
 					/>
 				</Input.Wrapper>
 			</div>
-			<ul className="search-result">{MatchingKeywordList}</ul>
+			{!disabled && (
+				<ul className="search-result">
+					{hasSearchResult ? (
+						<>
+							{webtoonSearchListData?.pages.map((webtoons, index) => (
+								<React.Fragment key={index}>
+									{Array.isArray(webtoons) &&
+										webtoons?.map((webtoon) => (
+											<li
+												key={webtoon._id}
+												className="searched-item-wrap"
+												onClick={() => setSelectWebtoon(webtoon)}>
+												<WebtoonItem
+													articleClassName="searched-item"
+													titleClassName="searched-title"
+													webtoonItemImg={
+														<img src={webtoon.img} width={80} height={80} />
+													}
+													webtoon={webtoon}
+												/>
+											</li>
+										))}
+								</React.Fragment>
+							))}
+							{!!searchDebounceValue && <div ref={moreRef}></div>}
+						</>
+					) : (
+						<EmptyData
+							className="no-search-result"
+							content="검색 결과가 없습니다. 😥"
+						/>
+					)}
+				</ul>
+			)}
+
 			<div className="create-board-input">
 				<Input.Wrapper label="제목" required>
 					<Input

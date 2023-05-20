@@ -1,4 +1,4 @@
-import { isError, useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { getSearchWebtoon, getWebtoonList } from '../../api/webtoon';
 

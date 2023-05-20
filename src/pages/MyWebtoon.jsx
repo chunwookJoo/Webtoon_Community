@@ -7,8 +7,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
 import { getWebtoonDetail, removeMyWebtoon } from '../api/webtoon';
+import EmptyData from '../components/EmptyData';
 import { userInfoState } from '../store/recoilAuthState';
-import { REMOVE_MYWEBTOON_SUCCESS } from '../utils/constants';
+import { REMOVE_MYWEBTOON_SUCCESS } from '../utils/constants.jsx';
 import showToast from '../utils/toast';
 
 const MyWebtoon = () => {
@@ -125,17 +126,18 @@ const MyWebtoon = () => {
 					})}
 				</div>
 			) : (
-				<div className="webtoon-list-empty">
-					<div>
-						<h2>마이 웹툰이 비어있습니다 :(</h2>
-						<h3>좋아하는 웹툰을 저장해보세요!</h3>
-					</div>
-					<div>
-						<Link to="/">
-							<button className="mywebtoon-save-btn">웹툰보러가기</button>
-						</Link>
-					</div>
-				</div>
+				<EmptyData
+					className="webtoon-list-empty"
+					content={
+						<div>
+							<h2>마이 웹툰이 비어있습니다 :(</h2>
+							<h3>좋아하는 웹툰을 저장해보세요!</h3>
+							<Link to="/">
+								<button className="mywebtoon-save-btn">웹툰보러가기</button>
+							</Link>
+						</div>
+					}
+				/>
 			)}
 		</div>
 	);

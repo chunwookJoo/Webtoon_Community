@@ -1,5 +1,4 @@
-const WebtoonInfoDetail = (props) => {
-	const { webtoon } = props;
+const WebtoonInfoDetail = ({ webtoon }) => {
 	const platform =
 		webtoon.service === 'naver'
 			? '네이버 웹툰'

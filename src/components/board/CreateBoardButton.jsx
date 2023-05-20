@@ -1,11 +1,10 @@
 import '../../assets/scss/components/board/createBoard.scss';
 
 import { IconPencil } from '@tabler/icons';
-import React from 'react';
 import { useRecoilState } from 'recoil';
 
 import { createBoardModalState } from '../../store/recoilModalState';
-import { INFORM_LOGIN_WARNING, USER_ID } from '../../utils/constants';
+import { INFORM_LOGIN_WARNING, USER_ID } from '../../utils/constants.jsx';
 import { getLocalStorage } from '../../utils/storage';
 import showToast from '../../utils/toast';
 import CreateBoardModal from '../modal/CreateBoardModal';

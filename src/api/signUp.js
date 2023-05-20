@@ -1,4 +1,4 @@
-import { ERROR_MESSAGE } from '../utils/constants';
+import { ERROR_MESSAGE } from '../utils/constants.jsx';
 import showToast from '../utils/toast';
 import api from './api';
 

@@ -5,7 +5,7 @@ import { useSetRecoilState } from 'recoil';
 import { postKakaoLogin } from '../../api/auth';
 import { ReactComponent as Logo } from '../../assets/img/logo.svg';
 import { jwtTokenState, userInfoState } from '../../store/recoilAuthState';
-import { LOGIN_SUCCESS, LOGIN_TOKEN, USER_ID } from '../../utils/constants';
+import { LOGIN_SUCCESS, LOGIN_TOKEN, USER_ID } from '../../utils/constants.jsx';
 import { setLocalStorage } from '../../utils/storage';
 import showToast from '../../utils/toast';
 import Loading from '../Loading';
@@ -20,8 +20,7 @@ const KakaoRedirecting = () => {
 	const setJwtToken = useSetRecoilState(jwtTokenState);
 	const setUserInfo = useSetRecoilState(userInfoState);
 
-	// 카카오 인가코드
-	let kakaoCode = new URL(window.location.href).searchParams.get('code');
+	const kakaoCode = new URL(window.location.href).searchParams.get('code');
 
 	const postKakaoLoginAPIBody = {
 		rest_api_key: KAKAO_REST_API_KEY,
@@ -29,9 +28,6 @@ const KakaoRedirecting = () => {
 		domain: window.location.origin,
 	};
 
-	/**
-	 * 서버에 인가코드 보내고 액세스 토큰 받아옴
-	 */
 	useEffect(() => {
 		const fetchKakaoLogin = async () => {
 			const response = await postKakaoLogin(postKakaoLoginAPIBody);
@@ -44,7 +40,7 @@ const KakaoRedirecting = () => {
 				showToast(response.user.user.nickname + LOGIN_SUCCESS, 'green');
 				return;
 			} else if (response.RESULT === 401) {
-				navigate(`/regist/kakao?token=${response.user.access_token}`, {
+				navigate('/regist/kakao', {
 					state: {
 						data: response.user,
 						platform: 'kakao',

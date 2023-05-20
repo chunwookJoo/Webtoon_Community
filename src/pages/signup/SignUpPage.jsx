@@ -1,23 +1,24 @@
-import '../assets/scss/pages/registPage.scss';
+import '../../assets/scss/pages/registPage.scss';
 
 import { Input, Select } from '@mantine/core';
 import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 
-import { postSignUp } from '../api/signUp';
-import { ReactComponent as Logo } from '../assets/img/logo.svg';
-import { jwtTokenState, userInfoState } from '../store/recoilAuthState';
+import { postSignUp } from '../../api/signUp';
+import { ReactComponent as Logo } from '../../assets/img/logo.svg';
+import { jwtTokenState, userInfoState } from '../../store/recoilAuthState';
 import {
+	AGE_RANGE,
+	GENDER,
 	LOGIN_TOKEN,
 	NICKNAME_CHECK_WARNING,
 	SIGNUP_SUCCESS,
 	USER_ID,
-} from '../utils/constants';
-import { setLocalStorage } from '../utils/storage';
-import showToast from '../utils/toast';
-import isNicknameCheck from '../utils/user';
-import { AGE_RANGE, GENDER } from '../utils/userSelectItems';
+} from '../../utils/constants.jsx';
+import { setLocalStorage } from '../../utils/storage';
+import showToast from '../../utils/toast';
+import isNicknameCheck from '../../utils/user';
 
 const SignUpPage = (props) => {
 	const navigate = useNavigate();
@@ -36,9 +37,6 @@ const SignUpPage = (props) => {
 		account.gender === 'M' || account.gender === 'male' ? 'male' : 'female',
 	);
 
-	/**
-	 * 공통으로 쓰이는 state
-	 */
 	const setJwtToken = useSetRecoilState(jwtTokenState);
 	const setUserInfo = useSetRecoilState(userInfoState);
 	const [nickName, setNickName] = useState('');
@@ -50,12 +48,11 @@ const SignUpPage = (props) => {
 		else if (state === 'gender') setGender(e);
 	};
 
-	// 닉네임 중복 체크
 	const onClickNicknameCheck = async () => {
 		setNicknameChecked(await isNicknameCheck(nickName));
 	};
 
-	const onClickSignUp = async (e, platform) => {
+	const onClickSignUp = async (platform) => {
 		const postSignUpKakaoAPIBody = {
 			kakaoToken: token,
 			id,
@@ -153,9 +150,7 @@ const SignUpPage = (props) => {
 					</div>
 				</div>
 				<div className="regist-btn">
-					<button onClick={(e) => onClickSignUp(e, platform)}>
-						회원가입하기
-					</button>
+					<button onClick={() => onClickSignUp(platform)}>회원가입하기</button>
 				</div>
 			</div>
 		</div>

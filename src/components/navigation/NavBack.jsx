@@ -2,16 +2,16 @@ import '../../assets/scss/components/navback.scss';
 
 import { IconChevronLeft } from '@tabler/icons';
 import React, { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { getUserInfo } from '../../api/user';
 import { jwtTokenState, userInfoState } from '../../store/recoilAuthState';
-import { LOGIN_TOKEN } from '../../utils/constants';
+import { LOGIN_TOKEN } from '../../utils/constants.jsx';
 import { getLocalStorage } from '../../utils/storage';
+import UserInfo from './AvatarDropMenu';
 import LogoComponent from './Logo';
 import SignIn from './SignIn';
-import UserInfo from './UserInfo';
 
 const NavBack = () => {
 	const location = useLocation();
@@ -34,17 +34,20 @@ const NavBack = () => {
 	};
 
 	return (
-		<section className="nav-section">
-			<div className="nav-container">
-				<div className="webtoon-detail-logo">
-					<LogoComponent />
+		<>
+			<section className="nav-section">
+				<div className="nav-container">
+					<div className="webtoon-detail-logo">
+						<LogoComponent />
+					</div>
+					<span onClick={onClickBackPage} className="back-btn">
+						<IconChevronLeft size={24} />
+					</span>
+					{jwtToken !== null ? <UserInfo /> : <SignIn />}
 				</div>
-				<span onClick={onClickBackPage} className="back-btn">
-					<IconChevronLeft size={24} />
-				</span>
-				{jwtToken !== null ? <UserInfo /> : <SignIn />}
-			</div>
-		</section>
+			</section>
+			<Outlet />
+		</>
 	);
 };
 

@@ -21,32 +21,20 @@ import {
 } from './pages/PagesIndex';
 
 function App() {
-	const { pathname } = useLocation();
 	return (
-		<>
-			{pathname === '/webtoon' ||
-			pathname === '/mywebtoon' ||
-			pathname === '/board/detail' ||
-			pathname === '/userinfo' ? (
-				<NavBack />
-			) : (
-				<Nav />
-			)}
-			<Suspense fallback={<Loading />}>
-				<Routes>
-					{/* 웹툰 페이지 */}
-					<Route exact path="/" element={<WebtoonPage />} />
-					<Route exact path="/webtoon" element={<WebtoonDetail />} />
-
-					{/* 독자 페이지 */}
-					<Route exact path="/board" element={<BoardPage />} />
+		<Suspense fallback={<Loading />}>
+			<Routes>
+				{/* 뒤로가기 네비게이션 */}
+				<Route element={<NavBack />}>
+					<Route exact path="/webtoon/:id" element={<WebtoonDetail />} />
 					<Route exact path="/board/detail" element={<BoardDetail />} />
-
-					{/* 내 정보 */}
-					<Route exact path="/userinfo" element={<UserInfo />} />
-
-					{/* 마이 웹툰 */}
 					<Route exact path="/mywebtoon" element={<MyWebtoon />} />
+					<Route exact path="/userinfo" element={<UserInfo />} />
+				</Route>
+				{/* 네비게이션 */}
+				<Route element={<Nav />}>
+					<Route exact path="/" element={<WebtoonPage />} />
+					<Route exact path="/board" element={<BoardPage />} />
 
 					{/* 플랫폼 선택 */}
 					<Route exact path="/all" element={<WebtoonPage />} />
@@ -72,9 +60,9 @@ function App() {
 
 					{/* 페이지 없음 안내 */}
 					<Route path="*" element={<NotFound />} />
-				</Routes>
-			</Suspense>
-		</>
+				</Route>
+			</Routes>
+		</Suspense>
 	);
 }
 

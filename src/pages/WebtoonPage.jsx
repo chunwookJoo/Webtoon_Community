@@ -7,6 +7,7 @@ import { useLocation } from 'react-router-dom';
 
 import WebtoonList from '../components/WebtoonList';
 import { useFetchWebtoonList } from '../hooks/apis/useFetchWebtoonList';
+import useFetchNextPage from '../hooks/useFetchNextPage';
 
 const WebtoonPage = () => {
 	let { search, pathname } = useLocation();
@@ -30,12 +31,7 @@ const WebtoonPage = () => {
 		webtoonListRefetch();
 	}, [query.week, pathname]);
 
-	useEffect(() => {
-		if (isMoreRefShow) {
-			pageRef.current++;
-			fetchNextPage();
-		}
-	}, [isMoreRefShow]);
+	useFetchNextPage(webtoonListData, isMoreRefShow, pageRef, fetchNextPage);
 
 	return (
 		<main>

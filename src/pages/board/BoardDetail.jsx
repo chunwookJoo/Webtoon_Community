@@ -16,7 +16,7 @@ import { boardDataState } from '../../store/recoilBoardState';
 import {
 	CREATE_COMMENT_SUCCESS,
 	EMPTY_COMMENT_WARNING,
-} from '../../utils/constants';
+} from '../../utils/constants.jsx';
 import showToast from '../../utils/toast';
 
 const Comments = (props) => {

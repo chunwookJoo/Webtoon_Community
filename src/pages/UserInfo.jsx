@@ -1,36 +1,42 @@
 import '../assets/scss/pages/userinfo.scss';
 
 import { Avatar, Input, Select } from '@mantine/core';
+import { useQuery } from '@tanstack/react-query';
 import React, { useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { postUserProfileImg, updateUserProfile } from '../api/profile';
+import { getUserInfo } from '../api/user';
+import Loading from '../components/Loading';
 import { userInfoState } from '../store/recoilAuthState';
 import {
+	AGE_RANGE,
+	GENDER,
 	NICKNAME_CHECK_WARNING,
 	UPDATE_PROFILE_SUCCESS,
-} from '../utils/constants';
+} from '../utils/constants.jsx';
 import showToast from '../utils/toast';
 import isNicknameCheck from '../utils/user';
-import { AGE_RANGE, GENDER } from '../utils/userSelectItems';
 
 const UserInfo = () => {
-	const { state } = useLocation();
+	const { data: user, isLoading } = useQuery(['userInfo'], () => getUserInfo());
 	const navigate = useNavigate();
-	const user = state;
+
 	const nicknameInput = useRef();
 	const profileImgInput = useRef();
 
-	const setUserInfo = useSetRecoilState(userInfoState);
+	// const setUserInfo = useSetRecoilState(userInfoState);
+	const userInfo = useRecoilValue(userInfoState);
+	console.log(userInfo);
 	const [profileImagePreview, setProfileImagePreview] = useState(
-		user.profileImage,
+		user?.profileImage,
 	);
 
-	const [nickName, setNickName] = useState(user.nickname);
+	const [nickName, setNickName] = useState(user?.nickname);
 	const [nicknameChecked, setNicknameChecked] = useState('empty');
-	const [ageRange, setAgeRange] = useState(user.age);
-	const [gender, setGender] = useState(user.gender);
+	const [ageRange, setAgeRange] = useState(user?.age);
+	const [gender, setGender] = useState(user?.gender);
 
 	const onChangeHandler = (e, state) => {
 		if (state === 'nickname') setNickName(e.target.value);
@@ -94,76 +100,82 @@ const UserInfo = () => {
 		}
 	};
 
-	return (
-		<div className="userinfo-container">
-			<div className="profile-img-container">
-				<Avatar
-					size={120}
-					src={profileImagePreview}
-					radius="xl"
-					className="profile-img"
-				/>
+	if (isLoading) return <Loading />;
 
-				<div style={{ fontWeight: 'bold' }}>{user.email}</div>
-				<div className="profile-img-edit">
-					<input
-						style={{ display: 'none' }}
-						ref={profileImgInput}
-						type="file"
-						className="imgInput"
-						accept="image/*"
-						name="file"
-						onChange={(e) => onImgChange(e)}></input>
-					<button onClick={onProfileImgBtnClick}>사진 수정</button>
+	return (
+		<>
+			{user && (
+				<div className="userinfo-container">
+					<div className="profile-img-container">
+						<Avatar
+							size={120}
+							src={profileImagePreview}
+							radius="xl"
+							className="profile-img"
+						/>
+
+						<div style={{ fontWeight: 'bold' }}>{user.email}</div>
+						<div className="profile-img-edit">
+							<input
+								style={{ display: 'none' }}
+								ref={profileImgInput}
+								type="file"
+								className="imgInput"
+								accept="image/*"
+								name="file"
+								onChange={(e) => onImgChange(e)}></input>
+							<button onClick={onProfileImgBtnClick}>사진 수정</button>
+						</div>
+					</div>
+					<div className="profile-input">
+						<Input.Wrapper label="닉네임" required>
+							&nbsp;
+							<span style={{ fontSize: '12px' }}>({nickName?.length}/8자)</span>
+							<Input
+								maxLength={8}
+								placeholder="닉네임을 입력하세요."
+								onChange={(e) => onChangeHandler(e, 'nickname')}
+								defaultValue={nickName}
+								ref={nicknameInput}
+							/>
+						</Input.Wrapper>
+						<div className="nickname-check">
+							<button onClick={(e) => onClickNicknameCheck(e)}>중복체크</button>
+							{nicknameChecked === 'empty' ? (
+								<span className="unavailable">닉네임 중복체크를 해주세요.</span>
+							) : nicknameChecked === 'available' ? (
+								<span className="available">사용할 수 있는 닉네임입니다.</span>
+							) : (
+								<span className="unavailable">이미 사용중인 닉네임입니다.</span>
+							)}
+						</div>
+					</div>
+					<div className="profile-input">
+						<Input.Wrapper label="나이" required>
+							<Select
+								placeholder="본인 연령대를 선택하세요."
+								data={AGE_RANGE}
+								defaultValue={ageRange}
+								onChange={(e) => onChangeHandler(e, 'age')}
+							/>
+						</Input.Wrapper>
+					</div>
+					<div className="profile-input">
+						<Input.Wrapper label="성별" required>
+							<Select
+								placeholder="성별을 선택하세요."
+								data={GENDER}
+								defaultValue={gender}
+								onChange={(e) => onChangeHandler(e, 'gender')}
+							/>
+						</Input.Wrapper>
+					</div>
+					<div className="profile-btn">
+						<button onClick={onClickUserInfoUpdate}>프로필 수정하기</button>
+					</div>
 				</div>
-			</div>
-			<div className="profile-input">
-				<Input.Wrapper label="닉네임" required>
-					&nbsp;
-					<span style={{ fontSize: '12px' }}>({nickName.length}/8자)</span>
-					<Input
-						maxLength={8}
-						placeholder="닉네임을 입력하세요."
-						onChange={(e) => onChangeHandler(e, 'nickname')}
-						defaultValue={nickName}
-						ref={nicknameInput}
-					/>
-				</Input.Wrapper>
-				<div className="nickname-check">
-					<button onClick={(e) => onClickNicknameCheck(e)}>중복체크</button>
-					{nicknameChecked === 'empty' ? (
-						<span className="unavailable">닉네임 중복체크를 해주세요.</span>
-					) : nicknameChecked === 'available' ? (
-						<span className="available">사용할 수 있는 닉네임입니다.</span>
-					) : (
-						<span className="unavailable">이미 사용중인 닉네임입니다.</span>
-					)}
-				</div>
-			</div>
-			<div className="profile-input">
-				<Input.Wrapper label="나이" required>
-					<Select
-						placeholder="본인 연령대를 선택하세요."
-						data={AGE_RANGE}
-						defaultValue={ageRange}
-						onChange={(e) => onChangeHandler(e, 'age')}
-					/>
-				</Input.Wrapper>
-			</div>
-			<div className="profile-input">
-				<Input.Wrapper label="성별" required>
-					<Select
-						placeholder="성별을 선택하세요."
-						data={GENDER}
-						defaultValue={gender}
-						onChange={(e) => onChangeHandler(e, 'gender')}
-					/>
-				</Input.Wrapper>
-			</div>
-			<div className="profile-btn">
-				<button onClick={onClickUserInfoUpdate}>프로필 수정하기</button>
-			</div>
-		</div>
+			)}
+		</>
 	);
 };
 

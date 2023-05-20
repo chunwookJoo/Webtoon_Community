@@ -6,10 +6,11 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { getBoardList, getCommentList } from '../../api/board';
 import CreateBoardButton from '../../components/board/CreateBoardButton';
+import EmptyData from '../../components/EmptyData';
 import { jwtTokenState } from '../../store/recoilAuthState';
 import { boardDataState, boardListState } from '../../store/recoilBoardState';
 import { createBoardModalState } from '../../store/recoilModalState';
-import { INFORM_LOGIN_WARNING } from '../../utils/constants';
+import { INFORM_LOGIN_WARNING } from '../../utils/constants.jsx';
 import showToast from '../../utils/toast';
 
 const BoardPage = () => {
@@ -43,14 +44,19 @@ const BoardPage = () => {
 	return (
 		<div className="board-container">
 			{boardList?.length === 0 ? (
-				<div className="empty-board">
-					<h2>
-						{state === '/board'
-							? '후기가 아직 없어요 😥'
-							: '해당하는 플랫폼의 후기가 아직 없어요 😥'}
-					</h2>
-					<h4>기억에 남는 웹툰의 후기를 작성해보세요.</h4>
-				</div>
+				<EmptyData
+					className="empty-board"
+					content={
+						<>
+							<h2>
+								{state === '/board'
+									? '후기가 아직 없어요. 😥'
+									: '해당하는 플랫폼의 후기가 아직 없어요. 😥'}
+							</h2>
+							<h4>기억에 남는 웹툰의 후기를 작성해보세요.</h4>
+						</>
+					}
+				/>
 			) : (
 				<ul className="board-list">
 					{boardList?.map((item, index) => {

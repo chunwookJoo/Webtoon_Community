@@ -1,4 +1,4 @@
-import { ERROR_MESSAGE, USER_ID } from '../utils/constants';
+import { ERROR_MESSAGE, USER_ID } from '../utils/constants.jsx';
 import { getLocalStorage } from '../utils/storage';
 import showToast from '../utils/toast';
 import api from './api';
