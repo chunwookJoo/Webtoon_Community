@@ -5,6 +5,7 @@ import api from './api';
 const postKakaoLogin = async (postKakaoLoginAPIBody) => {
 	try {
 		const { data } = await api.post('/auth/kakaoLogin', postKakaoLoginAPIBody);
+		console.log(data);
 		return data;
 	} catch (error) {
 		showToast(ERROR_MESSAGE, 'red');

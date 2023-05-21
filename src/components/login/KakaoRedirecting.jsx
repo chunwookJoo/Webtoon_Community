@@ -11,7 +11,7 @@ import {
 import { setLocalStorage } from '../../utils/storage';
 import showToast from '../../utils/toast';
 import Loading from '../Loading';
-import { KAKAO_REST_API_KEY } from './LoginApiData';
+// import { KAKAO_REST_API_KEY } from './LoginApiData';
 
 const KakaoRedirecting = () => {
 	const navigate = useNavigate();
@@ -19,7 +19,7 @@ const KakaoRedirecting = () => {
 	const kakaoCode = new URL(window.location.href).searchParams.get('code');
 
 	const postKakaoLoginAPIBody = {
-		rest_api_key: KAKAO_REST_API_KEY,
+		rest_api_key: import.meta.env.VITE_KAKAO_REST_API_KEY,
 		auth_code: kakaoCode,
 		domain: window.location.origin,
 	};

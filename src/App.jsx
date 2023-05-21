@@ -1,6 +1,8 @@
+import { useQuery } from '@tanstack/react-query';
 import { Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
+import { getUserInfo } from './api/user';
 import {
 	KakaoRedirecting,
 	Loading,
@@ -21,6 +23,10 @@ import {
 } from './pages/PagesIndex';
 
 function App() {
+	const { data: userInfo, isLoading } = useQuery(['userInfo'], () =>
+		getUserInfo(),
+	);
+	console.log(userInfo);
 	return (
 		<Suspense fallback={<Loading />}>
 			<Routes>

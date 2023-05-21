@@ -15,7 +15,7 @@ import WebtoonSearchButton from './WebtoonSearchButton';
 
 const AvatarDropMenu = () => {
 	const { data: userInformation } = useQuery(['userInfo'], () => getUserInfo());
-
+	console.log(userInformation);
 	const navigate = useNavigate();
 	const { pathname } = useLocation();
 

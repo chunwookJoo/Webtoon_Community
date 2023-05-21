@@ -8,6 +8,7 @@ const getUserInfo = async () => {
 		const { data } = await api.get(
 			`/auth/userinfo/${getLocalStorage(AUTH_TOKEN)}`,
 		);
+		console.log(data);
 		return data;
 	} catch (error) {
 		showToast(ERROR_MESSAGE, 'red');

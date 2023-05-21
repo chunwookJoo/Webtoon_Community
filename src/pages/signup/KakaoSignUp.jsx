@@ -6,6 +6,7 @@ import SignUpPage from './SignUpPage';
 
 const KakaoSignUp = () => {
 	const { state } = useLocation();
+	console.log('kakaoSignUp state', state);
 	const userData = state?.data;
 	const platform = state?.platform;
 

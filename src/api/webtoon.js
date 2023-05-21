@@ -57,7 +57,6 @@ const getWebtoonList = async (pathname, query, page) => {
  * @returns
  */
 const getWebtoonDetail = async (webtoonId) => {
-	console.log(webtoonId);
 	try {
 		const { data } = await api.get(`/search/webtoon/${webtoonId}`);
 		return data;

@@ -6,7 +6,7 @@ import { ReactComponent as Logo } from '../../assets/img/logo.svg';
 const LogoComponent = () => {
 	return (
 		<div className="logo">
-			<Link to="/" onClick={() => (window.location.href = '/')}>
+			<Link to="/">
 				<Logo />
 			</Link>
 		</div>

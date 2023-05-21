@@ -1,6 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
-import { NAVER_CLIENT_ID, NAVER_REDIRECT_URL } from './LoginApiData';
+// import { NAVER_CLIENT_ID, NAVER_REDIRECT_URL } from './LoginApiData';
+
+const NAVER_CLIENT_ID = import.meta.env.VITE_NAVER_CLIENT_ID;
+const NAVER_REDIRECT_URL = import.meta.env.VITE_NAVER_REDIRECT_URL;
 
 const NaverLogin = () => {
 	const naverRef = useRef();
