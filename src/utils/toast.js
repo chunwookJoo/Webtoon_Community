@@ -8,7 +8,7 @@ import { showNotification } from '@mantine/notifications';
 const showToast = (message, resultState) => {
 	return showNotification({
 		message,
-		autoClose: 2000,
+		autoClose: 1500,
 		radius: 'md',
 		color: resultState,
 	});

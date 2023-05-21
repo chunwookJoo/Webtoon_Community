@@ -1,20 +1,18 @@
 import '../../assets/scss/pages/registPage.scss';
 
 import { Input, Select } from '@mantine/core';
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
 
 import { postSignUp } from '../../api/signUp';
 import { ReactComponent as Logo } from '../../assets/img/logo.svg';
-import { jwtTokenState, userInfoState } from '../../store/recoilAuthState';
 import {
 	AGE_RANGE,
+	AUTH_TOKEN,
 	GENDER,
 	LOGIN_TOKEN,
 	NICKNAME_CHECK_WARNING,
 	SIGNUP_SUCCESS,
-	USER_ID,
 } from '../../utils/constants.jsx';
 import { setLocalStorage } from '../../utils/storage';
 import showToast from '../../utils/toast';
@@ -37,8 +35,6 @@ const SignUpPage = (props) => {
 		account.gender === 'M' || account.gender === 'male' ? 'male' : 'female',
 	);
 
-	const setJwtToken = useSetRecoilState(jwtTokenState);
-	const setUserInfo = useSetRecoilState(userInfoState);
 	const [nickName, setNickName] = useState('');
 	const [nicknameChecked, setNicknameChecked] = useState('empty');
 
@@ -53,18 +49,8 @@ const SignUpPage = (props) => {
 	};
 
 	const onClickSignUp = async (platform) => {
-		const postSignUpKakaoAPIBody = {
-			kakaoToken: token,
-			id,
-			email,
-			profileImage,
-			nickname: nickName,
-			age: ageRange,
-			gender,
-		};
-
-		const postSignUpNaverAPIBody = {
-			naverToken: token,
+		const postSignUpAPIBody = {
+			authToken: token,
 			id,
 			email,
 			profileImage,
@@ -74,15 +60,10 @@ const SignUpPage = (props) => {
 		};
 
 		if (nicknameChecked === 'available') {
-			const response = await postSignUp(
-				platform,
-				platform === 'kakao' ? postSignUpKakaoAPIBody : postSignUpNaverAPIBody,
-			);
+			const response = await postSignUp(platform, postSignUpAPIBody);
 			if (response.RESULT === 200) {
-				setJwtToken(response.jwtToken);
-				setUserInfo(response.user_data);
+				setLocalStorage(AUTH_TOKEN, response.user_data.authToken);
 				setLocalStorage(LOGIN_TOKEN, response.jwtToken);
-				setLocalStorage(USER_ID, response.user_data.id);
 				navigate('/');
 				showToast(SIGNUP_SUCCESS, 'green');
 			}

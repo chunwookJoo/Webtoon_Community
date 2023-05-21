@@ -3,9 +3,8 @@ import showToast from '../utils/toast';
 import api from './api';
 
 const postSignUp = async (platform, signUpApiBody) => {
-	const platformUrl = platform === 'kakao' ? 'kakaoSignUp' : 'naverSignUp';
 	try {
-		const { data } = await api.post(`/auth/${platformUrl}`, signUpApiBody);
+		const { data } = await api.post('/auth/signUp', signUpApiBody);
 		return data;
 	} catch (error) {
 		showToast(ERROR_MESSAGE, 'red');

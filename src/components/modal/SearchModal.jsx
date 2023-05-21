@@ -1,10 +1,9 @@
 import '../../assets/scss/components/search.scss';
 
 import { Modal } from '@mantine/core';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-import { getSearchWebtoon } from '../../api/webtoon';
 import useFetchSearchWebtoon from '../../hooks/apis/useFetchSearchWebtoon';
 import { useFetchWebtoonList } from '../../hooks/apis/useFetchWebtoonList';
 import useDebounce from '../../hooks/useDebounce';

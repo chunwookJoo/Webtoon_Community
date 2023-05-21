@@ -7,10 +7,10 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { getBoardList, getCommentList } from '../../api/board';
 import CreateBoardButton from '../../components/board/CreateBoardButton';
 import EmptyData from '../../components/EmptyData';
-import { jwtTokenState } from '../../store/recoilAuthState';
 import { boardDataState, boardListState } from '../../store/recoilBoardState';
 import { createBoardModalState } from '../../store/recoilModalState';
-import { INFORM_LOGIN_WARNING } from '../../utils/constants.jsx';
+import { INFORM_LOGIN_WARNING, LOGIN_TOKEN } from '../../utils/constants.jsx';
+import { getLocalStorage } from '../../utils/storage';
 import showToast from '../../utils/toast';
 
 const BoardPage = () => {
@@ -19,7 +19,6 @@ const BoardPage = () => {
 	const [boardList, setBoardList] = useRecoilState(boardListState);
 	const setBoardData = useSetRecoilState(boardDataState);
 
-	const jwtToken = useRecoilValue(jwtTokenState);
 	const createBoardOpen = useRecoilValue(createBoardModalState);
 
 	useEffect(() => {
@@ -33,7 +32,7 @@ const BoardPage = () => {
 	}, [state, createBoardOpen]);
 
 	const onClickBoard = (e, item) => {
-		if (jwtToken === null) {
+		if (getLocalStorage(LOGIN_TOKEN) === null) {
 			showToast(INFORM_LOGIN_WARNING, 'yellow');
 		} else {
 			setBoardData(item);

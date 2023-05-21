@@ -1,24 +1,20 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
 
 import { postKakaoLogin } from '../../api/auth';
 import { ReactComponent as Logo } from '../../assets/img/logo.svg';
-import { jwtTokenState, userInfoState } from '../../store/recoilAuthState';
-import { LOGIN_SUCCESS, LOGIN_TOKEN, USER_ID } from '../../utils/constants.jsx';
+import {
+	AUTH_TOKEN,
+	LOGIN_SUCCESS,
+	LOGIN_TOKEN,
+} from '../../utils/constants.jsx';
 import { setLocalStorage } from '../../utils/storage';
 import showToast from '../../utils/toast';
 import Loading from '../Loading';
 import { KAKAO_REST_API_KEY } from './LoginApiData';
 
-/**
- * 발급받은 인가코드 서버로 전송
- */
 const KakaoRedirecting = () => {
 	const navigate = useNavigate();
-
-	const setJwtToken = useSetRecoilState(jwtTokenState);
-	const setUserInfo = useSetRecoilState(userInfoState);
 
 	const kakaoCode = new URL(window.location.href).searchParams.get('code');
 
@@ -32,10 +28,8 @@ const KakaoRedirecting = () => {
 		const fetchKakaoLogin = async () => {
 			const response = await postKakaoLogin(postKakaoLoginAPIBody);
 			if (response.RESULT === 200) {
-				setJwtToken(response.user.jwtToken);
-				setUserInfo(response.user);
+				setLocalStorage(AUTH_TOKEN, response.user.user.authToken);
 				setLocalStorage(LOGIN_TOKEN, response.user.jwtToken);
-				setLocalStorage(USER_ID, response.user.user.id);
 				navigate('/');
 				showToast(response.user.user.nickname + LOGIN_SUCCESS, 'green');
 				return;

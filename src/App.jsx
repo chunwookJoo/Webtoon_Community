@@ -1,5 +1,5 @@
-import React, { Suspense } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Suspense } from 'react';
+import { Route, Routes } from 'react-router-dom';
 
 import {
 	KakaoRedirecting,
@@ -15,7 +15,7 @@ import {
 	MyWebtoon,
 	NaverSignUp,
 	NotFound,
-	UserInfo,
+	UserInfoPage,
 	WebtoonDetail,
 	WebtoonPage,
 } from './pages/PagesIndex';
@@ -29,7 +29,7 @@ function App() {
 					<Route exact path="/webtoon/:id" element={<WebtoonDetail />} />
 					<Route exact path="/board/detail" element={<BoardDetail />} />
 					<Route exact path="/mywebtoon" element={<MyWebtoon />} />
-					<Route exact path="/userinfo" element={<UserInfo />} />
+					<Route exact path="/userinfo" element={<UserInfoPage />} />
 				</Route>
 				{/* 네비게이션 */}
 				<Route element={<Nav />}>

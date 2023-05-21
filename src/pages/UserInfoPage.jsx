@@ -2,14 +2,12 @@ import '../assets/scss/pages/userinfo.scss';
 
 import { Avatar, Input, Select } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
-import React, { useRef, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { postUserProfileImg, updateUserProfile } from '../api/profile';
 import { getUserInfo } from '../api/user';
 import Loading from '../components/Loading';
-import { userInfoState } from '../store/recoilAuthState';
 import {
 	AGE_RANGE,
 	GENDER,
@@ -19,24 +17,23 @@ import {
 import showToast from '../utils/toast';
 import isNicknameCheck from '../utils/user';
 
-const UserInfo = () => {
-	const { data: user, isLoading } = useQuery(['userInfo'], () => getUserInfo());
+const UserInfoPage = () => {
+	const { data: userInfo, isLoading } = useQuery(['userInfo'], () =>
+		getUserInfo(),
+	);
 	const navigate = useNavigate();
 
 	const nicknameInput = useRef();
 	const profileImgInput = useRef();
 
-	// const setUserInfo = useSetRecoilState(userInfoState);
-	const userInfo = useRecoilValue(userInfoState);
-	console.log(userInfo);
 	const [profileImagePreview, setProfileImagePreview] = useState(
-		user?.profileImage,
+		userInfo?.profileImage,
 	);
 
-	const [nickName, setNickName] = useState(user?.nickname);
+	const [nickName, setNickName] = useState(userInfo?.nickname);
 	const [nicknameChecked, setNicknameChecked] = useState('empty');
-	const [ageRange, setAgeRange] = useState(user?.age);
-	const [gender, setGender] = useState(user?.gender);
+	const [ageRange, setAgeRange] = useState(userInfo?.age);
+	const [gender, setGender] = useState(userInfo?.gender);
 
 	const onChangeHandler = (e, state) => {
 		if (state === 'nickname') setNickName(e.target.value);
@@ -48,7 +45,7 @@ const UserInfo = () => {
 		const formData = new FormData();
 		encodeFileToBase64(e.target.files[0]);
 		formData.append('images', e.target.files[0]);
-		await postUserProfileImg(user.id, formData);
+		await postUserProfileImg(userInfo?.id, formData);
 	};
 
 	// 프로필 사진 미리보기 인코딩
@@ -84,15 +81,11 @@ const UserInfo = () => {
 
 		if (nicknameChecked === 'available') {
 			const response = await updateUserProfile(
-				user.id,
+				userInfo.id,
 				updateUserProfileAPIBody,
 			);
 			if (response.RESULT === 200) {
-				setUserInfo(response.user);
-				showToast(UPDATE_PROFILE_SUCCESS, 'green');
-				setTimeout(() => {
-					navigate('/');
-				}, 1000);
+				return showToast(UPDATE_PROFILE_SUCCESS, 'green');
 			}
 		} else {
 			nicknameInput.current.focus();
@@ -104,7 +97,7 @@ const UserInfo = () => {
 
 	return (
 		<>
-			{user && (
+			{userInfo && (
 				<div className="userinfo-container">
 					<div className="profile-img-container">
 						<Avatar
@@ -114,7 +107,7 @@ const UserInfo = () => {
 							className="profile-img"
 						/>
 
-						<div style={{ fontWeight: 'bold' }}>{user.email}</div>
+						<div style={{ fontWeight: 'bold' }}>{userInfo.email}</div>
 						<div className="profile-img-edit">
 							<input
 								style={{ display: 'none' }}
@@ -179,4 +172,4 @@ const UserInfo = () => {
 	);
 };
 
-export default UserInfo;
+export default UserInfoPage;

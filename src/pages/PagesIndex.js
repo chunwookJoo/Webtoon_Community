@@ -12,7 +12,7 @@ export const BoardDetail = React.lazy(() => import('./board/BoardDetail'));
 export const MyWebtoon = React.lazy(() => import('./MyWebtoon'));
 
 // 내정보
-export const UserInfo = React.lazy(() => import('./UserInfo'));
+export const UserInfoPage = React.lazy(() => import('./UserInfoPage'));
 
 // signup
 export const KakaoSignUp = React.lazy(() => import('./signup/KakaoSignUp'));

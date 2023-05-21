@@ -2,6 +2,7 @@ import { IconBook2, IconEdit, IconLogout } from '@tabler/icons';
 
 // storage
 export const LOGIN_TOKEN = 'login-token';
+export const AUTH_TOKEN = 'auth-token';
 export const USER_ID = 'userId';
 
 // toast message
