@@ -26,11 +26,9 @@ const NaverRedirecting = () => {
 		res[parts[0]] = parts[1];
 		return res;
 	}, {});
-	postNaverLoginAPIBody.naver_client_id = import.meta.env.VITE_NAVER_CLIENT_ID;
-	postNaverLoginAPIBody.naver_client_secret =
-		import.meta.env.VITE_NAVER_CLIENT_SECRET;
-	postNaverLoginAPIBody.naver_redirect_url =
-		import.meta.env.VITE_NAVER_REDIRECT_URL;
+	postNaverLoginAPIBody.naver_client_id = NAVER_CLIENT_ID;
+	postNaverLoginAPIBody.naver_client_secret = NAVER_CLIENT_SECRET;
+	postNaverLoginAPIBody.naver_redirect_url = NAVER_REDIRECT_URL;
 
 	useEffect(() => {
 		const fetchNaverLogin = async () => {
