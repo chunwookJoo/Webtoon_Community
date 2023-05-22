@@ -1,8 +1,7 @@
 import React from 'react';
 
 import Loading from './Loading';
-import KakaoRedirecting from './login/KakaoRedirecting';
-import NaverRedirecting from './login/NaverRedirecting';
+import LoginRedirecting from './login/LoginRedirecting';
 import SearchModal from './modal/SearchModal';
 import Nav from './navigation/Nav';
 import NavBack from './navigation/NavBack';
@@ -13,11 +12,4 @@ export const WebtoonInfoDetail = React.lazy(() =>
 	import('./WebtoonInfoDetail'),
 );
 
-export {
-	KakaoRedirecting,
-	Loading,
-	Nav,
-	NavBack,
-	NaverRedirecting,
-	SearchModal,
-};
+export { Loading, LoginRedirecting, Nav, NavBack, SearchModal };

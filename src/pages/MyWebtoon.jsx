@@ -8,29 +8,21 @@ import { useRecoilState } from 'recoil';
 
 import { getWebtoonDetail, removeMyWebtoon } from '../api/webtoon';
 import EmptyData from '../components/EmptyData';
+import useFetchUserInfo from '../hooks/apis/useFetchUserInfo';
 import { userInfoState } from '../store/recoilAuthState';
 import { REMOVE_MYWEBTOON_SUCCESS } from '../utils/constants.jsx';
 import showToast from '../utils/toast';
 
 const MyWebtoon = () => {
 	const navigate = useNavigate();
-	const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+	const { data: userInformation, isLoading } = useFetchUserInfo();
 	const [webtoonList, setWebtoonList] = useState();
 	const myWebtoonList = [];
 
-	/**
-	 *
-	 * @param {*} item webtoonData
-	 */
 	const onClickWebtoonDetailPage = (item) => {
 		navigate('/webtoon', { state: { webtoonDetailData: item } });
 	};
 
-	/**
-	 *
-	 * @param {any} event event
-	 * @param {string} webtoonId webtoonId
-	 */
 	const onClickRemoveWebtoon = async (event, webtoonId) => {
 		const removeMyWebtoonAPIBody = {
 			_id: webtoonId,
@@ -38,16 +30,11 @@ const MyWebtoon = () => {
 		event.stopPropagation();
 		const response = await removeMyWebtoon(removeMyWebtoonAPIBody);
 		if (response.RESULT === 200) {
-			setUserInfo(response.user);
+			// setUserInfo(response.user);
 			showToast(REMOVE_MYWEBTOON_SUCCESS, 'green');
 		}
 	};
 
-	/**
-	 * 웹툰 데이터 가져오기
-	 * @param {*} id webtoonId
-	 * @returns webtoonData
-	 */
 	const getMyWebtoon = async (webtoonId) => {
 		const response = await getWebtoonDetail(webtoonId);
 		myWebtoonList.push(response);
@@ -55,13 +42,13 @@ const MyWebtoon = () => {
 
 	useEffect(() => {
 		const fetchMyWebtoonList = async () => {
-			for (let i = 0; i < userInfo.myWebtoon.length; i++) {
-				await getMyWebtoon(userInfo.myWebtoon[i]);
+			for (let i = 0; i < userInformation?.myWebtoon.length; i++) {
+				await getMyWebtoon(userInformation?.myWebtoon[i]);
 			}
 			setWebtoonList(myWebtoonList);
 		};
 		fetchMyWebtoonList();
-	}, [userInfo]);
+	}, []);
 
 	return (
 		<div className="mywebtoon-container">

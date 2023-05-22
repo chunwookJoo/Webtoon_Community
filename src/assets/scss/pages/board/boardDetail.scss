@@ -1,5 +1,5 @@
-@import "../../libs";
-@import "../webtoonDetail.scss";
+@import '../../libs';
+@import '../webtoonDetail.scss';
 
 .board-detail-global {
 	.board-title-container {
@@ -91,6 +91,12 @@
 			@include if-small-device {
 				padding: 0 1rem;
 			}
+
+			.no-comment {
+				text-align: center;
+				font-weight: bold;
+				padding-top: 2rem;
+			}
 		}
 
 		.comment-container {
@@ -122,6 +128,10 @@
 					color: $color-white;
 					font-size: 14px;
 					padding: 4px 10px;
+					&:disabled {
+						background-color: $color-middle-grey;
+						border: 1px solid $color-middle-grey;
+					}
 				}
 			}
 		}

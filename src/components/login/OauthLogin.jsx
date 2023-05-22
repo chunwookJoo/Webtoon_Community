@@ -1,7 +1,5 @@
 import '../../assets/scss/components/login.scss';
 
-import React from 'react';
-
 import { ReactComponent as Logo } from '../../assets/img/logo.svg';
 import KakaoLogin from './KakaoLogin';
 import NaverLogin from './NaverLogin';

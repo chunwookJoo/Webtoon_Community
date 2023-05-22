@@ -1,8 +1,7 @@
 import { Avatar, Menu } from '@mantine/core';
-import { useQuery } from '@tanstack/react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { getUserInfo } from '../../api/user';
+import useFetchUserInfo from '../../hooks/apis/useFetchUserInfo';
 import {
 	AUTH_TOKEN,
 	AVATAR_ITEM,
@@ -14,8 +13,7 @@ import showToast from '../../utils/toast';
 import WebtoonSearchButton from './WebtoonSearchButton';
 
 const AvatarDropMenu = () => {
-	const { data: userInformation } = useQuery(['userInfo'], () => getUserInfo());
-	console.log(userInformation);
+	const { data: userInformation } = useFetchUserInfo();
 	const navigate = useNavigate();
 	const { pathname } = useLocation();
 

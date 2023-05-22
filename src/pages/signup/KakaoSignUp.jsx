@@ -1,4 +1,3 @@
-import React from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { NotFound } from '../../pages/PagesIndex';
@@ -6,7 +5,6 @@ import SignUpPage from './SignUpPage';
 
 const KakaoSignUp = () => {
 	const { state } = useLocation();
-	console.log('kakaoSignUp state', state);
 	const userData = state?.data;
 	const platform = state?.platform;
 

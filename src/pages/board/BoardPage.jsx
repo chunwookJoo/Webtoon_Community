@@ -2,53 +2,53 @@ import '../../assets/scss/pages/board/boardPage.scss';
 
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
-import { getBoardList, getCommentList } from '../../api/board';
 import CreateBoardButton from '../../components/board/CreateBoardButton';
 import EmptyData from '../../components/EmptyData';
-import { boardDataState, boardListState } from '../../store/recoilBoardState';
+import Loading from '../../components/Loading';
+import useFetchBoardList from '../../hooks/apis/useFetchBoardList';
 import { createBoardModalState } from '../../store/recoilModalState';
 import { INFORM_LOGIN_WARNING, LOGIN_TOKEN } from '../../utils/constants.jsx';
 import { getLocalStorage } from '../../utils/storage';
 import showToast from '../../utils/toast';
 
 const BoardPage = () => {
+	const { pathname } = useLocation();
 	const navigate = useNavigate();
-	const { state } = useLocation();
-	const [boardList, setBoardList] = useRecoilState(boardListState);
-	const setBoardData = useSetRecoilState(boardDataState);
-
 	const createBoardOpen = useRecoilValue(createBoardModalState);
 
-	useEffect(() => {
-		const fetchBoardList = async () => {
-			if (state) {
-				const response = await getBoardList(state);
-				setBoardList(response);
-			}
-		};
-		fetchBoardList();
-	}, [state, createBoardOpen]);
+	const {
+		data: boardListData,
+		refetch: refetchBoardListData,
+		isLoading,
+		isError,
+	} = useFetchBoardList({ pathname });
 
-	const onClickBoard = (e, item) => {
+	useEffect(() => {
+		refetchBoardListData();
+	}, [createBoardOpen]);
+
+	const onClickBoard = (boardId) => {
 		if (getLocalStorage(LOGIN_TOKEN) === null) {
 			showToast(INFORM_LOGIN_WARNING, 'yellow');
 		} else {
-			setBoardData(item);
-			navigate(`/board/detail`, { state: item._id });
+			navigate(`/board/detail/${boardId}`);
 		}
 	};
 
+	if (isLoading) return <Loading />;
+	if (isError) return <></>;
+
 	return (
 		<div className="board-container">
-			{boardList?.length === 0 ? (
+			{boardListData && boardListData?.length === 0 ? (
 				<EmptyData
 					className="empty-board"
 					content={
 						<>
 							<h2>
-								{state === '/board'
+								{pathname === '/board'
 									? '후기가 아직 없어요. 😥'
 									: '해당하는 플랫폼의 후기가 아직 없어요. 😥'}
 							</h2>
@@ -58,36 +58,34 @@ const BoardPage = () => {
 				/>
 			) : (
 				<ul className="board-list">
-					{boardList?.map((item, index) => {
-						return (
-							<li
-								className="board"
-								key={index}
-								onClick={(e) => onClickBoard(e, item)}>
-								<div className="board-img-container">
-									<img src={item.webtoon.img} className="board-img" />
-								</div>
-								<div className="board-description">
-									<h4>{item.title}</h4>
-									<h5>
-										{item.webtoon.title} | {item.webtoon.author}
-									</h5>
-									<div className="creater">
-										<span className="board-author-img">
-											<img
-												src={item.author.profileImage}
-												width={28}
-												height={28}
-											/>
-										</span>
-										by
-										<span className="nickname">{item.author.nickname}</span>
+					{boardListData?.map(
+						({ _id, title, author, description, webtoon }) => {
+							return (
+								<li
+									className="board"
+									key={_id}
+									onClick={() => onClickBoard(_id)}>
+									<div className="board-img-container">
+										<img src={webtoon.img} className="board-img" />
 									</div>
-									<p>{item.description}</p>
-								</div>
-							</li>
-						);
-					})}
+									<div className="board-description">
+										<h4>{title}</h4>
+										<h5>
+											{webtoon.title} | {webtoon.author}
+										</h5>
+										<div className="creater">
+											<span className="board-author-img">
+												<img src={author.profileImage} width={28} height={28} />
+											</span>
+											by
+											<span className="nickname">{author.nickname}</span>
+										</div>
+										<p>{description}</p>
+									</div>
+								</li>
+							);
+						},
+					)}
 				</ul>
 			)}
 			<CreateBoardButton />

@@ -9,11 +9,16 @@ import api from './api';
  */
 const postUserProfileImg = async (userId, formData) => {
 	try {
-		await api.post(`/auth/userinfo/profileimg/upload/${userId}`, formData, {
-			headers: {
-				'Content-Type': 'multipart/form-data',
+		const data = await api.post(
+			`/auth/userinfo/profileimg/upload/${userId}`,
+			formData,
+			{
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
 			},
-		});
+		);
+		return data;
 	} catch (error) {
 		showToast(ERROR_MESSAGE, 'red');
 		throw new Error(error, '프로필 사진 업로드 에러');

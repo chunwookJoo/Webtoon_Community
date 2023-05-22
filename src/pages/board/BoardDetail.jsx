@@ -1,62 +1,57 @@
 import '../../assets/scss/pages/board/boardDetail.scss';
 
 import { Input } from '@mantine/core';
-import React, { useEffect, useRef, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import {
 	getBoardDetail,
 	getCommentList,
 	postCreateComment,
 } from '../../api/board';
+import EmptyData from '../../components/EmptyData';
+import Loading from '../../components/Loading';
 import WebtoonInfoDetail from '../../components/WebtoonInfoDetail';
-import { userInfoState } from '../../store/recoilAuthState';
-import { boardDataState } from '../../store/recoilBoardState';
-import {
-	CREATE_COMMENT_SUCCESS,
-	EMPTY_COMMENT_WARNING,
-} from '../../utils/constants.jsx';
+import useFetchUserInfo from '../../hooks/apis/useFetchUserInfo';
+import { commentState } from '../../store/recoilBoardState';
+import { CREATE_COMMENT_SUCCESS } from '../../utils/constants.jsx';
 import showToast from '../../utils/toast';
 
-const Comments = (props) => {
-	const [boardData, setBoardData] = useRecoilState(boardDataState);
-	const [commentData, setCommentData] = useState();
+const Comments = ({ boardDetailData }) => {
+	const state = useRecoilValue(commentState);
+	const { data: commentData, refetch: refetchCommentData } = useQuery(
+		['commentList'],
+		() => getCommentList(boardDetailData._id),
+	);
 
 	useEffect(() => {
-		const fetchCommentList = async () => {
-			const response = await getCommentList(boardData._id);
-			setCommentData(response);
-		};
-
-		fetchCommentList();
-	}, [props.commentState]);
+		refetchCommentData();
+	}, [state]);
 
 	return (
 		<div className="comment-lists">
-			{commentData?.length === 0 ? (
-				<h6 style={{ textAlign: 'center', paddingTop: '2rem' }}>
-					아직 댓글이 없습니다. <br />첫 댓글을 작성해보세요.
-				</h6>
+			{commentData && commentData.length === 0 ? (
+				<EmptyData
+					className="no-comment"
+					content="아직 댓글이 없습니다. 첫 댓글을 작성해보세요!"
+				/>
 			) : (
 				<>
-					{commentData?.map((item, index) => {
+					{commentData?.map(({ _id, author, createdAt, comment }) => {
 						return (
-							<div key={index} className="comment">
+							<div key={_id} className="comment">
 								<div className="comment-user">
 									<span className="comment-img">
-										<img
-											src={item?.author.profileImage}
-											width={24}
-											height={24}
-										/>
+										<img src={author.profileImage} width={24} height={24} />
 									</span>
 									<div className="nickname">
-										<h5>{item?.author.nickname}</h5>
-										<span>{item?.createdAt.split('T')[0]}</span>
+										<h5>{author.nickname}</h5>
+										<span>{createdAt.split('T')[0]}</span>
 									</div>
 								</div>
-								<div className="comment-des">{item?.comment}</div>
+								<div className="comment-des">{comment}</div>
 							</div>
 						);
 					})}
@@ -66,12 +61,9 @@ const Comments = (props) => {
 	);
 };
 
-const EditWebtoonComment = () => {
-	const commentInput = useRef();
-	const userInfo = useRecoilValue(userInfoState);
-	const boardData = useRecoilValue(boardDataState);
+const EditWebtoonComment = ({ userInformation, boardDetailData }) => {
 	const [comment, setComment] = useState('');
-	const [commentState, setCommentState] = useState();
+	const setCommentState = useSetRecoilState(commentState);
 
 	const today = new Date();
 	const year = today.getFullYear();
@@ -81,22 +73,17 @@ const EditWebtoonComment = () => {
 
 	const onClickCreateComment = async () => {
 		const postCreateCommentAPIBody = {
-			board_id: boardData._id,
-			comment,
-			author: userInfo._id,
+			board_id: boardDetailData._id,
+			comment: comment.trim(),
+			author: userInformation._id,
 			createdAt: dateString,
 		};
 
-		if (comment === '') {
-			showToast(EMPTY_COMMENT_WARNING, 'yellow');
-			commentInput.current.focus();
-		} else {
-			const response = await postCreateComment(postCreateCommentAPIBody);
-			if (response.RESULT === 200) {
-				setComment('');
-				setCommentState(response);
-				showToast(CREATE_COMMENT_SUCCESS, 'green');
-			}
+		const response = await postCreateComment(postCreateCommentAPIBody);
+		if (response.RESULT === 200) {
+			setComment('');
+			setCommentState(response);
+			showToast(CREATE_COMMENT_SUCCESS, 'green');
 		}
 	};
 	return (
@@ -104,13 +91,12 @@ const EditWebtoonComment = () => {
 			<div>
 				<hr />
 			</div>
-			<Comments commentState={commentState} />
+			<Comments boardDetailData={boardDetailData} />
 			<div className="comment-container">
 				<span className="comment-img">
-					<img src={userInfo.profileImage} width={28} height={28} />
+					<img src={userInformation.profileImage} width={28} height={28} />
 				</span>
 				<Input
-					ref={commentInput}
 					value={comment}
 					onChange={(e) => setComment(e.target.value)}
 					className="comment-input"
@@ -118,7 +104,11 @@ const EditWebtoonComment = () => {
 					radius="lg"
 				/>
 				<span className="comment-btn">
-					<button onClick={onClickCreateComment}>등록</button>
+					<button
+						onClick={onClickCreateComment}
+						disabled={comment.trim('') === ''}>
+						등록
+					</button>
 				</span>
 			</div>
 		</section>
@@ -126,45 +116,49 @@ const EditWebtoonComment = () => {
 };
 
 const BoardDetail = () => {
-	const { state } = useLocation(); // board_id
-	const [boardData, setBoardData] = useRecoilState(boardDataState);
+	const { pathname } = useLocation();
+	const boardId = pathname.split('/')[3];
 
-	useEffect(() => {
-		const fetchBoardDetail = async () => {
-			window.scrollTo(0, 0);
-			const response = await getBoardDetail(state);
-			setBoardData(response);
-		};
-		fetchBoardDetail();
-	}, []);
+	const { data: userInformation } = useFetchUserInfo();
+	const {
+		data: boardDetailData,
+		isLoading,
+		isError,
+	} = useQuery([pathname], () => getBoardDetail(boardId));
+
+	if (isLoading) return <Loading />;
+	if (isError) return <></>;
 
 	return (
 		<div className="board-detail-global">
-			{boardData.length === 0 ? (
-				''
-			) : (
+			{boardDetailData && (
 				<>
 					<section className="board-title-container">
-						<h1>{boardData.title}</h1>
+						<h1>{boardDetailData.title}</h1>
 						<div className="creater">
 							<span className="board-author-img">
 								<img
-									src={boardData.author.profileImage}
+									src={boardDetailData.author.profileImage}
 									width={30}
 									height={30}
 								/>
 							</span>
-							<span className="nickname">{boardData.author.nickname}</span>
+							<span className="nickname">
+								{boardDetailData.author.nickname}
+							</span>
 						</div>
 					</section>
 					<section className="webtoon-detail-container">
-						<WebtoonInfoDetail webtoon={boardData.webtoon} />
+						<WebtoonInfoDetail webtoon={boardDetailData.webtoon} />
 					</section>
 					<section className="board-description-container">
-						<div>{boardData.description}</div>
+						<div>{boardDetailData.description}</div>
 					</section>
 					<section>
-						<EditWebtoonComment />
+						<EditWebtoonComment
+							userInformation={userInformation && userInformation}
+							boardDetailData={boardDetailData && boardDetailData}
+						/>
 					</section>
 				</>
 			)}

@@ -4,21 +4,18 @@ import { Input, Modal, Textarea } from '@mantine/core';
 import { IconCircleX } from '@tabler/icons';
 import React, { useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { useRecoilValue } from 'recoil';
 
 import { postCreateBoard } from '../../api/board';
-import { getSearchWebtoon } from '../../api/webtoon';
 import useFetchSearchWebtoon from '../../hooks/apis/useFetchSearchWebtoon';
+import useFetchUserInfo from '../../hooks/apis/useFetchUserInfo';
 import { useFetchWebtoonList } from '../../hooks/apis/useFetchWebtoonList';
 import useDebounce from '../../hooks/useDebounce';
 import useFetchNextPage from '../../hooks/useFetchNextPage';
-import { userInfoState } from '../../store/recoilAuthState';
 import {
 	CREATE_BOARD_SUCCESS,
 	EMPTY_INPUT_WARNING,
 } from '../../utils/constants.jsx';
 import showToast from '../../utils/toast';
-import { Webtoon } from '../ComponentIndex';
 import EmptyData from '../EmptyData';
 
 const WebtoonItem = ({
@@ -57,6 +54,7 @@ const CreateBoardModal = ({ isOpen, toggle }) => {
 		searchValue: searchDebounceValue,
 		pageRef,
 	});
+	const { data: userInformation } = useFetchUserInfo();
 
 	useFetchNextPage(
 		webtoonSearchListData,
@@ -77,7 +75,6 @@ const CreateBoardModal = ({ isOpen, toggle }) => {
 	const [description, setDescription] = useState('');
 	const [disabled, setDisabled] = useState(false);
 	const [selectWebtoon, setSelectWebtoon] = useState(null);
-	const userInfo = useRecoilValue(userInfoState);
 
 	useEffect(() => {
 		if (selectWebtoon !== null) return setDisabled(true);
@@ -92,7 +89,7 @@ const CreateBoardModal = ({ isOpen, toggle }) => {
 		const postCreateBoardAPIBody = {
 			title,
 			description,
-			author: userInfo._id,
+			author: userInformation?._id,
 			webtoon: selectWebtoon?._id,
 			service: selectWebtoon?.service,
 		};

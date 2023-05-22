@@ -4,7 +4,7 @@ import { IconPencil } from '@tabler/icons';
 import { useRecoilState } from 'recoil';
 
 import { createBoardModalState } from '../../store/recoilModalState';
-import { INFORM_LOGIN_WARNING, USER_ID } from '../../utils/constants.jsx';
+import { INFORM_LOGIN_WARNING, LOGIN_TOKEN } from '../../utils/constants.jsx';
 import { getLocalStorage } from '../../utils/storage';
 import showToast from '../../utils/toast';
 import CreateBoardModal from '../modal/CreateBoardModal';
@@ -15,7 +15,7 @@ const CreateBoardButton = () => {
 	);
 
 	const modalHandler = () => {
-		if (getLocalStorage(USER_ID) === null) {
+		if (getLocalStorage(LOGIN_TOKEN) === null) {
 			showToast(INFORM_LOGIN_WARNING, 'yellow');
 			return;
 		} else {

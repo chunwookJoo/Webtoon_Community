@@ -3,7 +3,6 @@ import {
 	IconLayoutDashboard,
 	IconMessageCircle,
 } from '@tabler/icons';
-import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 const TransformPage = () => {
@@ -12,7 +11,6 @@ const TransformPage = () => {
 	return (
 		<Link
 			to={pathname.includes('board') ? '/all' : '/board'}
-			state={'/board'}
 			className="page-select">
 			<span>
 				{pathname.includes('board') ? (

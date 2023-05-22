@@ -9,3 +9,8 @@ export const boardDataState = atom({
 	key: 'boardDataState',
 	default: [],
 });
+
+export const commentState = atom({
+	key: 'commentState',
+	default: null,
+});

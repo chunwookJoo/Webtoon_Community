@@ -1,14 +1,11 @@
-import { useQuery } from '@tanstack/react-query';
 import { Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import { getUserInfo } from './api/user';
 import {
-	KakaoRedirecting,
 	Loading,
+	LoginRedirecting,
 	Nav,
 	NavBack,
-	NaverRedirecting,
 } from './components/ComponentIndex';
 import {
 	BoardDetail,
@@ -23,17 +20,13 @@ import {
 } from './pages/PagesIndex';
 
 function App() {
-	const { data: userInfo, isLoading } = useQuery(['userInfo'], () =>
-		getUserInfo(),
-	);
-	console.log(userInfo);
 	return (
 		<Suspense fallback={<Loading />}>
 			<Routes>
 				{/* 뒤로가기 네비게이션 */}
 				<Route element={<NavBack />}>
 					<Route exact path="/webtoon/:id" element={<WebtoonDetail />} />
-					<Route exact path="/board/detail" element={<BoardDetail />} />
+					<Route exact path="/board/detail/:id" element={<BoardDetail />} />
 					<Route exact path="/mywebtoon" element={<MyWebtoon />} />
 					<Route exact path="/userinfo" element={<UserInfoPage />} />
 				</Route>
@@ -41,6 +34,9 @@ function App() {
 				<Route element={<Nav />}>
 					<Route exact path="/" element={<WebtoonPage />} />
 					<Route exact path="/board" element={<BoardPage />} />
+					<Route exact path="/board/naver" element={<BoardPage />} />
+					<Route exact path="/board/kakao" element={<BoardPage />} />
+					<Route exact path="/board/kakaoPage" element={<BoardPage />} />
 
 					{/* 플랫폼 선택 */}
 					<Route exact path="/all" element={<WebtoonPage />} />
@@ -56,17 +52,16 @@ function App() {
 					<Route
 						exact
 						path="/kakaoLogin/callback"
-						element={<KakaoRedirecting />}
+						element={<LoginRedirecting platform="kakao" />}
 					/>
 					<Route
 						exact
 						path="/naverLogin/callback"
-						element={<NaverRedirecting />}
+						element={<LoginRedirecting platform="naver" />}
 					/>
-
-					{/* 페이지 없음 안내 */}
-					<Route path="*" element={<NotFound />} />
 				</Route>
+				{/* 페이지 없음 안내 */}
+				<Route path="*" element={<NotFound />} />
 			</Routes>
 		</Suspense>
 	);
