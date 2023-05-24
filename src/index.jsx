@@ -17,16 +17,14 @@ const queryClient = new QueryClient();
 
 root.render(
 	<RecoilRoot>
-		<Suspense fallback={<Loading />}>
-			<QueryClientProvider client={queryClient}>
-				<BrowserRouter>
-					<MantineProvider>
-						<NotificationsProvider position="top-center">
-							<App />
-						</NotificationsProvider>
-					</MantineProvider>
-				</BrowserRouter>
-			</QueryClientProvider>
-		</Suspense>
+		<QueryClientProvider client={queryClient}>
+			<BrowserRouter>
+				<MantineProvider>
+					<NotificationsProvider position="top-center">
+						<App />
+					</NotificationsProvider>
+				</MantineProvider>
+			</BrowserRouter>
+		</QueryClientProvider>
 	</RecoilRoot>,
 );

@@ -26,12 +26,7 @@ const WebtoonDetail = () => {
 		getWebtoonDetail(webtoonId),
 	);
 
-	if (isLoading)
-		return (
-			<>
-				<Loading />
-			</>
-		);
+	if (isLoading) return <Loading />;
 
 	const onClickMyWebtoonInsert = async () => {
 		const postMyWebtoonAPIBody = {

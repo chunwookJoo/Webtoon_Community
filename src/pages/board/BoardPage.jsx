@@ -66,7 +66,11 @@ const BoardPage = () => {
 									key={_id}
 									onClick={() => onClickBoard(_id)}>
 									<div className="board-img-container">
-										<img src={webtoon.img} className="board-img" />
+										<img
+											alt={webtoon.title}
+											src={webtoon.img}
+											className="board-img"
+										/>
 									</div>
 									<div className="board-description">
 										<h4>{title}</h4>
@@ -75,7 +79,12 @@ const BoardPage = () => {
 										</h5>
 										<div className="creater">
 											<span className="board-author-img">
-												<img src={author.profileImage} width={28} height={28} />
+												<img
+													alt="사용자 프로필 사진"
+													src={author.profileImage}
+													width={28}
+													height={28}
+												/>
 											</span>
 											by
 											<span className="nickname">{author.nickname}</span>

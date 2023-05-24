@@ -25,11 +25,11 @@ export const PlatformLinkOptions = [
 		src: '/kakao',
 		boardSrc: '/board/kakao',
 	},
-	{
-		id: '4',
-		icon: <KakaoPage />,
-		name: '페이지',
-		src: '/kakaoPage',
-		boardSrc: '/board/kakaoPage',
-	},
+	// {
+	// 	id: '4',
+	// 	icon: <KakaoPage />,
+	// 	name: '페이지',
+	// 	src: '/kakaoPage',
+	// 	boardSrc: '/board/kakaoPage',
+	// },
 ];

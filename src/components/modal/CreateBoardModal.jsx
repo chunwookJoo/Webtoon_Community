@@ -124,7 +124,12 @@ const CreateBoardModal = ({ isOpen, toggle }) => {
 						webtoon={selectWebtoon}
 						webtoonItemImg={
 							<div className="selected-img">
-								<img src={selectWebtoon.img} width={100} height={100} />
+								<img
+									alt={selectWebtoon.title}
+									src={selectWebtoon.img}
+									width={100}
+									height={100}
+								/>
 								<span className="deleted-img" onClick={selectWebtoonDelete}>
 									<IconCircleX />
 								</span>
@@ -159,7 +164,12 @@ const CreateBoardModal = ({ isOpen, toggle }) => {
 													articleClassName="searched-item"
 													titleClassName="searched-title"
 													webtoonItemImg={
-														<img src={webtoon.img} width={80} height={80} />
+														<img
+															alt={webtoon.title}
+															src={webtoon.img}
+															width={80}
+															height={80}
+														/>
 													}
 													webtoon={webtoon}
 												/>

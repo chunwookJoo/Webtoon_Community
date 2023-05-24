@@ -21,7 +21,7 @@ const WebtoonInfoDetail = ({ webtoon }) => {
 	return (
 		<>
 			<div className="webtoon-img">
-				<img src={webtoon.img} />
+				<img src={webtoon.img} alt={webtoon.title} />
 			</div>
 			<div className="webtoon-title">
 				<h3>{webtoon.title}</h3>

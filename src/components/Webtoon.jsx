@@ -45,7 +45,11 @@ const Webtoon = ({ webtoonData }) => {
 				<PlatformLogo platform={webtoonData.service} />
 				<BadgeList additional={webtoonData.additional} />
 				<div className="thumbnail-wrap">
-					<img src={webtoonData.img} className="thumbnail" />
+					<img
+						src={webtoonData.img}
+						alt={webtoonData.title}
+						className="thumbnail"
+					/>
 				</div>
 				<p className={`title ${webtoonData.service}`}>{webtoonData.title}</p>
 			</Link>

@@ -44,7 +44,12 @@ const Comments = ({ boardDetailData }) => {
 							<div key={_id} className="comment">
 								<div className="comment-user">
 									<span className="comment-img">
-										<img src={author.profileImage} width={24} height={24} />
+										<img
+											alt="사용자 프로필 사진"
+											src={author.profileImage}
+											width={24}
+											height={24}
+										/>
 									</span>
 									<div className="nickname">
 										<h5>{author.nickname}</h5>
@@ -94,7 +99,12 @@ const EditWebtoonComment = ({ userInformation, boardDetailData }) => {
 			<Comments boardDetailData={boardDetailData} />
 			<div className="comment-container">
 				<span className="comment-img">
-					<img src={userInformation.profileImage} width={28} height={28} />
+					<img
+						alt="사용자 프로필 사진"
+						src={userInformation.profileImage}
+						width={28}
+						height={28}
+					/>
 				</span>
 				<Input
 					value={comment}
@@ -138,6 +148,7 @@ const BoardDetail = () => {
 						<div className="creater">
 							<span className="board-author-img">
 								<img
+									alt={boardDetailData.title}
 									src={boardDetailData.author.profileImage}
 									width={30}
 									height={30}
