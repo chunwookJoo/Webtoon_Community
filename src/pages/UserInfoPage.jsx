@@ -96,6 +96,7 @@ const UserInfoPage = () => {
 				<div className="userinfo-container">
 					<div className="profile-img-container">
 						<Avatar
+							alt="사용자 프로필 이미지"
 							size={120}
 							src={
 								profileImagePreview

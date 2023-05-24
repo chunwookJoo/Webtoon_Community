@@ -1,4 +1,4 @@
-@import "../libs";
+@import '../libs';
 
 .webtoon-link-wrap {
 	padding: 0.6em;
@@ -42,6 +42,7 @@
 
 .naver {
 	background-color: $color-naver;
+	color: $color-black;
 }
 
 .kakao {
@@ -97,7 +98,7 @@
 }
 
 .adult {
-	background-color: #ff0000;
+	background-color: #ff6161;
 	> span {
 		font-weight: 900;
 		font-size: 0.8em;

@@ -1,4 +1,4 @@
-@import "../libs";
+@import '../libs';
 
 .nav-section {
 	justify-content: center;
@@ -54,7 +54,7 @@
 
 			.login-btn,
 			.search {
-				color: $color-primary;
+				color: $color-black;
 				background-color: $color-more-light-grey;
 				padding: 8px 1rem;
 				border-radius: $base-border-radius;

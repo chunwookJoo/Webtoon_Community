@@ -43,12 +43,21 @@ const AvatarDropMenu = () => {
 					<span className="user-avatar">
 						<Menu shadow="lg" width={220} position="bottom-end">
 							<Menu.Target>
-								<Avatar src={userInformation.profileImage} radius="xl" />
+								<Avatar
+									role="dropdown"
+									alt="사용자 프로필 이미지"
+									src={userInformation.profileImage}
+									radius="xl"
+								/>
 							</Menu.Target>
 							<Menu.Dropdown>
 								<Menu.Item onClick={() => onClickDropMenu('userinfo')}>
 									<div className="user-info-container">
-										<Avatar src={userInformation.profileImage} radius="md" />
+										<Avatar
+											alt="사용자 프로필 이미지"
+											src={userInformation.profileImage}
+											radius="md"
+										/>
 										<div className="user-info">
 											<h5>{userInformation.nickname}</h5>
 											<p>
