@@ -44,7 +44,7 @@ const AvatarDropMenu = () => {
 						<Menu shadow="lg" width={220} position="bottom-end">
 							<Menu.Target>
 								<Avatar
-									role="dropdown"
+									role="button"
 									alt="사용자 프로필 이미지"
 									src={userInformation.profileImage}
 									radius="xl"
