@@ -16,39 +16,40 @@ import {
 	NotFound,
 	UserInfoPage,
 	WebtoonDetail,
-	WebtoonPage,
+	// WebtoonPage,
 } from './pages/PagesIndex';
+import WebtoonPage from './pages/WebtoonPage';
 
 function App() {
 	return (
-		<Suspense fallback={<Loading />}>
+		// <Routes>
+		// 	<Route element={<Nav />}>
+		// 		<Route exact path="/" element={<WebtoonPage />} />
+		// 	</Route>
+		// </Routes>
+		<Suspense>
 			<Routes>
-				{/* 뒤로가기 네비게이션 */}
 				<Route element={<NavBack />}>
 					<Route exact path="/webtoon/:id" element={<WebtoonDetail />} />
 					<Route exact path="/board/detail/:id" element={<BoardDetail />} />
 					<Route exact path="/mywebtoon" element={<MyWebtoon />} />
 					<Route exact path="/userinfo" element={<UserInfoPage />} />
 				</Route>
-				{/* 네비게이션 */}
 				<Route element={<Nav />}>
-					<Route exact path="/" element={<WebtoonPage />} />
 					<Route exact path="/board" element={<BoardPage />} />
 					<Route exact path="/board/naver" element={<BoardPage />} />
 					<Route exact path="/board/kakao" element={<BoardPage />} />
 					<Route exact path="/board/kakaoPage" element={<BoardPage />} />
 
-					{/* 플랫폼 선택 */}
+					<Route exact path="/" element={<WebtoonPage />} />
 					<Route exact path="/all" element={<WebtoonPage />} />
 					<Route exact path="/naver" element={<WebtoonPage />} />
 					<Route exact path="/kakao" element={<WebtoonPage />} />
 					<Route exact path="/kakaoPage" element={<WebtoonPage />} />
 
-					{/* 회원가입 */}
 					<Route exact path="/regist/kakao" element={<KakaoSignUp />} />
 					<Route exact path="/regist/naver" element={<NaverSignUp />} />
 
-					{/* 리다이랙트 */}
 					<Route
 						exact
 						path="/kakaoLogin/callback"
@@ -60,7 +61,6 @@ function App() {
 						element={<LoginRedirecting platform="naver" />}
 					/>
 				</Route>
-				{/* 페이지 없음 안내 */}
 				<Route path="*" element={<NotFound />} />
 			</Routes>
 		</Suspense>

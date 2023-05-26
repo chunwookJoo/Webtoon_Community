@@ -39,8 +39,6 @@
 	},
 	"devDependencies": {
 		"@mantine/core": "^5.1.6",
-		"@mantine/hooks": "^5.1.6",
-		"@mantine/modals": "^5.1.6",
 		"@mantine/notifications": "^5.2.4",
 		"@tabler/icons": "^1.91.0",
 		"@testing-library/jest-dom": "^5.16.4",

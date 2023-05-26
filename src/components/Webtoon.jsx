@@ -1,6 +1,6 @@
 import '../assets/scss/components/webtoon.scss';
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 
@@ -8,6 +8,8 @@ import { ReactComponent as Kakao } from '../assets/img/kakao.svg';
 import { ReactComponent as KakaoPage } from '../assets/img/kakaopage.svg';
 import { ReactComponent as Naver } from '../assets/img/naver.svg';
 import { searchModalState } from '../store/recoilModalState';
+
+const WebtoonImage = React.lazy(() => import('./WebtoonImage'));
 
 const PlatformLogo = ({ platform }) => {
 	return platform === 'naver' ? (
@@ -45,11 +47,9 @@ const Webtoon = ({ webtoonData }) => {
 				<PlatformLogo platform={webtoonData.service} />
 				<BadgeList additional={webtoonData.additional} />
 				<div className="thumbnail-wrap">
-					<img
-						src={webtoonData.img}
-						alt={webtoonData.title}
-						className="thumbnail"
-					/>
+					<Suspense>
+						<WebtoonImage img={webtoonData.img} title={webtoonData.title} />
+					</Suspense>
 				</div>
 				<p className={`title ${webtoonData.service}`}>{webtoonData.title}</p>
 			</Link>

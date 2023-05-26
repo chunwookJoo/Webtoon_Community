@@ -1,9 +1,16 @@
 import '../assets/scss/pages/userinfo.scss';
 
 import { Avatar, Input, Select } from '@mantine/core';
+import { useMutation } from '@tanstack/react-query';
+import axios from 'axios';
 import { useRef, useState } from 'react';
 
-import { postUserProfileImg, updateUserProfile } from '../api/profile';
+import {
+	postUploadCloudinaryImage,
+	postUserProfileImg,
+	updateUserProfile,
+} from '../api/profile';
+import { getUserInfo } from '../api/user';
 import Loading from '../components/Loading';
 import useFetchUserInfo from '../hooks/apis/useFetchUserInfo';
 import {
@@ -18,6 +25,11 @@ import isNicknameCheck from '../utils/user';
 
 const UserInfoPage = () => {
 	const { data: userInformation, isLoading } = useFetchUserInfo();
+	const { mutateAsync: refetchUserInfo } = useMutation(getUserInfo, {
+		onSuccess: () => {
+			return queryClient.invalidateQueries(['userInfo']);
+		},
+	});
 	const nicknameInput = useRef();
 	const profileImgInput = useRef();
 
@@ -38,16 +50,30 @@ const UserInfoPage = () => {
 		const file = e.target.files[0];
 
 		if (file) {
-			const compressedImage = await compressImage(file);
-			encodeFileToBase64(compressedImage);
-
-			const formData = new FormData();
-			formData.append('images', compressedImage);
-			const imageResponse = await postUserProfileImg(
+			const imageBody = await cloudinaryUpload(file);
+			const { data } = await postUserProfileImg(
 				userInformation?._id,
-				formData,
+				imageBody,
 			);
+			if (data) {
+				refetchUserInfo();
+			}
 		}
+	};
+
+	const cloudinaryUpload = async (file) => {
+		const compressedImage = await compressImage(file);
+		encodeFileToBase64(compressedImage);
+
+		const formData = new FormData();
+		formData.append('file', compressedImage);
+		formData.append('upload_preset', 'webtoon-community-cloud');
+
+		const { data } = await postUploadCloudinaryImage(formData);
+		const imagePublicId = data.public_id;
+		const imageUrl = data.url;
+
+		return { imagePublicId, imageUrl };
 	};
 
 	// 프로필 사진 미리보기 인코딩

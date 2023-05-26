@@ -8,6 +8,7 @@ import NavBack from './navigation/NavBack';
 
 // 웹툰
 export const Webtoon = React.lazy(() => import('./Webtoon'));
+export const WebtoonSk = React.lazy(() => import('./WebtoonSk'));
 export const WebtoonInfoDetail = React.lazy(() =>
 	import('./WebtoonInfoDetail'),
 );
